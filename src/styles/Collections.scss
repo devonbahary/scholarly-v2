@@ -1,0 +1,6 @@
+@import "./mixins";
+
+.cardTitle {
+  font-size: 120%;
+  @include decorated-text;
+}
