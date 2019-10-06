@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component, Fragment} from "react";
 import axios from "axios";
 
 import CollectionIcon from "../icons/CollectionIcon";
@@ -7,6 +7,7 @@ import QuoteRightIcon from "../icons/QuoteRightIcon";
 
 import cardStyles from "../../styles/cards.scss";
 import quotesStyles from "../../styles/Quotes.scss";
+import View from "../View";
 
 export const Quote = ({ text, collectionTitle }) => (
     <div className={cardStyles.card}>
@@ -34,12 +35,16 @@ class Quotes extends Component {
     };
 
     render() {
-        return (
-            <div className={quotesStyles.quotes}>
+        const body = (
+            <Fragment>
                 {this.state.quotes.map(quote => (
                     <Quote key={quote.id} {...quote} />
                 ))}
-            </div>
+            </Fragment>
+        );
+
+        return (
+            <View body={body} />
         );
     };
 };
