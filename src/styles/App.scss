@@ -1,8 +1,6 @@
 @import "./variables";
 @import "./mixins";
 
-$footerHeight: 3rem;
-
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -19,7 +17,7 @@ body {
 .footer {
   position: fixed;
   bottom: 0;
-  height: $footerHeight;
+  height: $navHeight;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -46,7 +44,7 @@ body {
 
 .main {
   position: fixed;
-  height: calc(100% - #{$footerHeight});
+  height: calc(100% - #{$navHeight});
   width: 100%;
   overflow: scroll;
 }
