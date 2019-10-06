@@ -48,12 +48,3 @@ body {
   width: 100%;
   overflow: scroll;
 }
-
-:global(.fancyText) {
-  font-family: $fancyFontFamily;
-  letter-spacing: 1px;
-}
-
-:global(.colorDark) {
-  color: $colorDark;
-}
