@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Quote } from "./quotes/Quotes";
 
+import styles from "../styles/Home.scss";
+
 class Home extends Component {
     state = {
         quote: null,
@@ -19,7 +21,7 @@ class Home extends Component {
         if (!quote) return null;
 
         return (
-            <div>
+            <div className={styles.home}>
                 <Quote {...quote} />
             </div>
         );

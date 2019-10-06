@@ -1,0 +1,7 @@
+@import "./mixins";
+
+.home {
+  height: 100%;
+  @include center-children;
+  @include fade-in;
+}
