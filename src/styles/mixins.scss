@@ -1,0 +1,16 @@
+@import "./variables";
+
+@mixin box-shadow {
+  box-shadow: 0 1px 5px $colorDark;
+}
+
+@mixin center-children {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin decorated-text {
+  font-family: $fancyFontFamily;
+  letter-spacing: 2px;
+}
