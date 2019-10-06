@@ -24,6 +24,17 @@ export default class QuotesRepository extends BaseMySQLRepository {
         ];
     };
 
+    getByUserIdQuery() {
+        return `
+            SELECT ${this.getSelectColumns().map(selectColumn => `q.${selectColumn}`).join(', ')},
+            c.title as collectionTitle
+            FROM ${this.tableName} as q
+            LEFT JOIN collections as c
+            ON q.collection_id = c.id
+            WHERE q.user_id = ?
+        `;
+    };
+
     getByCollectionId(collectionId) {
         return this.query(`
             SELECT ${this.getSelectColumns().join(', ')}
@@ -33,21 +44,14 @@ export default class QuotesRepository extends BaseMySQLRepository {
     };
 
     getByUserId(userId) {
-        return this.query(`
-            SELECT ${this.getSelectColumns().join(', ')},
-            (SELECT title FROM collections where collections.id = collection_id) as collectionTitle
-            FROM ${this.tableName}
-            WHERE user_id = ?
-        `, [ userId ]);
+        return this.query(this.getByUserIdQuery(), [ userId ]);
     };
 
     getRandomQuoteForUser(userId) {
         return this.query(`
-          SELECT ${this.getSelectColumns().join(', ')} 
-          FROM ${this.tableName}
-          WHERE user_id = ?
-          ORDER BY RAND()
-          LIMIT 1;
+            ${this.getByUserIdQuery()}
+            ORDER BY RAND()
+            LIMIT 1;
         `, [ userId ]);
     };
 }
