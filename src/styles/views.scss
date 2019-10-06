@@ -1,0 +1,37 @@
+@import "./variables";
+@import "./mixins";
+@import "./animations";
+
+.view {
+  @include animation-fade-in;
+
+  .header {
+    position: fixed;
+    height: $navHeight;
+    width: 100%;
+    @include top-gradient;
+
+    i {
+      color: $colorSecondary;
+      padding: 1rem;
+      font-size: 120%;
+    }
+
+    .rightAlign {
+      position: absolute;
+      right: 0;
+      width: $navHeight;
+      height: 100%;
+      @include center-children;
+    }
+  }
+
+  .body {
+    position: absolute;
+    top: $navHeight;
+    height: calc(100% - #{$navHeight});
+    width: 100%;
+    overflow: scroll;
+  }
+
+}
