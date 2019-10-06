@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "../../styles/cards.scss";
 import CollectionIcon from "../icons/CollectionIcon";
 
-const Quote = ({ text, collectionTitle }) => (
+export const Quote = ({ text, collectionTitle }) => (
     <div className={styles.card}>
         <div className={styles.cardBody}>
             {text}
