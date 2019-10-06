@@ -14,3 +14,7 @@
   font-family: $fancyFontFamily;
   letter-spacing: 2px;
 }
+
+@mixin opacity-faded {
+  opacity: 0.6;
+}

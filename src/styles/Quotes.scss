@@ -1,0 +1,19 @@
+@import "./variables";
+@import "./mixins";
+
+.quoteLeft,
+.quoteRight {
+  position: absolute;
+  font-size: 50%;
+  @include opacity-faded;
+}
+
+.quoteLeft {
+  top: 0;
+  left: -$bufferMd;
+}
+
+.quoteRight {
+  bottom: 0;
+  right: -$bufferMd;
+}

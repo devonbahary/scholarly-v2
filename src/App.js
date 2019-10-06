@@ -5,7 +5,7 @@ import Collections from "./components/collections/Collections";
 import Home from "./components/Home";
 import Quotes from "./components/quotes/Quotes";
 import CollectionIcon from "./components/icons/CollectionIcon";
-import QuoteIcon from "./components/icons/QuoteIcon";
+import QuoteRightIcon from "./components/icons/QuoteRightIcon";
 
 import styles from "./styles/App.scss";
 
@@ -33,7 +33,7 @@ const App = () => {
     }, {
         path: "/quotes",
         component: Quotes,
-        tabIcon: <QuoteIcon />,
+        tabIcon: <QuoteRightIcon />,
     }];
 
     return (

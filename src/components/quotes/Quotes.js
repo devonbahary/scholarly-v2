@@ -1,15 +1,21 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import styles from "../../styles/cards.scss";
 import CollectionIcon from "../icons/CollectionIcon";
+import QuoteLeftIcon from "../icons/QuoteLeftIcon";
+import QuoteRightIcon from "../icons/QuoteRightIcon";
+
+import cardStyles from "../../styles/cards.scss";
+import quotesStyles from "../../styles/Quotes.scss";
 
 export const Quote = ({ text, collectionTitle }) => (
-    <div className={styles.card}>
-        <div className={styles.cardBody}>
+    <div className={cardStyles.card}>
+        <div className={cardStyles.cardBody}>
+            <QuoteLeftIcon className={quotesStyles.quoteLeft} />
             {text}
+            <QuoteRightIcon className={quotesStyles.quoteRight} />
         </div>
-        <div className={styles.cardFooter}>
+        <div className={cardStyles.cardFooter}>
             <CollectionIcon /> {collectionTitle}
         </div>
     </div>

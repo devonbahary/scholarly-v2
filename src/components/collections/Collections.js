@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
-import QuoteIcon from "../icons/QuoteIcon";
+import QuoteRightIcon from "../icons/QuoteRightIcon";
 
 import cardStyles from "../../styles/cards.scss";
 import collectionStyles from "../../styles/Collections.scss";
@@ -9,7 +9,7 @@ const QuoteCount = ({ count }) => {
     if (!count) return null;
     return (
         <Fragment>
-            <QuoteIcon /> {count}
+            <QuoteRightIcon /> {count}
         </Fragment>
     );
 };
