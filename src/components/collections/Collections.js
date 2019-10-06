@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 
-import QuoteRightIcon from "../icons/QuoteRightIcon";
+import Card from "../common/Card";
 import PlusIcon from "../icons/PlusIcon";
-import View from "../View";
+import QuoteRightIcon from "../icons/QuoteRightIcon";
+import View from "../common/View";
 
-import cardStyles from "../../styles/cards.scss";
+import cardStyles from "../../styles/Card.scss";
 import collectionStyles from "../../styles/Collections.scss";
 import viewStyles from "../../styles/views.scss";
 
@@ -20,14 +21,11 @@ const QuoteCount = ({ count }) => {
 };
 
 const Collection = ({ title, quoteCount }) => (
-    <div className={cardStyles.card}>
-        <div className={`${cardStyles.cardBody} ${collectionStyles.cardTitle}`}>
-            {title}
-        </div>
-        <div className={cardStyles.cardFooter}>
-            <QuoteCount count={quoteCount} />
-        </div>
-    </div>
+    <Card
+        body={title}
+        bodyClassName={collectionStyles.cardBody}
+        footer={<QuoteCount count={quoteCount} />}
+    />
 );
 
 class Collections extends Component {

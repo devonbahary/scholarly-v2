@@ -1,27 +1,37 @@
 import React, {Component, Fragment} from "react";
 import axios from "axios";
 
+import Card from "../common/Card";
 import CollectionIcon from "../icons/CollectionIcon";
 import QuoteLeftIcon from "../icons/QuoteLeftIcon";
 import QuoteRightIcon from "../icons/QuoteRightIcon";
-import View from "../View";
+import View from "../common/View";
 
-import cardStyles from "../../styles/cards.scss";
 import quotesStyles from "../../styles/Quotes.scss";
 
 
-export const Quote = ({ text, collectionTitle }) => (
-    <div className={cardStyles.card}>
-        <div className={cardStyles.cardBody}>
+export const Quote = ({ text, collectionTitle }) => {
+    const body = (
+        <Fragment>
             <QuoteLeftIcon className={quotesStyles.quoteLeft} />
             {text}
             <QuoteRightIcon className={quotesStyles.quoteRight} />
-        </div>
-        <div className={cardStyles.cardFooter}>
+        </Fragment>
+    );
+
+    const footer = (
+        <Fragment>
             <CollectionIcon /> {collectionTitle}
-        </div>
-    </div>
-);
+        </Fragment>
+    );
+
+    return (
+        <Card
+            body={body}
+            footer={footer}
+        />
+    );
+};
 
 class Quotes extends Component {
     state = {
