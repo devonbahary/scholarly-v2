@@ -39,7 +39,7 @@ class Collections extends Component {
 
     render() {
         return (
-            <div>
+            <div className={collectionStyles.collections}>
                 {this.state.collections.map(collection => (
                     <Collection key={collection.id} {...collection} />
                 ))}

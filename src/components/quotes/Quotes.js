@@ -35,7 +35,7 @@ class Quotes extends Component {
 
     render() {
         return (
-            <div>
+            <div className={quotesStyles.quotes}>
                 {this.state.quotes.map(quote => (
                     <Quote key={quote.id} {...quote} />
                 ))}
