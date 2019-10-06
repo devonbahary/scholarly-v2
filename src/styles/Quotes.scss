@@ -1,10 +1,6 @@
 @import "./variables";
 @import "./mixins";
 
-.quotes {
-  @include fade-in;
-}
-
 .quoteLeft,
 .quoteRight {
   position: absolute;

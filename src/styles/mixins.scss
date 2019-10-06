@@ -1,5 +1,4 @@
 @import "./variables";
-@import "./animations";
 
 @mixin box-shadow {
   box-shadow: 0 1px 5px $colorDark;
@@ -20,6 +19,3 @@
   opacity: 0.6;
 }
 
-@mixin fade-in($duration: 1s) {
-  animation: fade-in #{$duration};
-}
