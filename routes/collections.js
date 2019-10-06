@@ -1,12 +1,31 @@
 import express from "express";
-import MongoRepository from "../repositories/MongoRepository";
+import CollectionsRepository from "../repositories/CollectionsRepository";
+import ApiUtil from "../ApiUtil";
 
 const router = express.Router();
 
+const USER_ID = 1; // TODO: replace with auth
+
 router.get('/', async (req, res) => {
-    const collectionsRepository = new MongoRepository('collections');
-    const docs = await collectionsRepository.find({});
-    res.send(docs);
+    const collectionsRepository = new CollectionsRepository();
+    try {
+        const results = await collectionsRepository.getCollectionsByUserId();
+        res.send(results);
+    } catch (err) {
+        ApiUtil.errorResponse(res, err);
+    }
+});
+
+router.post('/', async (req, res) => {
+    const collectionsRepository = new CollectionsRepository();
+    const { title } = req.body;
+    try {
+        await collectionsRepository.insertInto(title, USER_ID);
+        res.sendStatus(200);
+    } catch (err) {
+        ApiUtil.errorResponse(res, err);
+    }
+});
 });
 
 export default router;
