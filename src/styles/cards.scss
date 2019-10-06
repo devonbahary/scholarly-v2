@@ -2,22 +2,22 @@
 @import "./mixins";
 
 .card {
-  display: grid;
-  grid-template-rows: 1fr 1.5rem;
   position: relative;
   width: 100%;
   min-height: 5rem;
-  padding: $medBuffer;
+  padding: $bufferLg;
   border-bottom: 1px solid $colorPrimary;
 
   .cardBody {
+    position: relative;
     display: flex;
     align-items: center;
   }
 
   .cardFooter {
     text-align: right;
-    opacity: 0.6;
+    height: 1.5rem;
+    @include opacity-faded;
 
     i {
       font-size: 80%;
