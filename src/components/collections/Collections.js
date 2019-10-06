@@ -61,14 +61,15 @@ class Collections extends Component {
 
     render() {
         const { isAddingCollection } = this.state;
-        const classNameCard = `${cardStyles.card} ${!isAddingCollection ? cardStyles.hidden: ''}`;
 
+        const toggleAddCollection = isAddingCollection ? this.closeIsAddingCollection : this.openIsAddingCollection;
         const header = (
-            <div className={viewStyles.rightAlign} onClick={isAddingCollection ? this.closeIsAddingCollection : this.openIsAddingCollection}>
+            <div className={viewStyles.rightAlign} onClick={toggleAddCollection}>
                 <PlusIcon rotate={this.state.isAddingCollection} />
             </div>
         );
 
+        const classNameCard = `${cardStyles.card} ${!isAddingCollection ? cardStyles.hidden: ''}`;
         const body = (
             <Fragment>
                 <div className={classNameCard}>

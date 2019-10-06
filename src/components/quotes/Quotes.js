@@ -9,6 +9,7 @@ import View from "../View";
 import cardStyles from "../../styles/cards.scss";
 import quotesStyles from "../../styles/Quotes.scss";
 
+
 export const Quote = ({ text, collectionTitle }) => (
     <div className={cardStyles.card}>
         <div className={cardStyles.cardBody}>
