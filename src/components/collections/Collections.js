@@ -31,9 +31,9 @@ class Collections extends Component {
     };
 
     async componentDidMount() {
-        const response = await axios.get('/api/collections');
+        const { data } = await axios.get('/api/collections');
         this.setState(({
-            collections: response.data,
+            collections: data,
         }));
     };
 

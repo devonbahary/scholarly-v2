@@ -21,9 +21,9 @@ class Quotes extends Component {
     };
 
     async componentDidMount() {
-        const response = await axios.get('/api/quotes');
+        const { data } = await axios.get('/api/quotes');
         this.setState(({
-            quotes: response.data,
+            quotes: data,
         }));
     };
 
