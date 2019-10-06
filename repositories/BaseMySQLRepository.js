@@ -8,8 +8,10 @@ export default class BaseMySQLRepository {
         this.writeColumns = writeColumns;
     };
 
-    getSelectColumns() {
-        return this.readColumns.map(readColumn => `${readColumn} as ${camelCase(readColumn)}`);
+    getSelectColumns(tableAlias = '') {
+        return this.readColumns.map(readColumn =>
+            `${tableAlias ? `${tableAlias}.` : ''}${readColumn} as ${camelCase(readColumn)}`
+        ).join(', ');
     };
 
     query(sql, values) {

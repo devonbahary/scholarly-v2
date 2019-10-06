@@ -25,7 +25,7 @@ export default class CollectionsRepository extends BaseMySQLRepository {
 
     getCollectionsByUserId(user_id = 1) {
         return this.query(`
-            SELECT ${this.getSelectColumns().map(selectColumn => `c.${selectColumn}`).join(', ')}, 
+            SELECT ${this.getSelectColumns('c')}, 
             COUNT(q.collection_id) as quoteCount
             FROM ${this.tableName} as c
             LEFT JOIN quotes as q 

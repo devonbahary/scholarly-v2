@@ -26,7 +26,7 @@ export default class QuotesRepository extends BaseMySQLRepository {
 
     getByUserIdQuery() {
         return `
-            SELECT ${this.getSelectColumns().map(selectColumn => `q.${selectColumn}`).join(', ')},
+            SELECT ${this.getSelectColumns('q')},
             c.title as collectionTitle
             FROM ${this.tableName} as q
             LEFT JOIN collections as c
@@ -37,7 +37,7 @@ export default class QuotesRepository extends BaseMySQLRepository {
 
     getByCollectionId(collectionId) {
         return this.query(`
-            SELECT ${this.getSelectColumns().join(', ')}
+            SELECT ${this.getSelectColumns()}
             FROM ${this.tableName}
             WHERE collection_id = ?
         `, [ collectionId ]);
