@@ -4,10 +4,10 @@ import axios from "axios";
 import CollectionIcon from "../icons/CollectionIcon";
 import QuoteLeftIcon from "../icons/QuoteLeftIcon";
 import QuoteRightIcon from "../icons/QuoteRightIcon";
+import View from "../View";
 
 import cardStyles from "../../styles/cards.scss";
 import quotesStyles from "../../styles/Quotes.scss";
-import View from "../View";
 
 export const Quote = ({ text, collectionTitle }) => (
     <div className={cardStyles.card}>
