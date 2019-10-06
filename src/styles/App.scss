@@ -1,0 +1,58 @@
+@import "./variables";
+@import "./mixins";
+
+$footerHeight: 3rem;
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: $primaryFontFamily;
+}
+
+body {
+  background: $colorBackground;
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  height: $footerHeight;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  @include box-shadow;
+
+  .navLink {
+    background: $colorSecondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $colorBackground;
+    font-size: 150%;
+    text-decoration: none;
+  }
+
+  .navLinkActive {
+    background: $colorBackground;
+    color: $colorSecondary;
+  }
+}
+
+.main {
+  position: fixed;
+  height: calc(100% - #{$footerHeight});
+  width: 100%;
+  overflow: scroll;
+}
+
+:global(.fancyText) {
+  font-family: $fancyFontFamily;
+  letter-spacing: 1px;
+}
+
+:global(.colorDark) {
+  color: $colorDark;
+}

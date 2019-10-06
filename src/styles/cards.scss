@@ -1,0 +1,26 @@
+@import "./variables";
+@import "./mixins";
+
+.card {
+  display: grid;
+  grid-template-rows: 1fr 1.5rem;
+  position: relative;
+  width: 100%;
+  min-height: 5rem;
+  padding: $medBuffer;
+  border-bottom: 1px solid $colorPrimary;
+
+  .cardBody {
+    display: flex;
+    align-items: center;
+  }
+
+  .cardFooter {
+    text-align: right;
+    opacity: 0.6;
+
+    i {
+      font-size: 80%;
+    }
+  }
+}
