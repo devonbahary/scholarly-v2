@@ -1,5 +1,22 @@
+let mongoUri;
 if (process.env.NODE_ENV === 'dev') {
-    process.env.MONGO_URI = 'mongodb://localhost:27017/scholarly';
+    mongoUri = 'mongodb://localhost:27017/scholarly';
 } else {
-    process.env.MONGODB_URI = ''; // TODO
+    mongoUri = ''; // TODO
+}
+
+process.env.MONGO_URI = mongoUri;
+
+
+export default {
+    mongo: {
+        database: 'scholarly',
+        mongoUri,
+    },
+    mysql: {
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'scholarly',
+    },
 }
