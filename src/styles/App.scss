@@ -34,11 +34,13 @@ body {
     font-size: 150%;
     text-decoration: none;
     transition: 0.25s;
+    user-select: none;
   }
 
   .navLinkActive {
     background: $colorBackground;
-    color: $colorSecondary;
+    color: $colorBackground;
+    text-shadow: 1px 1px $colorDark;
   }
 }
 
