@@ -8,14 +8,14 @@ import QuoteIcon from "./components/icons/QuoteIcon";
 
 import styles from "./styles/App.scss";
 
-const Tab = props => (
+const Tab = ({ children, exact, to}) => (
     <NavLink
-        exact={props.exact}
-        to={props.to}
+        exact={exact}
+        to={to}
         className={styles.navLink}
         activeClassName={styles.navLinkActive}
     >
-        {props.children}
+        {children}
     </NavLink>
 );
 
@@ -34,14 +34,14 @@ const App = () => {
         <Router>
             <main className={styles.main}>
                 <Switch>
-                    {routes.map(({ component, path }) => (
-                        <Route key={path} path={path} component={component} />
+                    {routes.map(({ component, exact, path }) => (
+                        <Route key={path} exact={exact} path={path} component={component} />
                     ))}
                 </Switch>
             </main>
             <footer className={styles.footer}>
-                {routes.map(({ path, tabIcon }) => (
-                    <Tab key={path} to={path}>
+                {routes.map(({ exact, path, tabIcon }) => (
+                    <Tab key={path} exact={exact} to={path}>
                         {tabIcon}
                     </Tab>
                 ))}
