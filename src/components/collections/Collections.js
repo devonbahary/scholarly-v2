@@ -56,14 +56,13 @@ class Collections extends Component {
         this.setState({ isAddingCollection: true });
     };
 
-    // setTimeout because clicking the close button would trigger the onBlur 'isAddingCollection: false' event,
-    // causing the close button to trigger an 'isAddingCollection: true' event
     closeIsAddingCollection = () => {
-        setTimeout(() => this.setState({
+        this.setState({
             isAddingCollection: false,
             isErrorSaving: false,
             isSavingCollection: false,
-        }), 0);
+            newTitle: '',
+        });
     };
 
     handleTitleChange = e => {
@@ -73,44 +72,47 @@ class Collections extends Component {
         });
     };
 
-    handleExit = async () => {
-        const { newTitle: title } = this.state;
-        if (!title) return this.closeIsAddingCollection();
-
-        this.setState({
-            isSavingCollection: true,
-            isErrorSaving: false,
-        });
-
-        const collection = { title };
-        const data = await ApiService.postRequest('/api/collections', collection);
-
-        if (data) {
-            const { insertId: id } = data;
-            const newCollection = {
-                id,
-                isNew: true, // to flag css
-                ...collection,
-            };
-
-            this.setState(prevState => ({
-                collections: [
-                    newCollection,
-                    ...prevState.collections,
-                ],
-            }));
+    handleExit = () => {
+        // setTimeout to allow time for isAddingCollection to read false if the user clicks close
+        setTimeout(async () => {
+            const { isAddingCollection, newTitle: title } = this.state;
+            if (!isAddingCollection || !title) return this.closeIsAddingCollection();
 
             this.setState({
-                isSavingCollection: false,
+                isSavingCollection: true,
                 isErrorSaving: false,
             });
-            this.closeIsAddingCollection();
-        } else {
-            this.setState({
-                isSavingCollection: false,
-                isErrorSaving: true,
-            });
-        }
+
+            const collection = { title };
+            const data = await ApiService.postRequest('/api/collections', collection);
+
+            if (data) {
+                const { insertId: id } = data;
+                const newCollection = {
+                    id,
+                    isNew: true, // to flag css
+                    ...collection,
+                };
+
+                this.setState(prevState => ({
+                    collections: [
+                        newCollection,
+                        ...prevState.collections,
+                    ],
+                }));
+
+                this.setState({
+                    isSavingCollection: false,
+                    isErrorSaving: false,
+                });
+                this.closeIsAddingCollection();
+            } else {
+                this.setState({
+                    isSavingCollection: false,
+                    isErrorSaving: true,
+                });
+            }
+        }, 0);
     };
 
     render() {
