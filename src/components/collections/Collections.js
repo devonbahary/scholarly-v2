@@ -50,19 +50,13 @@ class Collections extends Component {
         this.setState({ collections: data });
     };
 
-    // we implement open- and close- functions instead of just a toggle so that the onBlur event does not trigger the
-    // toggle twice when manually closing with the close button
-    openIsAddingCollection = () => {
-        this.setState({ isAddingCollection: true });
-    };
-
-    closeIsAddingCollection = () => {
-        this.setState({
-            isAddingCollection: false,
+    toggleIsAddingCollection = () => {
+        this.setState(prevState => ({
+            isAddingCollection: !prevState.isAddingCollection,
             isErrorSaving: false,
             isSavingCollection: false,
             newTitle: '',
-        });
+        }));
     };
 
     handleTitleChange = e => {
@@ -76,7 +70,8 @@ class Collections extends Component {
         // setTimeout to allow time for isAddingCollection to read false if the user clicks close
         setTimeout(async () => {
             const { isAddingCollection, newTitle: title } = this.state;
-            if (!isAddingCollection || !title) return this.closeIsAddingCollection();
+            if (!isAddingCollection) return;
+            if (!title) return this.toggleIsAddingCollection();
 
             this.setState({
                 isSavingCollection: true,
@@ -105,7 +100,7 @@ class Collections extends Component {
                     isSavingCollection: false,
                     isErrorSaving: false,
                 });
-                this.closeIsAddingCollection();
+                this.toggleIsAddingCollection();
             } else {
                 this.setState({
                     isSavingCollection: false,
@@ -123,9 +118,9 @@ class Collections extends Component {
             newTitle,
         } = this.state;
 
-        const toggleAddCollection = isAddingCollection ? this.closeIsAddingCollection : this.openIsAddingCollection;
+        // const toggleAddCollection = isAddingCollection ? this.closeIsAddingCollection : this.openIsAddingCollection;
         const header = (
-            <div className={viewStyles.rightAlign} onClick={toggleAddCollection}>
+            <div className={viewStyles.rightAlign} onClick={this.toggleIsAddingCollection}>
                 <PlusIcon rotate={isAddingCollection} />
             </div>
         );
