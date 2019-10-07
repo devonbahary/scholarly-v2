@@ -29,7 +29,7 @@ class Collection extends Component {
         const body = (
             <Fragment>
                 {quotes.map(quote => (
-                    <Quote key={quote.id} {...quote} />
+                    <Quote key={quote.id} {...quote} displayCollectionTitle={false} />
                 ))}
             </Fragment>
         );

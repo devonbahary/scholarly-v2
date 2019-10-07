@@ -10,7 +10,7 @@ import View from "../common/View";
 import quotesStyles from "../../styles/Quotes.scss";
 
 
-export const Quote = ({ text, collectionTitle }) => {
+export const Quote = ({ text, collectionTitle, displayCollectionTitle = true }) => {
     const body = (
         <Fragment>
             <QuoteLeftIcon className={quotesStyles.quoteLeft} />
@@ -19,7 +19,7 @@ export const Quote = ({ text, collectionTitle }) => {
         </Fragment>
     );
 
-    const footer = (
+    const footer = displayCollectionTitle && (
         <Fragment>
             <CollectionIcon /> {collectionTitle}
         </Fragment>
