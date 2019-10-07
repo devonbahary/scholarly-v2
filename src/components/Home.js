@@ -4,30 +4,54 @@ import { getRandomUserQuote } from "../api/quotes";
 import { Quote } from "./quotes/Quotes";
 
 import styles from "../styles/Home.scss";
+import View from "./common/View";
 
 
 class Home extends Component {
     state = {
         quote: null,
+        isLoading: true,
+        isLoadingError: false,
     };
 
     async componentDidMount() {
-        const data = await getRandomUserQuote();
-        if (!data) return;
+        this.getRandomUserQuote();
+    };
 
-        this.setState({
-            quote: data.length ? data[0]: null,
-        });
+    getRandomUserQuote = async () => {
+        this.setState({ isLoading: true, isLoadingError: false });
+        const data = await getRandomUserQuote();
+
+        if (data) {
+            this.setState({
+                quote: data.length ? data[0]: null,
+                isLoading: false,
+                isLoadingError: false,
+            });
+        } else {
+            this.setState({
+                isLoading: false,
+                isLoadingError: true,
+            });
+        }
     };
 
     render() {
-        const { quote } = this.state;
-        if (!quote) return null;
+        const { quote, isLoading, isLoadingError } = this.state;
+
+        const body = (
+            <div className={styles.home}>
+                {quote && <Quote {...quote} history={this.props.history} />}
+            </div>
+        );
 
         return (
-            <div className={styles.home}>
-                <Quote {...quote} history={this.props.history} />
-            </div>
+            <View
+                body={body}
+                isLoading={isLoading}
+                isLoadingError={isLoadingError}
+                onLoadRetry={this.getRandomUserQuote}
+            />
         );
     };
 };

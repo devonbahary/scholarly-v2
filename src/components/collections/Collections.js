@@ -40,15 +40,31 @@ class Collections extends Component {
         collections: [],
         isAddingCollection: false,
         isErrorSaving: false,
+        isLoading: true,
+        isLoadingError: false,
         isSavingCollection: false,
         newTitle: '',
     };
 
-    async componentDidMount() {
-        const data = await getUserCollections();
-        if (!data) return;
+    componentDidMount() {
+        this.getUserCollections();
+    };
 
-        this.setState({ collections: data });
+    getUserCollections = async () => {
+        this.setState({ isLoading: true, isLoadingError: false });
+        const data = await getUserCollections();
+        if (data) {
+            this.setState({
+                collections: data,
+                isLoading: false,
+                isLoadingError: false,
+            });
+        } else {
+            this.setState({
+                isLoading: false,
+                isLoadingError: true,
+            });
+        }
     };
 
     toggleIsAddingCollection = () => {
@@ -117,6 +133,8 @@ class Collections extends Component {
         const {
             isAddingCollection,
             isErrorSaving,
+            isLoading,
+            isLoadingError,
             isSavingCollection,
             newTitle,
         } = this.state;
@@ -175,6 +193,9 @@ class Collections extends Component {
                 headerNavText="Collections"
                 headerButton={<PlusIcon rotate={isAddingCollection} />}
                 headerButtonOnClick={this.toggleIsAddingCollection}
+                isLoading={isLoading}
+                isLoadingError={isLoadingError}
+                onLoadRetry={this.getUserCollections}
             />
         );
     };

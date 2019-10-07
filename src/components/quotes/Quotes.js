@@ -44,15 +44,29 @@ export const Quote = ({ text, collectionId, collectionTitle, history }) => {
 class Quotes extends Component {
     state = {
         quotes: [],
+        isLoading: true,
+        isLoadingError: false,
     };
 
     async componentDidMount() {
-        const data = await getUserQuotes();
-        if (!data) return;
+        this.getUserQuotes();
+    };
 
-        this.setState({
-            quotes: data,
-        });
+    getUserQuotes = async () => {
+        this.setState({ isLoading: true, isLoadingError: false });
+        const data = await getUserQuotes();
+        if (data) {
+            this.setState({
+                quotes: data,
+                isLoading: false,
+                isLoadingError: false,
+            });
+        } else {
+            this.setState({
+                isLoading: false,
+                isLoadingError: true,
+            });
+        }
     };
 
     render() {
@@ -64,12 +78,16 @@ class Quotes extends Component {
             </Fragment>
         );
 
+        const { isLoading, isLoadingError } = this.state;
         return (
             <View
                 body={body}
                 headerNavIcon={<QuoteRightIcon />}
                 headerNavText="Quotes"
                 headerButton={<PlusIcon />}
+                isLoading={isLoading}
+                isLoadingError={isLoadingError}
+                onLoadRetry={this.getUserQuotes}
             />
         );
     };
