@@ -12,7 +12,7 @@ class Home extends Component {
     };
 
     async componentDidMount() {
-        const data = await ApiService.get('/api/quotes/random');
+        const data = await ApiService.getRequest('/api/quotes/random');
         if (!data) return;
 
         this.setState(({
