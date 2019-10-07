@@ -8,6 +8,7 @@ import CollectionIcon from "./components/icons/CollectionIcon";
 import QuoteRightIcon from "./components/icons/QuoteRightIcon";
 
 import styles from "./styles/App.scss";
+import Collection from "./components/collections/Collection";
 
 const Tab = ({ children, exact, to}) => (
     <NavLink
@@ -26,6 +27,9 @@ const App = () => {
         exact: true,
         component: Home,
         tabIcon: <i className="fas fa-home"></i>
+    }, {
+        path: "/collections/:id",
+        component: Collection,
     }, {
         path: "/collections",
         component: Collections,
@@ -46,7 +50,7 @@ const App = () => {
                 </Switch>
             </main>
             <footer className={styles.footer}>
-                {routes.map(({ exact, path, tabIcon }) => (
+                {routes.filter(route => route.tabIcon).map(({ exact, path, tabIcon }) => (
                     <Tab key={path} exact={exact} to={path}>
                         {tabIcon}
                     </Tab>

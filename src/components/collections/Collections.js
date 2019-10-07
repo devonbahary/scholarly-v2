@@ -22,7 +22,7 @@ const QuoteCount = ({ count }) => {
     );
 };
 
-const Collection = ({ title, quoteCount, isNew }) => {
+const Collection = ({ id, isNew, onClick, title, quoteCount }) => {
     const footer = <QuoteCount count={quoteCount} />;
     return (
         <Card
@@ -30,6 +30,7 @@ const Collection = ({ title, quoteCount, isNew }) => {
             classNameBody={collectionStyles.cardBody}
             classNameCard={isNew ? cardStyles.success : ''}
             footer={footer}
+            onClick={onClick}
         />
     );
 };
@@ -110,6 +111,8 @@ class Collections extends Component {
         }, 0);
     };
 
+    linkTo = collectionId => this.props.history.push(`/collections/${collectionId}`);
+
     render() {
         const {
             isAddingCollection,
@@ -163,7 +166,11 @@ class Collections extends Component {
                     footer={cardFooter}
                 />
                 {this.state.collections.map(collection => (
-                    <Collection key={collection.id} {...collection} />
+                    <Collection
+                        key={collection.id}
+                        onClick={() => this.linkTo(collection.id)}
+                        {...collection}
+                    />
                 ))}
             </Fragment>
         );

@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "../../styles/Card.scss";
 
-const Card = ({ body, classNameBody, classNameCard, footer }) => (
-    <div className={`${styles.card} ${classNameCard}`}>
+const Card = ({ body, classNameBody, classNameCard, footer, onClick }) => (
+    <div className={`${styles.card} ${classNameCard}`} onClick={onClick}>
         <div className={`${styles.body} ${classNameBody}`}>
             {body}
         </div>

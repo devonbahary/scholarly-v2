@@ -18,7 +18,7 @@ class InputTitle extends Component {
             onExit,
             value,
         } = this.props;
-        
+
         const className = isSaving ? styles.isSaving : '';
         return (
             <input
