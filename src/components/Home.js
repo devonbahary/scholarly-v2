@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ApiService from "../ApiService";
+import ApiService from "../api/ApiService";
 
 import { Quote } from "./quotes/Quotes";
 

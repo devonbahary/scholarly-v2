@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import ApiService from "../../ApiService";
+import ApiService from "../../api/ApiService";
 
 import CollectionIcon from "../icons/CollectionIcon";
 import { Quote } from "../quotes/Quotes";
