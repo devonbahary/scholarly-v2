@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import axios from "axios";
 
 import Card from "../common/Card";
+import InputTitle from "./InputTitle";
 import PlusIcon from "../icons/PlusIcon";
 import QuoteRightIcon from "../icons/QuoteRightIcon";
 import View from "../common/View";
@@ -20,13 +21,16 @@ const QuoteCount = ({ count }) => {
     );
 };
 
-const Collection = ({ title, quoteCount }) => (
-    <Card
-        body={title}
-        bodyClassName={collectionStyles.cardBody}
-        footer={<QuoteCount count={quoteCount} />}
-    />
-);
+const Collection = ({ title, quoteCount }) => {
+    const footer = <QuoteCount count={quoteCount} />;
+    return (
+        <Card
+            body={title}
+            bodyClassName={collectionStyles.cardBody}
+            footer={footer}
+        />
+    );
+};
 
 class Collections extends Component {
     state = {
@@ -53,7 +57,7 @@ class Collections extends Component {
         setTimeout(() => this.setState(({ isAddingCollection: false })), 0);
     };
 
-    handleInputBlur = e => {
+    handleExit = e => {
         if (!e.target.value) this.closeIsAddingCollection();
     };
 
@@ -72,7 +76,7 @@ class Collections extends Component {
             <Fragment>
                 <div className={classNameCard}>
                     {isAddingCollection && (
-                        <input type="text" autoFocus onBlur={this.handleInputBlur} />
+                        <InputTitle onExit={this.handleExit} />
                     )}
                 </div>
                 {this.state.collections.map(collection => (
