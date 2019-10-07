@@ -26,8 +26,8 @@ const Collection = ({ title, quoteCount, isNew }) => {
     return (
         <Card
             body={title}
-            bodyClassName={collectionStyles.cardBody}
-            cardClassName={isNew ? cardStyles.new : ''}
+            classNameBody={collectionStyles.cardBody}
+            classNameCard={isNew ? cardStyles.new : ''}
             footer={footer}
         />
     );
@@ -96,14 +96,13 @@ class Collections extends Component {
             </div>
         );
 
-        const classNameCard = `${cardStyles.card} ${!isAddingCollection ? cardStyles.hidden: ''}`;
+        const cardBody = isAddingCollection && <InputTitle onExit={this.handleExit} isSaving={isSavingCollection} />;
         const body = (
             <Fragment>
-                <div className={classNameCard}>
-                    {isAddingCollection && (
-                        <InputTitle onExit={this.handleExit} isSaving={isSavingCollection} />
-                    )}
-                </div>
+                <Card
+                    classNameCard={!isAddingCollection ? cardStyles.hidden: ''}
+                    body={cardBody}
+                />
                 {this.state.collections.map(collection => (
                     <Collection key={collection.id} {...collection} />
                 ))}
