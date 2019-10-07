@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import { getUserCollections, saveCollection } from "../../api/collections";
 
 import Card from "../common/Card";
 import CollectionIcon from "../icons/CollectionIcon";
 import ExclamationIcon from "../icons/ExclamationIcon";
 import InputTitle from "./InputTitle";
+import { LoadingComponent } from "../common/LoadingComponent";
 import PlusIcon from "../icons/PlusIcon";
 import QuoteRightIcon from "../icons/QuoteRightIcon";
 import View from "../common/View";
@@ -35,36 +36,20 @@ const Collection = ({ id, isNew, onClick, title, quoteCount }) => {
     );
 };
 
-class Collections extends Component {
+class Collections extends LoadingComponent {
     state = {
         collections: [],
         isAddingCollection: false,
         isErrorSaving: false,
-        isLoading: true,
-        isLoadingError: false,
         isSavingCollection: false,
         newTitle: '',
     };
 
-    componentDidMount() {
-        this.getUserCollections();
-    };
-
-    getUserCollections = async () => {
-        this.setState({ isLoading: true, isLoadingError: false });
-        const data = await getUserCollections();
-        if (data) {
-            this.setState({
-                collections: data,
-                isLoading: false,
-                isLoadingError: false,
-            });
-        } else {
-            this.setState({
-                isLoading: false,
-                isLoadingError: true,
-            });
-        }
+    loadApiCall = getUserCollections;
+    onLoadSuccess = data => {
+        this.setState({
+            collections: data,
+        });
     };
 
     toggleIsAddingCollection = () => {
@@ -195,7 +180,7 @@ class Collections extends Component {
                 headerButtonOnClick={this.toggleIsAddingCollection}
                 isLoading={isLoading}
                 isLoadingError={isLoadingError}
-                onLoadRetry={this.getUserCollections}
+                onLoadRetry={this.loadState}
             />
         );
     };

@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import { getUserQuotes } from "../../api/quotes";
 
 import Card from "../common/Card";
 import CollectionIcon from "../icons/CollectionIcon";
+import { LoadingComponent } from "../common/LoadingComponent";
 import PlusIcon from "../icons/PlusIcon";
 import QuoteLeftIcon from "../icons/QuoteLeftIcon";
 import QuoteRightIcon from "../icons/QuoteRightIcon";
@@ -41,32 +42,16 @@ export const Quote = ({ text, collectionId, collectionTitle, history }) => {
     );
 };
 
-class Quotes extends Component {
+class Quotes extends LoadingComponent {
     state = {
         quotes: [],
-        isLoading: true,
-        isLoadingError: false,
     };
 
-    async componentDidMount() {
-        this.getUserQuotes();
-    };
-
-    getUserQuotes = async () => {
-        this.setState({ isLoading: true, isLoadingError: false });
-        const data = await getUserQuotes();
-        if (data) {
-            this.setState({
-                quotes: data,
-                isLoading: false,
-                isLoadingError: false,
-            });
-        } else {
-            this.setState({
-                isLoading: false,
-                isLoadingError: true,
-            });
-        }
+    loadApiCall = () => getUserQuotes();
+    onLoadSuccess = data => {
+        this.setState({
+            quotes: data,
+        });
     };
 
     render() {
@@ -87,7 +72,7 @@ class Quotes extends Component {
                 headerButton={<PlusIcon />}
                 isLoading={isLoading}
                 isLoadingError={isLoadingError}
-                onLoadRetry={this.getUserQuotes}
+                onLoadRetry={this.loadState}
             />
         );
     };

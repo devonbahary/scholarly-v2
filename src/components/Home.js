@@ -1,39 +1,23 @@
-import React, { Component } from "react";
+import React from "react";
 import { getRandomUserQuote } from "../api/quotes";
 
+import { LoadingComponent } from "./common/LoadingComponent";
 import { Quote } from "./quotes/Quotes";
 import View from "./common/View";
 
 import styles from "../styles/Home.scss";
 
 
-class Home extends Component {
+class Home extends LoadingComponent {
     state = {
         quote: null,
-        isLoading: true,
-        isLoadingError: false,
     };
 
-    async componentDidMount() {
-        this.getRandomUserQuote();
-    };
-
-    getRandomUserQuote = async () => {
-        this.setState({ isLoading: true, isLoadingError: false });
-        const data = await getRandomUserQuote();
-
-        if (data) {
-            this.setState({
-                quote: data.length ? data[0]: null,
-                isLoading: false,
-                isLoadingError: false,
-            });
-        } else {
-            this.setState({
-                isLoading: false,
-                isLoadingError: true,
-            });
-        }
+    loadApiCall = getRandomUserQuote;
+    onLoadSuccess = data => {
+        this.setState({
+            quote: data.length ? data[0] : null, // TODO: need to be findOne?
+        })
     };
 
     render() {
@@ -50,7 +34,7 @@ class Home extends Component {
                 body={body}
                 isLoading={isLoading}
                 isLoadingError={isLoadingError}
-                onLoadRetry={this.getRandomUserQuote}
+                onLoadRetry={this.loadState}
             />
         );
     };
