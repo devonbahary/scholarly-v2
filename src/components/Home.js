@@ -15,9 +15,9 @@ class Home extends Component {
         const data = await ApiService.getRequest('/api/quotes/random');
         if (!data) return;
 
-        this.setState(({
+        this.setState({
             quote: data.length ? data[0]: null,
-        }));
+        });
     };
 
     render() {

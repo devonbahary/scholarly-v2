@@ -42,9 +42,9 @@ class Quotes extends Component {
         const data = await ApiService.getRequest('/api/quotes');
         if (!data) return;
 
-        this.setState(({
+        this.setState({
             quotes: data,
-        }));
+        });
     };
 
     render() {

@@ -42,21 +42,21 @@ class Collections extends Component {
         const data = await ApiService.getRequest('/api/collections');
         if (!data) return;
 
-        this.setState(({
+        this.setState({
             collections: data,
-        }));
+        });
     };
 
     // we implement open- and close- functions instead of just a toggle so that the onBlur event does not trigger the
     // toggle twice when manually closing with the close button
     openIsAddingCollection = () => {
-        this.setState(({ isAddingCollection: true }));
+        this.setState({ isAddingCollection: true });
     };
 
     // setTimeout because clicking the close button would trigger the onBlur 'isAddingCollection: false' event,
     // causing the close button to trigger an 'isAddingCollection: true' event
     closeIsAddingCollection = () => {
-        setTimeout(() => this.setState(({ isAddingCollection: false })), 0);
+        setTimeout(() => this.setState({ isAddingCollection: false }), 0);
     };
 
     handleExit = e => {
