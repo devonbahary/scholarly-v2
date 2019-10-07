@@ -44,6 +44,15 @@ export default class BaseMySQLRepository {
         });
     };
 
+    async findOne(id) {
+        const result = await this.query(`
+            SELECT ${this.readColumns} 
+            FROM ${this.tableName}
+            WHERE id = ?
+        `, [ id ]);
+        return result.length ? result[0] : null;
+    };
+
     insertInto(record) {
         const { writeColumns, values } = this.getInsertIntoData(record);
         return this.query(`
