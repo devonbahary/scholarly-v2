@@ -24,21 +24,26 @@ export default class QuotesRepository extends BaseMySQLRepository {
         ];
     };
 
-    getByUserIdQuery() {
+    getSelectQueryWithCollectionTitle() {
         return `
             SELECT ${this.getSelectColumns('q')},
             c.title as collectionTitle
             FROM ${this.tableName} as q
             LEFT JOIN collections as c
             ON q.collection_id = c.id
+        `;
+    };
+
+    getByUserIdQuery() {
+        return `
+            ${this.getSelectQueryWithCollectionTitle()}
             WHERE q.user_id = ?
         `;
     };
 
     getByCollectionId(collectionId) {
         return this.query(`
-            SELECT ${this.getSelectColumns()}
-            FROM ${this.tableName}
+            ${this.getSelectQueryWithCollectionTitle()}
             WHERE collection_id = ?
         `, [ collectionId ]);
     };
