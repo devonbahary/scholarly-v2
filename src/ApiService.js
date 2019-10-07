@@ -13,4 +13,13 @@ export default class ApiService {
             ApiService.handleError(err);
         }
     };
+
+    static async postRequest(url, data) {
+        try {
+            const { data: responseData } = await axios.post(url, data);
+            return responseData;
+        } catch (err) {
+            ApiService.handleError(err);
+        }
+    };
 };
