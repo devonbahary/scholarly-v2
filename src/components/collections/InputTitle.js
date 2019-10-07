@@ -12,7 +12,13 @@ class InputTitle extends Component {
     };
 
     render() {
-        const { isSaving, onExit, onChange, value } = this.props;
+        const {
+            isSaving,
+            onChange,
+            onExit,
+            value,
+        } = this.props;
+        
         const className = isSaving ? styles.isSaving : '';
         return (
             <input
