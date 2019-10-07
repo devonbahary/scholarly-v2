@@ -69,7 +69,7 @@ class Collections extends Component {
         const toggleAddCollection = isAddingCollection ? this.closeIsAddingCollection : this.openIsAddingCollection;
         const header = (
             <div className={viewStyles.rightAlign} onClick={toggleAddCollection}>
-                <PlusIcon rotate={this.state.isAddingCollection} />
+                <PlusIcon rotate={isAddingCollection} />
             </div>
         );
 
