@@ -20,5 +20,5 @@
 }
 
 @mixin top-gradient {
-  background: linear-gradient(to top, $colorBackground, darken($colorBackground, 2%));
+  background: linear-gradient(to top, $colorBackground, darken($colorBackground, 5%));
 }
