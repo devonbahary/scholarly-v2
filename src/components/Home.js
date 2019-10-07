@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
+import ApiService from "../ApiService";
+
 import { Quote } from "./quotes/Quotes";
 
 import styles from "../styles/Home.scss";
+
 
 class Home extends Component {
     state = {
@@ -10,7 +12,9 @@ class Home extends Component {
     };
 
     async componentDidMount() {
-        const { data } = await axios.get('/api/quotes/random');
+        const data = await ApiService.get('/api/quotes/random');
+        if (!data) return;
+
         this.setState(({
             quote: data.length ? data[0]: null,
         }));

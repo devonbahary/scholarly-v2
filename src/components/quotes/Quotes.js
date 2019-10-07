@@ -1,5 +1,5 @@
-import React, {Component, Fragment} from "react";
-import axios from "axios";
+import React, { Component, Fragment } from "react";
+import ApiService from "../../ApiService";
 
 import Card from "../common/Card";
 import CollectionIcon from "../icons/CollectionIcon";
@@ -39,7 +39,9 @@ class Quotes extends Component {
     };
 
     async componentDidMount() {
-        const { data } = await axios.get('/api/quotes');
+        const data = await ApiService.getRequest('/api/quotes');
+        if (!data) return;
+
         this.setState(({
             quotes: data,
         }));

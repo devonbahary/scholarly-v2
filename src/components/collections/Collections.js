@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import axios from "axios";
+import ApiService from "../../ApiService";
 
 import Card from "../common/Card";
 import InputTitle from "./InputTitle";
@@ -39,7 +39,9 @@ class Collections extends Component {
     };
 
     async componentDidMount() {
-        const { data } = await axios.get('/api/collections');
+        const data = await ApiService.getRequest('/api/collections');
+        if (!data) return;
+
         this.setState(({
             collections: data,
         }));
