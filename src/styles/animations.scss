@@ -8,3 +8,12 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+@mixin animation-highlight {
+  animation: highlight $animationDelay;
+}
+
+@keyframes highlight {
+  from { background: $colorPrimary }
+  to { background: inherit }
+}
