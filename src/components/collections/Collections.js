@@ -21,12 +21,13 @@ const QuoteCount = ({ count }) => {
     );
 };
 
-const Collection = ({ title, quoteCount }) => {
+const Collection = ({ title, quoteCount, isNew }) => {
     const footer = <QuoteCount count={quoteCount} />;
     return (
         <Card
             body={title}
             bodyClassName={collectionStyles.cardBody}
+            cardClassName={isNew ? cardStyles.new : ''}
             footer={footer}
         />
     );
@@ -36,6 +37,7 @@ class Collections extends Component {
     state = {
         collections: [],
         isAddingCollection: false,
+        isSavingCollection: false,
     };
 
     async componentDidMount() {
@@ -59,12 +61,33 @@ class Collections extends Component {
         setTimeout(() => this.setState({ isAddingCollection: false }), 0);
     };
 
-    handleExit = e => {
-        if (!e.target.value) this.closeIsAddingCollection();
+    handleExit = async e => {
+        if (!e.target.value) return this.closeIsAddingCollection();
+
+        this.setState({ isSavingCollection: true });
+
+        const collection = { title: e.target.value };
+        const data = await ApiService.postRequest('/api/collections', collection);
+        if (data) {
+            const { insertId: id } = data;
+            this.setState(prevState => ({
+                collections: [
+                    {
+                        id,
+                        isNew: true, // to flag css
+                        ...collection,
+                    },
+                    ...prevState.collections,
+                ],
+            }));
+
+            this.setState({ isSavingCollection: false });
+            this.closeIsAddingCollection();
+        }
     };
 
     render() {
-        const { isAddingCollection } = this.state;
+        const { isAddingCollection, isSavingCollection } = this.state;
 
         const toggleAddCollection = isAddingCollection ? this.closeIsAddingCollection : this.openIsAddingCollection;
         const header = (
@@ -78,7 +101,7 @@ class Collections extends Component {
             <Fragment>
                 <div className={classNameCard}>
                     {isAddingCollection && (
-                        <InputTitle onExit={this.handleExit} />
+                        <InputTitle onExit={this.handleExit} isSaving={isSavingCollection} />
                     )}
                 </div>
                 {this.state.collections.map(collection => (

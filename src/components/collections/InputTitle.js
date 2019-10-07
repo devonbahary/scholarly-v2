@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import styles from "../../styles/Collections.scss";
+
 const KEY_CODE_ENTER = 13;
 
 class InputTitle extends Component {
@@ -10,12 +12,16 @@ class InputTitle extends Component {
     };
 
     render() {
+        const { isSaving, onExit } = this.props;
+        const className = isSaving ? styles.isSaving : '';
         return (
             <input
+                className={className}
                 type="text"
-                onBlur={this.props.onExit}
+                onBlur={onExit}
                 onKeyDown={this.handleKeyDown}
                 autoFocus
+                readOnly={isSaving}
             />
         );
     };

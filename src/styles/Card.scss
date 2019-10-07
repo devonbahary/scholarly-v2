@@ -1,3 +1,4 @@
+@import "./animations";
 @import "./variables";
 @import "./mixins";
 
@@ -24,6 +25,10 @@
       font-size: 80%;
       color: $colorTertiary;
     }
+  }
+
+  &.new {
+    @include animation-highlight;
   }
 
   &.hidden {
