@@ -9,3 +9,7 @@
 .rotate45 {
   transform: rotate(135deg);
 }
+
+.error {
+  color: $colorError !important;
+}
