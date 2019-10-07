@@ -46,9 +46,7 @@ class Collections extends Component {
         const data = await ApiService.getRequest('/api/collections');
         if (!data) return;
 
-        this.setState({
-            collections: data,
-        });
+        this.setState({ collections: data });
     };
 
     // we implement open- and close- functions instead of just a toggle so that the onBlur event does not trigger the
