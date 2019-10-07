@@ -8,6 +8,7 @@ export default class BaseMySQLRepository {
         this.writeColumns = writeColumns;
     };
 
+    // retrieve read-only columns with option to prepend them with table alias (e.g., in a JOIN)
     getSelectColumns(tableAlias = '') {
         return this.readColumns.map(readColumn =>
             `${tableAlias ? `${tableAlias}.` : ''}${readColumn} as ${camelCase(readColumn)}`
