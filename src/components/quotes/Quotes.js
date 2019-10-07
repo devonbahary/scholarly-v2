@@ -10,7 +10,8 @@ import View from "../common/View";
 import quotesStyles from "../../styles/Quotes.scss";
 
 
-export const Quote = ({ text, collectionId, collectionTitle, onFooterClick, displayCollectionTitle = true }) => {
+// history is used as a flag to display footer with link
+export const Quote = ({ text, collectionId, collectionTitle, history }) => {
     const body = (
         <Fragment>
             <QuoteLeftIcon className={quotesStyles.quoteLeft} />
@@ -19,11 +20,16 @@ export const Quote = ({ text, collectionId, collectionTitle, onFooterClick, disp
         </Fragment>
     );
 
-    const footer = displayCollectionTitle && collectionTitle && (
+    const footer = history && collectionTitle && (
         <Fragment>
             <CollectionIcon /> {collectionTitle}
         </Fragment>
     );
+
+    const onFooterClick = () => {
+        if (!collectionId || !history) return;
+        history.push(`/collections/${collectionId}`);
+    } ;
 
     return (
         <Card
@@ -48,16 +54,11 @@ class Quotes extends Component {
         });
     };
 
-    linkToCollection({ collectionId }) {
-        if (!collectionId) return;
-        this.props.history.push(`/collections/${collectionId}`);
-    };
-
     render() {
         const body = (
             <Fragment>
                 {this.state.quotes.map(quote => (
-                    <Quote key={quote.id} {...quote} onFooterClick={() => this.linkToCollection(quote)} />
+                    <Quote key={quote.id} {...quote} history={this.props.history} />
                 ))}
             </Fragment>
         );

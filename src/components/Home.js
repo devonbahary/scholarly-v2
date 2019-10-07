@@ -26,7 +26,7 @@ class Home extends Component {
 
         return (
             <div className={styles.home}>
-                <Quote {...quote} />
+                <Quote {...quote} history={this.props.history} />
             </div>
         );
     };
