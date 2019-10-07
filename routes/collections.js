@@ -17,9 +17,22 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    const collectionsRepository = new CollectionsRepository();
+    const collectionId = req.params.id;
+
+    try {
+        const result = await collectionsRepository.findOne(collectionId);
+        res.send(result);
+    } catch (err) {
+        ApiUtil.errorResponse(res, err);
+    }
+});
+
 router.post('/', async (req, res) => {
     const collectionsRepository = new CollectionsRepository();
     const { title } = req.body;
+
     try {
         const result = await collectionsRepository.insertInto({ title, user_id: USER_ID });
         ApiUtil.newRecordResponse(res, result);
@@ -31,6 +44,7 @@ router.post('/', async (req, res) => {
 router.get('/quotes/:id', async (req, res) => {
     const quotesRepository = new QuotesRepository();
     const collectionId = req.params.id;
+
     try {
         const results = await quotesRepository.getByCollectionId(collectionId);
         res.send(results);
