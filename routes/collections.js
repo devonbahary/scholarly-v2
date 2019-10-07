@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
     const collectionId = req.params.id;
 
     try {
-        const collection = await collectionsRepository.findOne(collectionId);
+        const collection = await collectionsRepository.findById(collectionId);
         const quotes = await quotesRepository.getByCollectionId(collectionId);
         res.send({
             collection,

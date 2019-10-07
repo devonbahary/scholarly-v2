@@ -52,8 +52,8 @@ export default class QuotesRepository extends BaseMySQLRepository {
         return this.query(this.getByUserIdQuery(), [ userId ]);
     };
 
-    getRandomQuoteForUser(userId) {
-        return this.query(`
+    async getRandomQuoteForUser(userId) {
+        return this.querySingle(`
             ${this.getByUserIdQuery()}
             ORDER BY RAND()
             LIMIT 1;

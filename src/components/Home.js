@@ -16,7 +16,7 @@ class Home extends LoadingComponent {
     loadApiCall = getRandomUserQuote;
     onLoadSuccess = data => {
         this.setState({
-            quote: data.length ? data[0] : null, // TODO: need to be findOne?
+            quote: data,
         })
     };
 

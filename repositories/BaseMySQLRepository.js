@@ -44,13 +44,17 @@ export default class BaseMySQLRepository {
         });
     };
 
-    async findOne(id) {
-        const result = await this.query(`
+    async querySingle(sql, values) {
+        const results = await this.query(sql, values);
+        return results.length ? results[0] : null;
+    };
+
+    async findById(id) {
+        return this.querySingle(`
             SELECT ${this.readColumns} 
             FROM ${this.tableName}
             WHERE id = ?
         `, [ id ]);
-        return result.length ? result[0] : null;
     };
 
     insertInto(record) {
