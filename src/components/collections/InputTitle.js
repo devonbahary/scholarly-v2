@@ -12,16 +12,19 @@ class InputTitle extends Component {
     };
 
     render() {
-        const { isSaving, onExit } = this.props;
+        const { isSaving, onExit, onChange, value } = this.props;
         const className = isSaving ? styles.isSaving : '';
         return (
             <input
                 className={className}
                 type="text"
                 onBlur={onExit}
+                onChange={onChange}
                 onKeyDown={this.handleKeyDown}
                 autoFocus
                 readOnly={isSaving}
+                maxLength={255}
+                value={value}
             />
         );
     };

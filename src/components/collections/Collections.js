@@ -40,6 +40,7 @@ class Collections extends Component {
         isAddingCollection: false,
         isErrorSaving: false,
         isSavingCollection: false,
+        newTitle: '',
     };
 
     async componentDidMount() {
@@ -65,15 +66,23 @@ class Collections extends Component {
         }), 0);
     };
 
-    handleExit = async e => {
-        if (!e.target.value) return this.closeIsAddingCollection();
+    handleTitleChange = e => {
+        this.setState({
+            newTitle: e.target.value,
+            isErrorSaving: false,
+        });
+    };
+
+    handleExit = async () => {
+        const { newTitle: title } = this.state;
+        if (!title) return this.closeIsAddingCollection();
 
         this.setState({
             isSavingCollection: true,
             isErrorSaving: false,
         });
 
-        const collection = { title: e.target.value };
+        const collection = { title };
         const data = await ApiService.postRequest('/api/collections', collection);
 
         if (data) {
@@ -109,6 +118,7 @@ class Collections extends Component {
             isAddingCollection,
             isErrorSaving,
             isSavingCollection,
+            newTitle,
         } = this.state;
 
         const toggleAddCollection = isAddingCollection ? this.closeIsAddingCollection : this.openIsAddingCollection;
@@ -126,15 +136,28 @@ class Collections extends Component {
         }
         const cardBody = isAddingCollection && (
             <InputTitle
+                value={newTitle}
+                onChange={this.handleTitleChange}
                 onExit={this.handleExit}
                 isSaving={isSavingCollection}
             />
         );
-        const cardFooter = isErrorSaving && (
-            <Fragment>
-                <ExclamationIcon /> Error
-            </Fragment>
-        );
+
+        let cardFooter;
+        if (isErrorSaving) {
+            cardFooter = (
+                <Fragment>
+                    <ExclamationIcon /> Error
+                </Fragment>
+            );
+        } else if (isAddingCollection) {
+            cardFooter = (
+                <Fragment>
+                    {newTitle.length} / 255
+                </Fragment>
+            );
+        }
+
         const body = (
             <Fragment>
                 <Card
