@@ -3,6 +3,7 @@ import ApiService from "../../ApiService";
 
 import Card from "../common/Card";
 import CollectionIcon from "../icons/CollectionIcon";
+import PlusIcon from "../icons/PlusIcon";
 import QuoteLeftIcon from "../icons/QuoteLeftIcon";
 import QuoteRightIcon from "../icons/QuoteRightIcon";
 import View from "../common/View";
@@ -64,7 +65,12 @@ class Quotes extends Component {
         );
 
         return (
-            <View body={body} />
+            <View
+                body={body}
+                headerNavIcon={<QuoteRightIcon />}
+                headerNavText="Quotes"
+                headerButton={<PlusIcon />}
+            />
         );
     };
 };
