@@ -6,23 +6,24 @@
   @include animation-fade-in;
 
   .header {
+    display: grid;
+    grid-template-columns: $navHeight 1fr $navHeight;
     position: fixed;
     height: $navHeight;
+    line-height: $navHeight;
     width: 100%;
     @include top-gradient;
 
-    i {
+    .navIcon,
+    .button {
       color: $colorSecondary;
-      padding: 1rem;
       font-size: 120%;
+      @include center-children;
     }
 
-    .rightAlign {
-      position: absolute;
-      right: 0;
-      width: $navHeight;
-      height: 100%;
-      @include center-children;
+    .navText {
+      line-height: $navHeight;
+      @include decorated-text;
     }
   }
 

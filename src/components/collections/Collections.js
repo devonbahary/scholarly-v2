@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import ApiService from "../../ApiService";
 
 import Card from "../common/Card";
+import CollectionIcon from "../icons/CollectionIcon";
 import ExclamationIcon from "../icons/ExclamationIcon";
 import InputTitle from "./InputTitle";
 import PlusIcon from "../icons/PlusIcon";
@@ -10,7 +11,6 @@ import View from "../common/View";
 
 import cardStyles from "../../styles/Card.scss";
 import collectionStyles from "../../styles/Collections.scss";
-import viewStyles from "../../styles/views.scss";
 
 
 const QuoteCount = ({ count }) => {
@@ -121,13 +121,6 @@ class Collections extends Component {
             newTitle,
         } = this.state;
 
-        // const toggleAddCollection = isAddingCollection ? this.closeIsAddingCollection : this.openIsAddingCollection;
-        const header = (
-            <div className={viewStyles.rightAlign} onClick={this.toggleIsAddingCollection}>
-                <PlusIcon rotate={isAddingCollection} />
-            </div>
-        );
-
         let classNameCard;
         if (!isAddingCollection) {
             classNameCard = cardStyles.hidden;
@@ -176,7 +169,13 @@ class Collections extends Component {
         );
 
         return (
-            <View header={header} body={body} />
+            <View
+                body={body}
+                headerNavIcon={<CollectionIcon />}
+                headerNavText="Collections"
+                headerButton={<PlusIcon rotate={isAddingCollection} />}
+                headerButtonOnClick={this.toggleIsAddingCollection}
+            />
         );
     };
 }
