@@ -23,6 +23,9 @@
 
     .navText {
       line-height: $standardHeight;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
       @include decorated-text;
     }
   }
