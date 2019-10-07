@@ -21,8 +21,8 @@ router.post('/', async (req, res) => {
     const collectionsRepository = new CollectionsRepository();
     const { title } = req.body;
     try {
-        await collectionsRepository.insertInto({ title, user_id: USER_ID });
-        ApiUtil.successReponse(res);
+        const result = await collectionsRepository.insertInto({ title, user_id: USER_ID });
+        ApiUtil.newRecordResponse(res, result);
     } catch (err) {
         ApiUtil.errorResponse(res, err);
     }

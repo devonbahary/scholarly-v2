@@ -4,7 +4,8 @@ export default class ApiUtil {
         res.status(400).send(err);
     };
 
-    static successReponse(res) {
-        res.status(200).send({ success: true });
+    static newRecordResponse(res, result) {
+        const { insertId } = result;
+        res.status(200).send({ insertId });
     };
 }
