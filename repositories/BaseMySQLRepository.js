@@ -1,4 +1,5 @@
-import { camelCase } from "change-case";
+import _ from "lodash";
+import { camelCase, snakeCase } from "change-case";
 import pool from "../databases/mysql-connect";
 
 export default class BaseMySQLRepository {
@@ -15,6 +16,25 @@ export default class BaseMySQLRepository {
         ).join(', ');
     };
 
+    // allows us to write to snake_case MySQL columns with JavaScript camelCase object properties
+    getInsertIntoData(record) {
+        const data = {
+            writeColumns: [],
+            values: [],
+        };
+        return _.entries(record).reduce((data, [ key, val ]) => {
+            const columnName = snakeCase(key);
+            if (!this.writeColumns.includes(columnName)) {
+                throw new Error(`Cannot INSERT INTO column ${columnName} for record property ${key}`);
+            }
+
+            return {
+                writeColumns: [ ...data.writeColumns, columnName ],
+                values: [ ...data.values, val ],
+            };
+        }, data);
+    };
+
     query(sql, values) {
         return new Promise((resolve, reject) => {
             pool.query(sql, values, function(err, results) {
@@ -24,10 +44,11 @@ export default class BaseMySQLRepository {
         });
     };
 
-    insertInto(...values) {
+    insertInto(record) {
+        const { writeColumns, values } = this.getInsertIntoData(record);
         return this.query(`
             INSERT INTO ${this.tableName}
-            SET ${this.writeColumns.map(writeColumn => `${writeColumn} = ?`).join(', ')}
-        `, [ ...values ]);
+            SET ${writeColumns.map(writeColumn => `${writeColumn} = ?`).join(', ')}
+        `, values);
     };
 };
