@@ -17,8 +17,8 @@
 
   .footer {
     text-align: right;
-    line-height: 3rem;
-    height: 3rem;
+    line-height: $standardHeight;
+    height: $standardHeight;
     @include opacity-faded;
 
     i {

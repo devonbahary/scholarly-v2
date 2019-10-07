@@ -7,10 +7,10 @@
 
   .header {
     display: grid;
-    grid-template-columns: $navHeight 1fr $navHeight;
+    grid-template-columns: $standardHeight 1fr $standardHeight;
     position: fixed;
-    height: $navHeight;
-    line-height: $navHeight;
+    height: $standardHeight;
+    line-height: $standardHeight;
     width: 100%;
     @include top-gradient;
 
@@ -22,15 +22,15 @@
     }
 
     .navText {
-      line-height: $navHeight;
+      line-height: $standardHeight;
       @include decorated-text;
     }
   }
 
   .body {
     position: absolute;
-    top: $navHeight;
-    height: calc(100% - #{$navHeight});
+    top: $standardHeight;
+    height: calc(100% - #{$standardHeight});
     width: 100%;
     overflow: scroll;
   }

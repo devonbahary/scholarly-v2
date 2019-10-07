@@ -27,7 +27,7 @@ input[type="text"]:focus {
 .footer {
   position: fixed;
   bottom: 0;
-  height: $navHeight;
+  height: $standardHeight;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -54,6 +54,6 @@ input[type="text"]:focus {
 
 .main {
   position: fixed;
-  height: calc(100% - #{$navHeight});
+  height: calc(100% - #{$standardHeight});
   width: 100%;
 }
