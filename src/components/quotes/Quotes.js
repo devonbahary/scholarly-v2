@@ -10,7 +10,7 @@ import View from "../common/View";
 import quotesStyles from "../../styles/Quotes.scss";
 
 
-export const Quote = ({ text, collectionTitle, displayCollectionTitle = true }) => {
+export const Quote = ({ text, collectionId, collectionTitle, onFooterClick, displayCollectionTitle = true }) => {
     const body = (
         <Fragment>
             <QuoteLeftIcon className={quotesStyles.quoteLeft} />
@@ -19,7 +19,7 @@ export const Quote = ({ text, collectionTitle, displayCollectionTitle = true }) 
         </Fragment>
     );
 
-    const footer = displayCollectionTitle && (
+    const footer = displayCollectionTitle && collectionTitle && (
         <Fragment>
             <CollectionIcon /> {collectionTitle}
         </Fragment>
@@ -29,6 +29,7 @@ export const Quote = ({ text, collectionTitle, displayCollectionTitle = true }) 
         <Card
             body={body}
             footer={footer}
+            onFooterClick={onFooterClick}
         />
     );
 };
@@ -47,11 +48,16 @@ class Quotes extends Component {
         });
     };
 
+    linkToCollection({ collectionId }) {
+        if (!collectionId) return;
+        this.props.history.push(`/collections/${collectionId}`);
+    };
+
     render() {
         const body = (
             <Fragment>
                 {this.state.quotes.map(quote => (
-                    <Quote key={quote.id} {...quote} />
+                    <Quote key={quote.id} {...quote} onFooterClick={() => this.linkToCollection(quote)} />
                 ))}
             </Fragment>
         );

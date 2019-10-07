@@ -30,7 +30,7 @@ const Collection = ({ id, isNew, onClick, title, quoteCount }) => {
             classNameBody={collectionStyles.cardBody}
             classNameCard={isNew ? cardStyles.success : ''}
             footer={footer}
-            onClick={onClick}
+            onCardClick={onClick}
         />
     );
 };
