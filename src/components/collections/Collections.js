@@ -128,7 +128,6 @@ class Collections extends Component {
         }
         const cardBody = isAddingCollection && (
             <InputTitle
-                ref={node => this.inputTitleRef = node}
                 onExit={this.handleExit}
                 isSaving={isSavingCollection}
             />
