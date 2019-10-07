@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
     const { title } = req.body;
     try {
         await collectionsRepository.insertInto({ title, user_id: USER_ID });
-        res.sendStatus(200);
+        ApiUtil.successReponse(res);
     } catch (err) {
         ApiUtil.errorResponse(res, err);
     }
