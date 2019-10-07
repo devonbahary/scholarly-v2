@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { getRandomUserQuote } from "../api/quotes";
 
 import { Quote } from "./quotes/Quotes";
+import View from "./common/View";
 
 import styles from "../styles/Home.scss";
-import View from "./common/View";
 
 
 class Home extends Component {
