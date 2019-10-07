@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import ApiService from "../../ApiService";
 
 import Card from "../common/Card";
+import ExclamationIcon from "../icons/ExclamationIcon";
 import InputTitle from "./InputTitle";
 import PlusIcon from "../icons/PlusIcon";
 import QuoteRightIcon from "../icons/QuoteRightIcon";
@@ -27,7 +28,7 @@ const Collection = ({ title, quoteCount, isNew }) => {
         <Card
             body={title}
             classNameBody={collectionStyles.cardBody}
-            classNameCard={isNew ? cardStyles.new : ''}
+            classNameCard={isNew ? cardStyles.success : ''}
             footer={footer}
         />
     );
@@ -37,6 +38,7 @@ class Collections extends Component {
     state = {
         collections: [],
         isAddingCollection: false,
+        isErrorSaving: false,
         isSavingCollection: false,
     };
 
@@ -58,36 +60,58 @@ class Collections extends Component {
     // setTimeout because clicking the close button would trigger the onBlur 'isAddingCollection: false' event,
     // causing the close button to trigger an 'isAddingCollection: true' event
     closeIsAddingCollection = () => {
-        setTimeout(() => this.setState({ isAddingCollection: false }), 0);
+        setTimeout(() => this.setState({
+            isAddingCollection: false,
+            isErrorSaving: false,
+            isSavingCollection: false,
+        }), 0);
     };
 
     handleExit = async e => {
         if (!e.target.value) return this.closeIsAddingCollection();
 
-        this.setState({ isSavingCollection: true });
+        this.setState({
+            isSavingCollection: true,
+            isErrorSaving: false,
+        });
 
         const collection = { title: e.target.value };
         const data = await ApiService.postRequest('/api/collections', collection);
+
         if (data) {
             const { insertId: id } = data;
+            const newCollection = {
+                id,
+                isNew: true, // to flag css
+                ...collection,
+            };
+
             this.setState(prevState => ({
                 collections: [
-                    {
-                        id,
-                        isNew: true, // to flag css
-                        ...collection,
-                    },
+                    newCollection,
                     ...prevState.collections,
                 ],
             }));
 
-            this.setState({ isSavingCollection: false });
+            this.setState({
+                isSavingCollection: false,
+                isErrorSaving: false,
+            });
             this.closeIsAddingCollection();
+        } else {
+            this.setState({
+                isSavingCollection: false,
+                isErrorSaving: true,
+            });
         }
     };
 
     render() {
-        const { isAddingCollection, isSavingCollection } = this.state;
+        const {
+            isAddingCollection,
+            isErrorSaving,
+            isSavingCollection,
+        } = this.state;
 
         const toggleAddCollection = isAddingCollection ? this.closeIsAddingCollection : this.openIsAddingCollection;
         const header = (
@@ -96,12 +120,30 @@ class Collections extends Component {
             </div>
         );
 
-        const cardBody = isAddingCollection && <InputTitle onExit={this.handleExit} isSaving={isSavingCollection} />;
+        let classNameCard;
+        if (!isAddingCollection) {
+            classNameCard = cardStyles.hidden;
+        } else if (isErrorSaving) {
+            classNameCard = cardStyles.error;
+        }
+        const cardBody = isAddingCollection && (
+            <InputTitle
+                ref={node => this.inputTitleRef = node}
+                onExit={this.handleExit}
+                isSaving={isSavingCollection}
+            />
+        );
+        const cardFooter = isErrorSaving && (
+            <Fragment>
+                <ExclamationIcon /> Error
+            </Fragment>
+        );
         const body = (
             <Fragment>
                 <Card
-                    classNameCard={!isAddingCollection ? cardStyles.hidden: ''}
+                    classNameCard={classNameCard}
                     body={cardBody}
+                    footer={cardFooter}
                 />
                 {this.state.collections.map(collection => (
                     <Collection key={collection.id} {...collection} />

@@ -27,8 +27,12 @@
     }
   }
 
-  &.new {
-    @include animation-highlight;
+  &.success {
+    @include animation-success;
+  }
+
+  &.error {
+    @include animation-error;
   }
 
   &.hidden {
