@@ -19,11 +19,16 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const collectionsRepository = new CollectionsRepository();
+    const quotesRepository = new QuotesRepository();
     const collectionId = req.params.id;
 
     try {
-        const result = await collectionsRepository.findOne(collectionId);
-        res.send(result);
+        const collection = await collectionsRepository.findOne(collectionId);
+        const quotes = await quotesRepository.getByCollectionId(collectionId);
+        res.send({
+            collection,
+            quotes,
+        });
     } catch (err) {
         ApiUtil.errorResponse(res, err);
     }
