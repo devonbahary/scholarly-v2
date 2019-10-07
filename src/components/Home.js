@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ApiService from "../api/ApiService";
+import { getRandomUserQuote } from "../api/quotes";
 
 import { Quote } from "./quotes/Quotes";
 
@@ -12,7 +12,7 @@ class Home extends Component {
     };
 
     async componentDidMount() {
-        const data = await ApiService.getRequest('/api/quotes/random');
+        const data = await getRandomUserQuote();
         if (!data) return;
 
         this.setState({

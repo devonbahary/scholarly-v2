@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import ApiService from "../../api/ApiService";
+import { getUserQuotes } from "../../api/quotes";
 
 import Card from "../common/Card";
 import CollectionIcon from "../icons/CollectionIcon";
@@ -47,7 +47,7 @@ class Quotes extends Component {
     };
 
     async componentDidMount() {
-        const data = await ApiService.getRequest('/api/quotes');
+        const data = await getUserQuotes();
         if (!data) return;
 
         this.setState({

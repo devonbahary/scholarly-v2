@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import ApiService from "../../api/ApiService";
+import { getUserCollections, saveCollection } from "../../api/collections";
 
 import Card from "../common/Card";
 import CollectionIcon from "../icons/CollectionIcon";
@@ -45,7 +45,7 @@ class Collections extends Component {
     };
 
     async componentDidMount() {
-        const data = await ApiService.getRequest('/api/collections');
+        const data = await getUserCollections();
         if (!data) return;
 
         this.setState({ collections: data });
@@ -80,7 +80,7 @@ class Collections extends Component {
             });
 
             const collection = { title };
-            const data = await ApiService.postRequest('/api/collections', collection);
+            const data = await saveCollection(collection);
 
             if (data) {
                 const { insertId: id } = data;

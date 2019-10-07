@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import ApiService from "../../api/ApiService";
+import { getCollection } from "../../api/collections";
 
 import CollectionIcon from "../icons/CollectionIcon";
 import { Quote } from "../quotes/Quotes";
@@ -14,7 +14,7 @@ class Collection extends Component {
 
     async componentDidMount() {
         const collectionId = this.props.match.params.id;
-        const data = await ApiService.getRequest(`/api/collections/${collectionId}`);
+        const data = await getCollection(collectionId);
         if (data) {
             const { collection, quotes } = data;
             this.setState({
