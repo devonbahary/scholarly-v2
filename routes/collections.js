@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
     const { title } = req.body;
 
     try {
-        const result = await collectionsRepository.insertInto({ title, user_id: USER_ID });
+        const result = await collectionsRepository.insertInto({ title, USER_ID });
         ApiUtil.newRecordResponse(res, result);
     } catch (err) {
         ApiUtil.errorResponse(res, err);
