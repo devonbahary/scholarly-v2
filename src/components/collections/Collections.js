@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import useAddResourceState from "../hooks/useAddResourceState";
 import useLoadingState from "../hooks/useLoadingState";
 import { getUserCollections, saveCollection } from "../../api/collections";
 
@@ -38,10 +39,6 @@ const Collection = ({ id, isNew, onClick, title, quoteCount }) => {
 
 const Collections = ({ history }) => {
     const [ collections, setCollections ] = useState([]);
-    const [ isAddingCollection, setIsAddingCollection ] = useState(false);
-    const [ isSavingCollection, setIsSavingCollection ] = useState(false);
-    const [ isErrorSavingCollection, setIsErrorSavingCollection ] = useState(false);
-    const [ newTitle, setNewTitle ] = useState('');
 
     const {
         isLoading,
@@ -49,74 +46,49 @@ const Collections = ({ history }) => {
         loadData,
     } = useLoadingState(setCollections, getUserCollections);
 
-    const toggleIsAddingCollection = () => {
-        setIsAddingCollection(!isAddingCollection);
-        setIsSavingCollection(false);
-        setIsErrorSavingCollection(false);
-        setNewTitle('');
-    };
-
-    const handleTitleChange = e => {
-        setNewTitle(e.target.value);
-        setIsErrorSavingCollection(false);
-    };
+    const {
+        handleTextChange,
+        isAddingResource,
+        isSavingResource,
+        isErrorSavingResource,
+        saveData,
+        text,
+        toggleIsAddingResource,
+    } = useAddResourceState(saveCollection, setCollections);
 
     const handleSubmit = async () => {
-        if (!isAddingCollection) return;
-        if (!newTitle) return toggleIsAddingCollection();
-
-        setIsSavingCollection(true);
-        setIsErrorSavingCollection(false);
-
-        const collection = { title: newTitle };
-        const data = await saveCollection(collection);
-
-        if (data) {
-            const { insertId: id } = data;
-            const newCollection = {
-                id,
-                isNew: true, // to flag css
-                ...collection,
-            };
-
-            setCollections([ newCollection, ...collections ]);
-            setIsSavingCollection(false);
-            setIsErrorSavingCollection(false);
-            toggleIsAddingCollection();
-        } else {
-            setIsSavingCollection(false);
-            setIsErrorSavingCollection(true);
-        }
+        const collection = { title: text };
+        await saveData(collection , collections)
     };
 
     const linkTo = collectionId => history.push(`/collections/${collectionId}`);
 
     let classNameCard;
-    if (!isAddingCollection) {
+    if (!isAddingResource) {
         classNameCard = cardStyles.hidden;
-    } else if (isErrorSavingCollection) {
+    } else if (isErrorSavingResource) {
         classNameCard = cardStyles.error;
     }
-    const cardBody = isAddingCollection && (
+    const cardBody = isAddingResource & (
         <InputTitle
-            value={newTitle}
-            onChange={handleTitleChange}
+            value={text}
+            onChange={handleTextChange}
             onSubmit={handleSubmit}
-            isSaving={isSavingCollection}
+            isSaving={isSavingResource}
         />
     );
 
     let cardFooter;
-    if (isErrorSavingCollection) {
+    if (isErrorSavingResource) {
         cardFooter = (
             <Fragment>
                 <ExclamationIcon /> Error
             </Fragment>
         );
-    } else if (isAddingCollection) {
+    } else if (isAddingResource) {
         cardFooter = (
             <Fragment>
-                {newTitle.length} / 255
+                {text.length} / 255
             </Fragment>
         );
     }
@@ -143,8 +115,8 @@ const Collections = ({ history }) => {
             body={body}
             headerNavIcon={<CollectionIcon />}
             headerNavText="Collections"
-            headerButton={<PlusIcon rotate={isAddingCollection} />}
-            headerButtonOnClick={toggleIsAddingCollection}
+            headerButton={<PlusIcon rotate={isAddingResource}/>}
+            headerButtonOnClick={toggleIsAddingResource}
             isLoading={isLoading}
             isLoadingError={isLoadingError}
             onLoadRetry={loadData}
