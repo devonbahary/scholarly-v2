@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import Textarea from "react-textarea-autosize";
 import useLoadingState from "../hooks/useLoadingState";
 import { getUserQuotes } from "../../api/quotes";
 
@@ -12,12 +13,20 @@ import View from "../common/View";
 import quotesStyles from "../../styles/Quotes.scss";
 
 
-// history is used as a flag to display footer with link
-export const Quote = ({ text, collectionId, collectionTitle, history }) => {
+export const Quote = ({
+    collectionId,
+    collectionTitle,
+    history, // history is used as a flag to display footer with link
+    text: quoteText,
+}) => {
+    const [ text, setText ] = useState(quoteText);
+
+    const handleChange = e => setText(e.target.value);
+
     const body = (
         <Fragment>
             <QuoteLeftIcon className={quotesStyles.quoteLeft} />
-            {text}
+            <Textarea value={text} onChange={handleChange} />
             <QuoteRightIcon className={quotesStyles.quoteRight} />
         </Fragment>
     );

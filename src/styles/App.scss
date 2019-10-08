@@ -14,14 +14,21 @@ body {
   padding: 0;
 }
 
-input[type="text"] {
+input[type="text"],
+textarea {
   border: none;
   background: inherit;
   width: 100%;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus,
+textarea:focus {
   outline: none;
+}
+
+textarea {
+  font-size: 100%;
+  resize: none;
 }
 
 .footer {
