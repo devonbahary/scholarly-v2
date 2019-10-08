@@ -8,13 +8,12 @@ import PlusIcon from "../icons/PlusIcon";
 import View from "../common/View";
 
 const Collection = ({ match }) => {
+    const collectionId = match.params.id;
+
     const [ collection, setCollection ] = useState(null);
     const [ quotes, setQuotes ] = useState([]);
 
-    const loadFunction = () => {
-        const collectionId = match.params.id;
-        return getCollection(collectionId);
-    };
+    const loadFunction = () => getCollection(collectionId);
 
     const setCollectionAndQuotes = data => {
         if (data) {
