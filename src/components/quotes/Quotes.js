@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import Textarea from "react-textarea-autosize";
 import useLoadingState from "../hooks/useLoadingState";
 import { getUserQuotes } from "../../api/quotes";
@@ -14,19 +14,33 @@ import quotesStyles from "../../styles/Quotes.scss";
 
 
 export const Quote = ({
+    classNameCard,
     collectionId,
     collectionTitle,
     history, // history is used as a flag to display footer with link
-    text: quoteText,
+    isAddingQuote,
+    text: quoteText = '',
 }) => {
     const [ text, setText ] = useState(quoteText);
+    const textAreaRef = useRef(null);
+
+    useEffect(() => {
+        if (isAddingQuote) {
+            setText('');
+            textAreaRef.current.focus();
+        }
+    }, [ isAddingQuote ]);
 
     const handleChange = e => setText(e.target.value);
 
     const body = (
         <Fragment>
             <QuoteLeftIcon className={quotesStyles.quoteLeft} />
-            <Textarea value={text} onChange={handleChange} />
+            <Textarea
+                inputRef={textAreaRef}
+                onChange={handleChange}
+                value={text}
+            />
             <QuoteRightIcon className={quotesStyles.quoteRight} />
         </Fragment>
     );
@@ -45,6 +59,7 @@ export const Quote = ({
     return (
         <Card
             body={body}
+            classNameCard={classNameCard}
             footer={footer}
             onFooterClick={onFooterClick}
         />

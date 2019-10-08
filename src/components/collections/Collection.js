@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, {Fragment, useState} from "react";
 import useLoadingState from "../hooks/useLoadingState";
 import { getCollection } from "../../api/collections";
 
 import CollectionIcon from "../icons/CollectionIcon";
-import { QuoteList } from "../quotes/Quotes";
+import { Quote, QuoteList } from "../quotes/Quotes";
 import PlusIcon from "../icons/PlusIcon";
 import View from "../common/View";
+
+import cardStyles from "../../styles/Card.scss";
+
+const AddQuote = ({ isAddingQuote }) => {
+    const classNameCard = !isAddingQuote ? cardStyles.hidden : '';
+
+    return (
+        <Quote classNameCard={classNameCard} isAddingQuote={isAddingQuote} />
+    );
+};
 
 const Collection = ({ match }) => {
     const collectionId = match.params.id;
@@ -32,12 +42,24 @@ const Collection = ({ match }) => {
         loadData,
     } = useLoadingState(setCollectionAndQuotes, loadFunction);
 
+    const [ isAddingQuote, setIsAddingQuote ] = useState(false);
+
+    const toggleIsAddingResource = () => setIsAddingQuote(!isAddingQuote);
+
+    const body = (
+        <Fragment>
+            <AddQuote isAddingQuote={isAddingQuote} />
+            <QuoteList quotes={quotes} />
+        </Fragment>
+    );
+
     return (
         <View
-            body={<QuoteList quotes={quotes} />}
+            body={body}
             headerNavIcon={<CollectionIcon />}
             headerNavText={collection ? collection.title : ''}
-            headerButton={<PlusIcon />}
+            headerButton={<PlusIcon rotate={isAddingQuote} />}
+            headerButtonOnClick={toggleIsAddingResource}
             isLoading={isLoading}
             isLoadingError={isLoadingError}
             onLoadRetry={loadData}
