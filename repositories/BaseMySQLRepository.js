@@ -23,6 +23,8 @@ export default class BaseMySQLRepository {
             values: [],
         };
         return _.entries(record).reduce((data, [ key, val ]) => {
+            if (val === undefined) return data;
+
             const columnName = snakeCase(key);
             if (!this.writeColumns.includes(columnName)) {
                 throw new Error(`Cannot INSERT INTO column ${columnName} for record property ${key}`);
