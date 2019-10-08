@@ -69,7 +69,7 @@ const Collections = ({ history }) => {
     } else if (isErrorSavingResource) {
         classNameCard = cardStyles.error;
     }
-    const cardBody = isAddingResource & (
+    const cardBody = isAddingResource && (
         <InputTitle
             value={text}
             onChange={handleTextChange}
@@ -115,7 +115,7 @@ const Collections = ({ history }) => {
             body={body}
             headerNavIcon={<CollectionIcon />}
             headerNavText="Collections"
-            headerButton={<PlusIcon rotate={isAddingResource}/>}
+            headerButton={<PlusIcon rotate={isAddingResource} />}
             headerButtonOnClick={toggleIsAddingResource}
             isLoading={isLoading}
             isLoadingError={isLoadingError}
