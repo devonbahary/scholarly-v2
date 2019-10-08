@@ -42,6 +42,16 @@ export const Quote = ({ text, collectionId, collectionTitle, history }) => {
     );
 };
 
+export const QuoteList = ({ history, quotes }) => {
+    return quotes && (
+        <Fragment>
+            {quotes.map(quote => (
+                <Quote key={quote.id} {...quote} history={history} />
+            ))}
+        </Fragment>
+    );
+};
+
 const Quotes = ({ history }) => {
     const [ quotes, setQuotes ] = useState([]);
 
@@ -51,17 +61,9 @@ const Quotes = ({ history }) => {
         loadData,
     } = useLoadingState(setQuotes, getUserQuotes);
 
-    const body = quotes && (
-        <Fragment>
-            {quotes.map(quote => (
-                <Quote key={quote.id} {...quote} history={history} />
-            ))}
-        </Fragment>
-    );
-
     return (
         <View
-            body={body}
+            body={<QuoteList quotes={quotes} history={history} />}
             headerNavIcon={<QuoteRightIcon />}
             headerNavText="Quotes"
             headerButton={<PlusIcon />}

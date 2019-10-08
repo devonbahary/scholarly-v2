@@ -1,9 +1,9 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import useLoadingState from "../hooks/useLoadingState";
 import { getCollection } from "../../api/collections";
 
 import CollectionIcon from "../icons/CollectionIcon";
-import { Quote } from "../quotes/Quotes";
+import { QuoteList } from "../quotes/Quotes";
 import PlusIcon from "../icons/PlusIcon";
 import View from "../common/View";
 
@@ -33,16 +33,9 @@ const Collection = ({ match }) => {
         loadData,
     } = useLoadingState(setCollectionAndQuotes, loadFunction);
 
-    const body = (
-        <Fragment>
-            {quotes && quotes.map(quote => (
-                <Quote key={quote.id} {...quote} />
-            ))}
-        </Fragment>
-    );
     return (
         <View
-            body={body}
+            body={<QuoteList quotes={quotes} />}
             headerNavIcon={<CollectionIcon />}
             headerNavText={collection ? collection.title : ''}
             headerButton={<PlusIcon />}
