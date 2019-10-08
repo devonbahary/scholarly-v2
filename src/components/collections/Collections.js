@@ -37,6 +37,54 @@ const Collection = ({ id, isNew, onClick, title, quoteCount }) => {
     );
 };
 
+const AddCollection = ({
+    handleTextChange,
+    handleSubmit,
+    isSavingResource,
+    isAddingResource,
+    isErrorSavingResource,
+    text,
+}) => {
+    let classNameCard;
+    if (!isAddingResource) {
+        classNameCard = cardStyles.hidden;
+    } else if (isErrorSavingResource) {
+        classNameCard = cardStyles.error;
+    }
+
+    const cardBody = isAddingResource && (
+        <InputTitle
+            value={text}
+            onChange={handleTextChange}
+            onSubmit={handleSubmit}
+            isSaving={isSavingResource}
+        />
+    );
+
+    let cardFooter;
+    if (isErrorSavingResource) {
+        cardFooter = (
+            <Fragment>
+                <ExclamationIcon /> Error
+            </Fragment>
+        );
+    } else if (isAddingResource) {
+        cardFooter = (
+            <Fragment>
+                {text.length} / 255
+            </Fragment>
+        );
+    }
+
+    return (
+        <Card
+            classNameCard={classNameCard}
+            body={cardBody}
+            footer={cardFooter}
+        />
+    );
+};
+
 const Collections = ({ history }) => {
     const [ collections, setCollections ] = useState([]);
 
@@ -63,42 +111,15 @@ const Collections = ({ history }) => {
 
     const linkTo = collectionId => history.push(`/collections/${collectionId}`);
 
-    let classNameCard;
-    if (!isAddingResource) {
-        classNameCard = cardStyles.hidden;
-    } else if (isErrorSavingResource) {
-        classNameCard = cardStyles.error;
-    }
-    const cardBody = isAddingResource && (
-        <InputTitle
-            value={text}
-            onChange={handleTextChange}
-            onSubmit={handleSubmit}
-            isSaving={isSavingResource}
-        />
-    );
-
-    let cardFooter;
-    if (isErrorSavingResource) {
-        cardFooter = (
-            <Fragment>
-                <ExclamationIcon /> Error
-            </Fragment>
-        );
-    } else if (isAddingResource) {
-        cardFooter = (
-            <Fragment>
-                {text.length} / 255
-            </Fragment>
-        );
-    }
-
     const body = (
         <Fragment>
-            <Card
-                classNameCard={classNameCard}
-                body={cardBody}
-                footer={cardFooter}
+            <AddCollection
+                isAddingResource={isAddingResource}
+                isErrorSavingResource={isErrorSavingResource}
+                isSavingResource={isSavingResource}
+                handleSubmit={handleSubmit}
+                handleTextChange={handleTextChange}
+                text={text}
             />
             {collections && collections.map(collection => (
                 <Collection
