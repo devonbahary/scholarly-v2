@@ -15,6 +15,15 @@
   letter-spacing: 2px;
 }
 
+@mixin hide {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 0;
+  min-height: 0;
+  visibility: hidden;
+  opacity: 0;
+};
+
 @mixin opacity-faded {
   opacity: 0.6;
 }

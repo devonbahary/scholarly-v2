@@ -36,9 +36,6 @@
   }
 
   &.hidden {
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 0;
-    min-height: 0;
+    @include hide;
   }
 }
