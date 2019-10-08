@@ -1,51 +1,56 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
+import useLoadingState from "../hooks/useLoadingState";
 import { getCollection } from "../../api/collections";
 
 import CollectionIcon from "../icons/CollectionIcon";
-import { LoadingComponent } from "../common/LoadingComponent";
 import { Quote } from "../quotes/Quotes";
 import PlusIcon from "../icons/PlusIcon";
 import View from "../common/View";
 
-class Collection extends LoadingComponent {
-    state = {
-        collection: null,
-        quotes: [],
-    };
+const Collection = ({ match }) => {
+    const [ collection, setCollection ] = useState(null);
+    const [ quotes, setQuotes ] = useState([]);
 
-    loadApiCall = () => {
-        const collectionId = this.props.match.params.id;
+    const loadFunction = () => {
+        const collectionId = match.params.id;
         return getCollection(collectionId);
     };
-    onLoadSuccess = data => {
-        const { collection, quotes } = data;
-        this.setState({
-            collection,
-            quotes,
-        });
+
+    const setCollectionAndQuotes = data => {
+        if (data) {
+            const { collection, quotes } = data;
+            setCollection(collection);
+            setQuotes(quotes);
+        } else {
+            setCollection(null);
+            setQuotes([]);
+        }
     };
 
-    render() {
-        const { collection, quotes, isLoading, isLoadingError } = this.state;
-        const body = (
-            <Fragment>
-                {quotes.map(quote => (
-                    <Quote key={quote.id} {...quote} />
-                ))}
-            </Fragment>
-        );
-        return (
-            <View
-                body={body}
-                headerNavIcon={<CollectionIcon />}
-                headerNavText={collection ? collection.title : ''}
-                headerButton={<PlusIcon />}
-                isLoading={isLoading}
-                isLoadingError={isLoadingError}
-                onLoadRetry={this.loadState}
-            />
-        );
-    };
-}
+    const {
+        isLoading,
+        isLoadingError,
+        loadData,
+    } = useLoadingState(setCollectionAndQuotes, loadFunction);
+
+    const body = (
+        <Fragment>
+            {quotes && quotes.map(quote => (
+                <Quote key={quote.id} {...quote} />
+            ))}
+        </Fragment>
+    );
+    return (
+        <View
+            body={body}
+            headerNavIcon={<CollectionIcon />}
+            headerNavText={collection ? collection.title : ''}
+            headerButton={<PlusIcon />}
+            isLoading={isLoading}
+            isLoadingError={isLoadingError}
+            onLoadRetry={loadData}
+        />
+    );
+};
 
 export default Collection;

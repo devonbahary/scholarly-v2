@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
+import useLoadingState from "../hooks/useLoadingState";
 import { getUserQuotes } from "../../api/quotes";
 
 import Card from "../common/Card";
 import CollectionIcon from "../icons/CollectionIcon";
-import { LoadingComponent } from "../common/LoadingComponent";
 import PlusIcon from "../icons/PlusIcon";
 import QuoteLeftIcon from "../icons/QuoteLeftIcon";
 import QuoteRightIcon from "../icons/QuoteRightIcon";
@@ -42,40 +42,34 @@ export const Quote = ({ text, collectionId, collectionTitle, history }) => {
     );
 };
 
-class Quotes extends LoadingComponent {
-    state = {
-        quotes: [],
-    };
+const Quotes = ({ history }) => {
+    const [ quotes, setQuotes ] = useState([]);
 
-    loadApiCall = () => getUserQuotes();
-    onLoadSuccess = data => {
-        this.setState({
-            quotes: data,
-        });
-    };
+    const {
+        isLoading,
+        isLoadingError,
+        loadData,
+    } = useLoadingState(setQuotes, getUserQuotes);
 
-    render() {
-        const body = (
-            <Fragment>
-                {this.state.quotes.map(quote => (
-                    <Quote key={quote.id} {...quote} history={this.props.history} />
-                ))}
-            </Fragment>
-        );
+    const body = quotes && (
+        <Fragment>
+            {quotes.map(quote => (
+                <Quote key={quote.id} {...quote} history={history} />
+            ))}
+        </Fragment>
+    );
 
-        const { isLoading, isLoadingError } = this.state;
-        return (
-            <View
-                body={body}
-                headerNavIcon={<QuoteRightIcon />}
-                headerNavText="Quotes"
-                headerButton={<PlusIcon />}
-                isLoading={isLoading}
-                isLoadingError={isLoadingError}
-                onLoadRetry={this.loadState}
-            />
-        );
-    };
+    return (
+        <View
+            body={body}
+            headerNavIcon={<QuoteRightIcon />}
+            headerNavText="Quotes"
+            headerButton={<PlusIcon />}
+            isLoading={isLoading}
+            isLoadingError={isLoadingError}
+            onLoadRetry={loadData}
+        />
+    );
 };
 
 export default Quotes;

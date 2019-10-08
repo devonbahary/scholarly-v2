@@ -1,43 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import useLoadingState from "./hooks/useLoadingState";
 import { getRandomUserQuote } from "../api/quotes";
 
-import { LoadingComponent } from "./common/LoadingComponent";
 import { Quote } from "./quotes/Quotes";
 import View from "./common/View";
 
 import styles from "../styles/Home.scss";
 
 
-class Home extends LoadingComponent {
-    state = {
-        quote: null,
-    };
+const Home = ({ history }) => {
+    const [ quote, setQuote ] = useState(null);
 
-    loadApiCall = getRandomUserQuote;
-    onLoadSuccess = data => {
-        this.setState({
-            quote: data,
-        })
-    };
+    const {
+        isLoading,
+        isLoadingError,
+        loadData,
+    } = useLoadingState(setQuote, getRandomUserQuote);
 
-    render() {
-        const { quote, isLoading, isLoadingError } = this.state;
+    const body = (
+        <div className={styles.home}>
+            {quote && <Quote {...quote} history={history} />}
+        </div>
+    );
 
-        const body = (
-            <div className={styles.home}>
-                {quote && <Quote {...quote} history={this.props.history} />}
-            </div>
-        );
-
-        return (
-            <View
-                body={body}
-                isLoading={isLoading}
-                isLoadingError={isLoadingError}
-                onLoadRetry={this.loadState}
-            />
-        );
-    };
+    return (
+        <View
+            body={body}
+            isLoading={isLoading}
+            isLoadingError={isLoadingError}
+            onLoadRetry={loadData}
+        />
+    );
 };
 
 export default Home;
