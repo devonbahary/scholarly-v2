@@ -1,3 +1,4 @@
+@import "./animations";
 @import "./variables";
 @import "./mixins";
 
@@ -16,4 +17,8 @@
 .quoteRight {
   bottom: 0;
   right: -$bufferMd;
+}
+
+.new {
+  @include animation-show;
 }

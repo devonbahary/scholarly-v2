@@ -1,4 +1,9 @@
 @import "./variables";
+@import "./mixins";
+
+@mixin animation-show {
+  animation: show $animationDelay;
+}
 
 @mixin animation-fade-in {
   animation: fade-in $animationDelay;
@@ -15,6 +20,11 @@
 @mixin animation-spin {
   animation: spin $animationDelay linear infinite;
 }
+
+@keyframes show {
+  from { @include hide }
+  to { }
+};
 
 @keyframes fade-in {
   from { opacity: 0; }
