@@ -26,6 +26,8 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      font-weight: bold;
+      @include opacity-faded;
       @include decorated-text;
     }
   }
