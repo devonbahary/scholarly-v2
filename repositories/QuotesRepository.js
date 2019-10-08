@@ -12,13 +12,14 @@ export default class QuotesRepository extends BaseMySQLRepository {
     static getReadColumns() {
         return [
             'id',
-            'text',
             'collection_id',
+            'text',
         ];
     };
 
     static getWriteColumns() {
         return [
+            'collection_id',
             'text',
             'user_id',
         ];

@@ -16,6 +16,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.post('/', async (req, res) => {
+    const quotesRepository = new QuotesRepository();
+    const { collectionId, text } = req.body;
+    try {
+        const result = await quotesRepository.insertInto({ collectionId, text, USER_ID });
+        ApiUtil.newRecordResponse(res, result);
+    } catch (err) {
+        ApiUtil.errorResponse(res, err);
+    }
+});
+
 router.get('/random', async (req, res) => {
     const quotesRepository = new QuotesRepository();
     try {
