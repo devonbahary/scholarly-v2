@@ -27,6 +27,7 @@
       white-space: nowrap;
       overflow: hidden;
       font-weight: bold;
+      font-size: 120%;
       @include opacity-faded;
       @include decorated-text;
     }
