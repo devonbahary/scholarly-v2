@@ -48,8 +48,9 @@ const AddCollection = ({
     let classNameCard;
     if (!isAddingResource) {
         classNameCard = cardStyles.hidden;
-    } else if (isErrorSavingResource) {
-        classNameCard = cardStyles.error;
+    }
+    if (isErrorSavingResource) {
+        classNameCard += ` ${cardStyles.error}`;
     }
 
     const cardBody = isAddingResource && (

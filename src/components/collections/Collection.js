@@ -1,39 +1,28 @@
-import React, {Fragment, useState} from "react";
+import uuid from "uuid";
+import React, { useState } from "react";
 import useLoadingState from "../hooks/useLoadingState";
 import { getCollection } from "../../api/collections";
 
 import CollectionIcon from "../icons/CollectionIcon";
-import { Quote, QuoteList } from "../quotes/Quotes";
+import { QuoteList } from "../quotes/Quotes";
 import PlusIcon from "../icons/PlusIcon";
 import View from "../common/View";
 
-import cardStyles from "../../styles/Card.scss";
-
-const AddQuote = ({ isAddingQuote }) => {
-    const classNameCard = !isAddingQuote ? cardStyles.hidden : '';
-
-    return (
-        <Quote classNameCard={classNameCard} isAddingQuote={isAddingQuote} />
-    );
-};
 
 const Collection = ({ match }) => {
     const collectionId = match.params.id;
 
     const [ collection, setCollection ] = useState(null);
     const [ quotes, setQuotes ] = useState([]);
+    const [ isAddingQuote, setIsAddingQuote ] = useState(false);
 
     const loadFunction = () => getCollection(collectionId);
 
     const setCollectionAndQuotes = data => {
-        if (data) {
-            const { collection, quotes } = data;
-            setCollection(collection);
-            setQuotes(quotes);
-        } else {
-            setCollection(null);
-            setQuotes([]);
-        }
+        if (!data) return;
+        const { collection, quotes } = data;
+        setCollection(collection);
+        setQuotes(quotes);
     };
 
     const {
@@ -42,24 +31,33 @@ const Collection = ({ match }) => {
         loadData,
     } = useLoadingState(setCollectionAndQuotes, loadFunction);
 
-    const [ isAddingQuote, setIsAddingQuote ] = useState(false);
 
-    const toggleIsAddingResource = () => setIsAddingQuote(!isAddingQuote);
-
-    const body = (
-        <Fragment>
-            <AddQuote isAddingQuote={isAddingQuote} />
-            <QuoteList quotes={quotes} />
-        </Fragment>
-    );
+    const toggleIsAddingQuote = () => {
+        if (isAddingQuote) {
+            quotes.forEach(quote => {
+                if (quote.isNew) quote.shouldNotRender = true;
+            });
+        } else {
+            setQuotes([
+                {
+                    id: uuid(),
+                    collectionId,
+                    text: '',
+                    isNew: true,
+                },
+                ...quotes,
+            ]);
+        }
+        setIsAddingQuote(!isAddingQuote);
+    };
 
     return (
         <View
-            body={body}
+            body={<QuoteList quotes={quotes} />}
             headerNavIcon={<CollectionIcon />}
             headerNavText={collection ? collection.title : ''}
             headerButton={<PlusIcon rotate={isAddingQuote} />}
-            headerButtonOnClick={toggleIsAddingResource}
+            headerButtonOnClick={toggleIsAddingQuote}
             isLoading={isLoading}
             isLoadingError={isLoadingError}
             onLoadRetry={loadData}

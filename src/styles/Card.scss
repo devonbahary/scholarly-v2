@@ -35,6 +35,14 @@
     @include animation-error;
   }
 
+  &.new {
+    @include animation-show;
+  }
+
+  &.hide {
+    @include animation-hide;
+  }
+
   &.hidden {
     @include hide;
   }

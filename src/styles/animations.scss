@@ -5,6 +5,10 @@
   animation: show $animationDelay;
 }
 
+@mixin animation-hide {
+  animation: hide $animationDelay;
+}
+
 @mixin animation-fade-in {
   animation: fade-in $animationDelay;
 }
@@ -24,7 +28,12 @@
 @keyframes show {
   from { @include hide }
   to { }
-};
+}
+
+@keyframes hide {
+  from { }
+  to { @include hide }
+}
 
 @keyframes fade-in {
   from { opacity: 0; }

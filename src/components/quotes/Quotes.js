@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useState } from "react";
 import Textarea from "react-textarea-autosize";
 import useLoadingState from "../hooks/useLoadingState";
 import { getUserQuotes } from "../../api/quotes";
@@ -10,26 +10,21 @@ import QuoteLeftIcon from "../icons/QuoteLeftIcon";
 import QuoteRightIcon from "../icons/QuoteRightIcon";
 import View from "../common/View";
 
+import cardStyles from "../../styles/Card.scss";
 import quotesStyles from "../../styles/Quotes.scss";
 
 
 export const Quote = ({
-    classNameCard,
     collectionId,
     collectionTitle,
     history, // history is used as a flag to display footer with link
-    isAddingQuote,
+    isNew,
+    shouldNotRender,
     text: quoteText = '',
 }) => {
-    const [ text, setText ] = useState(quoteText);
-    const textAreaRef = useRef(null);
+    const isAdding = isNew && !shouldNotRender;
 
-    useEffect(() => {
-        if (isAddingQuote) {
-            setText('');
-            textAreaRef.current.focus();
-        }
-    }, [ isAddingQuote ]);
+    const [ text, setText ] = useState(quoteText);
 
     const handleChange = e => setText(e.target.value);
 
@@ -37,7 +32,7 @@ export const Quote = ({
         <Fragment>
             <QuoteLeftIcon className={quotesStyles.quoteLeft} />
             <Textarea
-                inputRef={textAreaRef}
+                autoFocus={isNew}
                 onChange={handleChange}
                 value={text}
             />
@@ -54,7 +49,9 @@ export const Quote = ({
     const onFooterClick = () => {
         if (!collectionId || !history) return;
         history.push(`/collections/${collectionId}`);
-    } ;
+    };
+
+    const classNameCard = isAdding ? cardStyles.new : '';
 
     return (
         <Card
@@ -62,6 +59,7 @@ export const Quote = ({
             classNameCard={classNameCard}
             footer={footer}
             onFooterClick={onFooterClick}
+            shouldNotRender={shouldNotRender}
         />
     );
 };
