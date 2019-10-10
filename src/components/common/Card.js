@@ -19,12 +19,13 @@ const Card = ({
         setTimeout(() => setIsMounted(false), DISMOUNT_DELAY);
     }, [ shouldNotRender ]);
 
-    let className = `${styles.card} ${classNameCard}`;
+    let className = styles.card;
+    if (classNameCard) className += ` ${classNameCard}`;
     if (shouldNotRender) className += ` ${styles.hide}`;
 
     return isMounted && (
         <div className={className} onClick={onCardClick}>
-            <div className={`${styles.body} ${classNameBody}`}>
+            <div className={`${styles.body} ${classNameBody ? classNameBody : ''}`}>
                 {body}
             </div>
             <div className={styles.footer} onClick={onFooterClick}>
