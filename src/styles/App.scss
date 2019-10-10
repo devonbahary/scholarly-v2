@@ -29,6 +29,7 @@ textarea:focus {
 textarea {
   font-size: 100%;
   resize: none;
+  overflow: hidden;
 }
 
 .footer {
