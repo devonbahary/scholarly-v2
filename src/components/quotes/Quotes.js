@@ -18,21 +18,28 @@ export const Quote = ({
     collectionId,
     collectionTitle,
     history, // history is used as a flag to display footer with link
-    isNew,
+    id,
+    keyId,
+    onSave,
     shouldNotRender,
     text: quoteText = '',
 }) => {
-    const isAdding = isNew && !shouldNotRender;
+    const isAdding = !id && !shouldNotRender;
 
     const [ text, setText ] = useState(quoteText);
 
     const handleChange = e => setText(e.target.value);
 
+    const handleSave = () => {
+        onSave({ id, keyId, collectionId, text });
+    };
+
     const body = (
         <Fragment>
             <QuoteLeftIcon className={quotesStyles.quoteLeft} />
             <Textarea
-                autoFocus={isNew}
+                autoFocus={isAdding}
+                onBlur={handleSave}
                 onChange={handleChange}
                 value={text}
             />
@@ -64,11 +71,11 @@ export const Quote = ({
     );
 };
 
-export const QuoteList = ({ history, quotes }) => {
+export const QuoteList = ({ history, onSave, quotes }) => {
     return quotes && (
         <Fragment>
             {quotes.map(quote => (
-                <Quote key={quote.id} {...quote} history={history} />
+                <Quote key={quote.keyId} {...quote} history={history} onSave={onSave} />
             ))}
         </Fragment>
     );
