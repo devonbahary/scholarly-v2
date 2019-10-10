@@ -10,6 +10,7 @@
   transition: $animationDelay;
 
   .body {
+    min-height: 3rem;
     position: relative;
     display: flex;
     align-items: center;
