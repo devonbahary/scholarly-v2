@@ -17,7 +17,7 @@ export default class BaseMySQLRepository {
     };
 
     // allows us to write to snake_case MySQL columns with JavaScript camelCase object properties
-    getInsertIntoData(record) {
+    getWriteData(record) {
         const data = {
             writeColumns: [],
             values: [],
@@ -60,10 +60,19 @@ export default class BaseMySQLRepository {
     };
 
     insertInto(record) {
-        const { writeColumns, values } = this.getInsertIntoData(record);
+        const { writeColumns, values } = this.getWriteData(record);
         return this.query(`
             INSERT INTO ${this.tableName}
             SET ${writeColumns.map(writeColumn => `${writeColumn} = ?`).join(', ')}
         `, values);
+    };
+
+    updateById(id, record) {
+        const { writeColumns, values } = this.getWriteData(record);
+        return this.query(`
+            UPDATE ${this.tableName}
+            SET ${writeColumns.map(writeColumn => `${writeColumn} = ?`).join(', ')}
+            WHERE id = ?
+        `, [ ...values, id ]);
     };
 };
