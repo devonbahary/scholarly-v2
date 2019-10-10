@@ -1,3 +1,4 @@
+import uuid from 'uuid';
 import React, { Fragment, useState } from "react";
 import Textarea from "react-textarea-autosize";
 import useLoadingState from "../hooks/useLoadingState";
@@ -84,11 +85,19 @@ export const QuoteList = ({ history, onSave, quotes }) => {
 const Quotes = ({ history }) => {
     const [ quotes, setQuotes ] = useState([]);
 
+    const handleLoad = data => {
+        if (!data) return;
+        setQuotes(data.map(data => ({
+            keyId: uuid(),
+            ...data,
+        })));
+    };
+
     const {
         isLoading,
         isLoadingError,
         loadData,
-    } = useLoadingState(setQuotes, getUserQuotes);
+    } = useLoadingState(handleLoad, getUserQuotes);
 
     return (
         <View

@@ -19,7 +19,7 @@ const Collection = ({ match }) => {
 
     const loadFunction = () => getCollection(collectionId);
 
-    const setCollectionAndQuotes = data => {
+    const handleLoad = data => {
         if (!data) return;
         const { collection, quotes } = data;
         setCollection(collection);
@@ -33,7 +33,7 @@ const Collection = ({ match }) => {
         isLoading,
         isLoadingError,
         loadData,
-    } = useLoadingState(setCollectionAndQuotes, loadFunction);
+    } = useLoadingState(handleLoad, loadFunction);
 
     const handleSave = async savingQuote => {
         if (!savingQuote.text) return;

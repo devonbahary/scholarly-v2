@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default (setData, loadFn) => {
+export default (handleLoad, loadFn) => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ isLoadingError, setIsLoadingError ] = useState(false);
 
@@ -9,7 +9,7 @@ export default (setData, loadFn) => {
         setIsLoadingError(false);
 
         const data = await loadFn();
-        setData(data);
+        handleLoad(data);
 
         setIsLoading(false);
 
