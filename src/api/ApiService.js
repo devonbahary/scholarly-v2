@@ -22,4 +22,12 @@ export default class ApiService {
             ApiService.handleError(err);
         }
     };
+
+    static async putRequest(url, data) {
+        try {
+            return await axios.put(url, data);
+        } catch (err) {
+            ApiService.handleError(err);
+        }
+    }
 };

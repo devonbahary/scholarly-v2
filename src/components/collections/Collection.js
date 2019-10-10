@@ -16,6 +16,7 @@ const Collection = ({ match }) => {
     const [ collection, setCollection ] = useState(null);
     const [ quotes, setQuotes ] = useState([]);
     const [ isAddingQuote, setIsAddingQuote ] = useState(false);
+    const [ quoteWithErrorKeyId, setQuoteWithErrorKeyId ] = useState(null);
 
     const loadFunction = () => getCollection(collectionId);
 
@@ -37,11 +38,16 @@ const Collection = ({ match }) => {
 
     const handleSave = async savingQuote => {
         if (!savingQuote.text) return;
+        const savedQuote = quotes.find(quote => quote.keyId === savingQuote.keyId);
+
         const data = await saveQuote(savingQuote);
         if (data && !savingQuote.id) {
-            const savedQuote = quotes.find(quote => quote.keyId === savingQuote.keyId);
             savedQuote.id = data.insertId;
             toggleIsAddingQuote();
+        } else if (!data) {
+            setQuoteWithErrorKeyId(savingQuote.keyId);
+        } else {
+            setQuoteWithErrorKeyId(null);
         }
     };
 
@@ -66,7 +72,7 @@ const Collection = ({ match }) => {
 
     return (
         <View
-            body={<QuoteList quotes={quotes} onSave={handleSave} />}
+            body={<QuoteList quotes={quotes} errorKeyId={quoteWithErrorKeyId} onSave={handleSave} />}
             headerNavIcon={<CollectionIcon />}
             headerNavText={collection ? collection.title : ''}
             headerButton={<PlusIcon rotate={isAddingQuote} />}

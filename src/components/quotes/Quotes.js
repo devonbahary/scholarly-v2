@@ -20,6 +20,7 @@ export const Quote = ({
     collectionTitle,
     history, // history is used as a flag to display footer with link
     id,
+    isError,
     keyId,
     onSave,
     shouldNotRender,
@@ -59,7 +60,9 @@ export const Quote = ({
         history.push(`/collections/${collectionId}`);
     };
 
-    const classNameCard = isAdding ? cardStyles.new : '';
+    let classNameCard = '';
+    if (isError) classNameCard = cardStyles.error;
+    else if (isAdding) classNameCard = cardStyles.new;
 
     return (
         <Card
@@ -72,11 +75,11 @@ export const Quote = ({
     );
 };
 
-export const QuoteList = ({ history, onSave, quotes }) => {
+export const QuoteList = ({ errorKeyId, history, onSave, quotes }) => {
     return quotes && (
         <Fragment>
             {quotes.map(quote => (
-                <Quote key={quote.keyId} {...quote} history={history} onSave={onSave} />
+                <Quote key={quote.keyId} {...quote} history={history} isError={errorKeyId === quote.keyId} onSave={onSave} />
             ))}
         </Fragment>
     );
