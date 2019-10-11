@@ -1,5 +1,4 @@
 @import "./variables";
-@import "./mixins";
 
 * {
   -webkit-box-sizing: border-box;
@@ -37,12 +36,12 @@ textarea {
 }
 
 .footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   position: fixed;
   bottom: 0;
-  height: $standardHeight;
+  height: $minSize;
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   @include box-shadow;
 
   .navLink {
@@ -66,6 +65,6 @@ textarea {
 
 .main {
   position: fixed;
-  height: calc(100% - #{$standardHeight});
+  height: calc(100% - #{$minSize});
   width: 100%;
 }
