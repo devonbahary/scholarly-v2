@@ -1,18 +1,32 @@
+// COLORS
 $colorBackground: #F7F9FB;
 $colorPrimary: #8FC1E3;
 $colorSecondary: #5085A5;
 $colorTertiary: #31708E;
 $colorDark: #687864;
-
 $colorError: #FF6961;
 
-$primaryFontFamily: 'Montserrat', sans-serif;
+// FONTS
+$primaryFontFamily: 'Open Sans', sans-serif;
 $fancyFontFamily: 'Roboto', sans-serif;
 
+// SIZES
 $bufferSm: 4px;
 $bufferMd: 12px;
 $bufferLg: 24px;
 
-$standardHeight: 3rem; // recommended width + height for touch input
+$minSize: 3rem; // recommended width + height for touch input
 
+// ANIMATIONS
 $animationDelay: 1s;
+
+
+@mixin box-shadow {
+  box-shadow: 0 0 5px 1px $colorDark;
+}
+
+@mixin center-children {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
