@@ -1,0 +1,20 @@
+@import "./variables";
+
+
+.view {
+  .header {
+    background: linear-gradient(to top, $colorBackground 25%, darken($colorBackground, 5%));
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: $minSize;
+  }
+
+  .body {
+    position: fixed;
+    top: $minSize;
+    width: 100%;
+    bottom: $minSize;
+    overflow: scroll;
+  }
+}
