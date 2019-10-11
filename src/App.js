@@ -1,14 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-dom";
-import Collections from "./components/collections/Collections";
-import Home from "./components/Home";
-import Quotes from "./components/quotes/Quotes";
-import CollectionIcon from "./components/icons/CollectionIcon";
-import QuoteRightIcon from "./components/icons/QuoteRightIcon";
 
 import styles from "./styles/App.scss";
-import Collection from "./components/collections/Collection";
 
 const Tab = ({ children, exact, to}) => (
     <NavLink
@@ -22,23 +16,7 @@ const Tab = ({ children, exact, to}) => (
 );
 
 const App = () => {
-    const routes = [{
-        path: "/",
-        exact: true,
-        component: Home,
-        tabIcon: <i className="fas fa-home"></i>
-    }, {
-        path: "/collections/:id",
-        component: Collection,
-    }, {
-        path: "/collections",
-        component: Collections,
-        tabIcon: <CollectionIcon />,
-    }, {
-        path: "/quotes",
-        component: Quotes,
-        tabIcon: <QuoteRightIcon />,
-    }];
+    const routes = [];
 
     return (
         <Router>
