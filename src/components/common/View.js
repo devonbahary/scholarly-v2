@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "../../styles/View.scss";
+import styles from "./View.scss";
 
 const View = ({ body, header }) => (
     <section className={styles.view}>

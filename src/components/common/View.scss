@@ -1,0 +1,16 @@
+@import "../../styles/variables";
+
+.view {
+  display: grid;
+  grid-template-rows: $minSize 1fr;
+  height: 100%;
+  position: relative;
+
+  .header {
+    background: linear-gradient(to top, $colorBackground 25%, darken($colorBackground, 5%));
+  }
+
+  .body {
+    overflow-y: scroll;
+  }
+}
