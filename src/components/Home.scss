@@ -1,0 +1,6 @@
+@import "../styles/variables";
+
+.home {
+  height: 100%;
+  @include center-children;
+}
