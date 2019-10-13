@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useRef, useState } from "react";
 import Textarea from "react-textarea-autosize";
 
@@ -32,7 +33,10 @@ const Quote = ({
 
     const handleEditClick = () => textareaRef.current.focus();
     const handleOpenOptions = () => handleSetActiveQuote(quote.id);
-    const handleTextareaBlur = () => handleSetActiveQuote(null);
+    const handleTextareaBlur = async () => {
+        handleSetActiveQuote(null);
+        await axios.put(`/api/quotes/${quote.id}`, { ...quote, text });
+    };
     const handleTextChange = e => setText(e.target.value);
 
     const isActive = activeQuoteId === quote.id;
