@@ -1,0 +1,84 @@
+@import "../../styles/variables";
+
+.quote {
+  width: 100%;
+
+  &:not(:first-of-type) {
+    border-top: 1px solid darken($colorBackground, 10%);
+  }
+
+  .body {
+    position: relative;
+    min-height: $minSize;
+    padding: $bufferLg;
+  }
+
+  .quoteLeft,
+  .quoteRight {
+    position: absolute;
+    font-size: 80%;
+    opacity: 0.8;
+  }
+
+  .quoteLeft {
+    top: $bufferMd;
+    left: $bufferSm;
+  }
+
+  .quoteRight {
+    right: $bufferSm;
+    bottom: $bufferMd;
+  }
+
+  .footer {
+    position: relative;
+    width: 100%;
+    height: $minSize;
+
+    .buttonOpenOptions,
+    .collectionLink,
+    .options {
+      position: absolute;
+      height: 100%;
+      @include center-children;
+    }
+
+    .buttonOpenOptions {
+      width: $minSize;
+      left: $bufferMd;
+      transition: transform $animationDelay;
+
+      &.optionsActive {
+        transform: rotate(-90deg);
+        color: $colorSecondary;
+      }
+    }
+
+    .collectionLink {
+      right: $bufferMd;
+      transition: right $animationDelay;
+
+      i {
+        margin-right: 6px;
+        color: $colorSecondary;
+      }
+
+      &.optionsActive {
+        right: calc(-100% + #{$bufferMd});
+      }
+    }
+
+    .options {
+      right: calc(-100% + #{$bufferMd});
+      transition: right $animationDelay;
+
+      &.optionsActive {
+        right: $bufferMd;
+      }
+
+      .active {
+        color: $colorSecondary;
+      }
+    }
+  }
+}
