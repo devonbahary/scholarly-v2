@@ -1,0 +1,7 @@
+@import "../../../styles/variables";
+
+.icon {
+  height: $minSize;
+  min-width: $minSize;
+  @include center-children;
+}
