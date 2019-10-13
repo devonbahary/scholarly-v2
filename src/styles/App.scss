@@ -9,6 +9,8 @@
 
 body {
   background: $colorBackground;
+  color: $colorDark;
+  font-style: $primaryFontFamily;
   margin: 0;
   padding: 0;
 }
@@ -19,8 +21,8 @@ input[type="text"] {
 
 input[type="text"],
 textarea {
-  border: none;
   background: inherit;
+  border: none;
   width: 100%;
 }
 
@@ -31,29 +33,27 @@ textarea:focus {
 
 textarea {
   font-size: 100%;
-  resize: none;
   overflow: hidden;
+  resize: none;
 }
 
 .footer {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   position: fixed;
   bottom: 0;
-  height: $minSize;
   width: 100%;
+  height: $minSize;
   @include box-shadow;
 
   .navLink {
     background: $colorSecondary;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: $colorBackground;
     font-size: 150%;
     text-decoration: none;
     transition: 0.25s;
     user-select: none;
+    @include center-children;
   }
 
   .navLinkActive {
@@ -65,6 +65,6 @@ textarea {
 
 .main {
   position: fixed;
-  height: calc(100% - #{$minSize});
   width: 100%;
+  height: calc(100% - #{$minSize});
 }
