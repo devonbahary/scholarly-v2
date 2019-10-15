@@ -28,8 +28,23 @@ const Quote = ({
     handleSetActiveQuote,
     quote,
 }) => {
+    const [ isDeleted, setIsDeleted ] = useState(false);
     const [ text, setText ] = useState(quote.text);
+    const quoteRef = useRef(null);
     const textareaRef = useRef(null);
+
+    const handleDelete = async () => {
+        const data = await axios.delete(`/api/quotes/${quote.id}`);
+        if (!data) return;
+        // to smoothly collapse auto-height parent div, we must first assign an explicit height on deletion and then
+        // trigger the CSS to collapse and transition the height to 0
+        const offsetHeight = quoteRef.current.offsetHeight;
+        quoteRef.current.style.height = `${offsetHeight}px`;
+        setTimeout(() => {
+            quoteRef.current.style.height = '';
+            setIsDeleted(true);
+        }, 0);
+    };
 
     const handleEditClick = () => textareaRef.current.focus();
     const handleOpenOptions = () => handleSetActiveQuote(quote.id);
@@ -41,12 +56,13 @@ const Quote = ({
 
     const isActive = activeQuoteId === quote.id;
 
+    const className = `${styles.quote} ${isDeleted ? styles.isDeleted : ''}`;
     const classNameButtonOpenOptions = `${styles.buttonOpenOptions} ${isActive ? styles.optionsActive : ''}`;
     const classNameCollectionLink = `${styles.collectionLink} ${isActive ? styles.optionsActive : ''}`;
     const classNameOptions = `${styles.options} ${isActive ? styles.optionsActive : ''}`;
 
     return (
-        <div className={styles.quote}>
+        <div className={className} ref={quoteRef}>
             <div className={styles.body}>
                 <QuoteLeft />
                 <Textarea
@@ -66,7 +82,7 @@ const Quote = ({
                 <div className={classNameOptions}>
                     <BookIcon />
                     <EditIcon className={styles.active} onClick={handleEditClick} />
-                    <TrashIcon />
+                    <TrashIcon onClick={handleDelete} />
                 </div>
             </div>
         </div>
