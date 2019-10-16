@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, {useState, useEffect, Fragment} from "react";
+
+import Icon from "../common/icons/Icon";
 import Quote from "../common/Quote";
 import View from "../common/View";
 
@@ -35,8 +37,15 @@ const Quotes = () => {
             ))}
         </Fragment>
     );
+
+    const headerIcon = (
+        <Icon>
+            <i className="fas fa-quote-left"></i>
+        </Icon>
+    );
+
     return (
-        <View body={body} />
+        <View body={body} headerIcon={headerIcon} headerTitle="Quotes" />
     );
 };
 
