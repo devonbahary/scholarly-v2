@@ -1,12 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "mobx-react";
 import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-dom";
+
+import Store from "./stores/Store";
+import QuotesApi from "./api/QuotesApi";
 
 import Collections from "./components/collections/Collections";
 import Home from "./components/Home";
 import Quotes from "./components/quotes/Quotes";
 
 import styles from "./styles/App.scss";
+
+
+const quotesApi = new QuotesApi();
+const store = new Store(quotesApi);
 
 
 const Tab = ({ children, exact, to}) => (
@@ -37,22 +45,24 @@ const App = () => {
     }];
 
     return (
-        <Router>
-            <main className={styles.main}>
-                <Switch>
-                    {routes.map(({ component, exact, path }) => (
-                        <Route key={path} exact={exact} path={path} component={component} />
+        <Provider store={store}>
+            <Router>
+                <main className={styles.main}>
+                    <Switch>
+                        {routes.map(({ component, exact, path }) => (
+                            <Route key={path} exact={exact} path={path} component={component} />
+                        ))}
+                    </Switch>
+                </main>
+                <footer className={styles.footer}>
+                    {routes.filter(route => route.tabIcon).map(({ exact, path, tabIcon }) => (
+                        <Tab key={path} exact={exact} to={path}>
+                            {tabIcon}
+                        </Tab>
                     ))}
-                </Switch>
-            </main>
-            <footer className={styles.footer}>
-                {routes.filter(route => route.tabIcon).map(({ exact, path, tabIcon }) => (
-                    <Tab key={path} exact={exact} to={path}>
-                        {tabIcon}
-                    </Tab>
-                ))}
-            </footer>
-        </Router>
+                </footer>
+            </Router>
+        </Provider>
     );
 };
 

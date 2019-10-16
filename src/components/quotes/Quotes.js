@@ -1,42 +1,32 @@
-import axios from "axios";
-import React, {useState, useEffect, Fragment} from "react";
+import { inject, observer } from "mobx-react";
+import React, { useEffect, Fragment } from "react";
 
 import Icon from "../common/icons/Icon";
 import Quote from "../common/Quote";
 import View from "../common/View";
+import PlusIcon from "../common/icons/PlusIcon";
 
 
-const Quotes = () => {
-    const [ quotes, setQuotes ] = useState([]);
-    const [ activeQuoteId, setActiveQuoteId ] = useState(null);
+const Quotes = inject('store')(observer(({ store }) => {
+    const { quotes } = store;
 
     useEffect(() => {
-        const loadQuotes = async () => {
-            const { data } = await axios.get('/api/quotes');
-            if (data) setQuotes(data);
-        };
-
-        loadQuotes();
+        store.loadQuotes();
     }, []);
-
-    const handleSetActiveQuote = id => {
-        if (id === activeQuoteId) return setActiveQuoteId(null); // toggle
-        setActiveQuoteId(id);
-    };
 
     const body = quotes && (
         <Fragment>
             {quotes.map(quote => (
                 <Quote
-                    key={quote.id}
-                    activeQuoteId={activeQuoteId}
+                    key={quote.uiKey}
                     displayOption
-                    handleSetActiveQuote={handleSetActiveQuote}
                     quote={quote}
                 />
             ))}
         </Fragment>
     );
+
+    const headerButton = <PlusIcon />;
 
     const headerIcon = (
         <Icon>
@@ -45,8 +35,13 @@ const Quotes = () => {
     );
 
     return (
-        <View body={body} headerIcon={headerIcon} headerTitle="Quotes" />
+        <View
+            body={body}
+            headerIcon={headerIcon}
+            headerButton={headerButton}
+            headerTitle="Quotes"
+        />
     );
-};
+}));
 
 export default Quotes;

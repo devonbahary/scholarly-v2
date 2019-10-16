@@ -1,5 +1,5 @@
-import axios from "axios";
-import React, { useRef, useState } from "react";
+import { inject, observer } from "mobx-react";
+import React, { useRef } from "react";
 import Textarea from "react-textarea-autosize";
 
 import BookIcon from "./icons/BookIcon";
@@ -22,39 +22,37 @@ const QuoteRight = () => (
     </div>
 );
 
-const Quote = ({
-    activeQuoteId,
+const Quote = inject('store')(observer(({
     displayOption = false,
-    handleSetActiveQuote,
     quote,
+    store,
 }) => {
-    const [ isDeleted, setIsDeleted ] = useState(false);
-    const [ text, setText ] = useState(quote.text);
     const quoteRef = useRef(null);
     const textareaRef = useRef(null);
 
     const handleDelete = async () => {
-        const data = await axios.delete(`/api/quotes/${quote.id}`);
-        if (!data) return;
+        const success = await store.deleteQuote(quote);
+        if (!success) return;
         // to smoothly collapse auto-height parent div, we must first assign an explicit height on deletion and then
         // trigger the CSS to collapse and transition the height to 0
         const offsetHeight = quoteRef.current.offsetHeight;
         quoteRef.current.style.height = `${offsetHeight}px`;
         setTimeout(() => {
             quoteRef.current.style.height = '';
-            setIsDeleted(true);
+            quote.isDeleted = true;
         }, 0);
     };
 
     const handleEditClick = () => textareaRef.current.focus();
-    const handleOpenOptions = () => handleSetActiveQuote(quote.id);
+    const handleOpenOptions = () => store.setActiveQuote(quote);
     const handleTextareaBlur = async () => {
-        handleSetActiveQuote(null);
-        await axios.put(`/api/quotes/${quote.id}`, { ...quote, text });
+        store.setActiveQuote();
+        await store.updateQuote(quote);
     };
-    const handleTextChange = e => setText(e.target.value);
+    const handleTextChange = e => (quote.text = e.target.value);
 
-    const isActive = activeQuoteId === quote.id;
+    const isActive = store.activeQuoteId === quote.id;
+    const isError = store.errorQuoteId === quote.id;
 
     const className = `${styles.quote} ${isDeleted ? styles.isDeleted : ''}`;
     const classNameButtonOpenOptions = `${styles.buttonOpenOptions} ${isActive ? styles.optionsActive : ''}`;
@@ -70,7 +68,7 @@ const Quote = ({
                     onBlur={handleTextareaBlur}
                     onChange={handleTextChange}
                     readOnly={!isActive}
-                    value={text}
+                    value={quote.text}
                 />
                 <QuoteRight />
             </div>
@@ -90,6 +88,6 @@ const Quote = ({
             </div>
         </div>
     );
-};
+}));
 
 export default Quote;
