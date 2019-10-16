@@ -1,9 +1,9 @@
 import React from "react";
 import Icon from "./Icon";
 
-const BookIcon = ({ className, children, onClick }) => (
+const BookIcon = ({ className, onClick }) => (
     <Icon className={className} onClick={onClick}>
-        <i className="fas fa-book"></i> {children}
+        <i className="fas fa-book"></i>
     </Icon>
 );
 

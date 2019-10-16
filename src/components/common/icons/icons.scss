@@ -2,6 +2,6 @@
 
 .icon {
   height: $minSize;
-  min-width: $minSize;
+  width: $minSize;
   @include center-children;
 }

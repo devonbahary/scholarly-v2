@@ -78,7 +78,10 @@ const Quote = ({
                 {displayOption && (
                     <OptionsIcon className={classNameButtonOpenOptions} onClick={handleOpenOptions} />
                 )}
-                <BookIcon className={classNameCollectionLink}> {quote.collectionTitle} </BookIcon>
+                <div className={classNameCollectionLink}>
+                    <BookIcon />
+                    {quote.collectionTitle}
+                </div>
                 <div className={classNameOptions}>
                     <BookIcon />
                     <EditIcon className={styles.active} onClick={handleEditClick} />
