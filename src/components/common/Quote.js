@@ -54,7 +54,7 @@ const Quote = inject('store')(observer(({
     const isActive = store.activeQuoteId === quote.id;
     const isError = store.errorQuoteId === quote.id;
 
-    const className = `${styles.quote} ${isDeleted ? styles.isDeleted : ''}`;
+    const className = `${styles.quote} ${quote.isDeleted ? styles.isDeleted : ''} ${isError ? styles.isError : ''}`;
     const classNameButtonOpenOptions = `${styles.buttonOpenOptions} ${isActive ? styles.optionsActive : ''}`;
     const classNameCollectionLink = `${styles.collectionLink} ${isActive ? styles.optionsActive : ''}`;
     const classNameOptions = `${styles.options} ${isActive ? styles.optionsActive : ''}`;

@@ -30,3 +30,21 @@ $animationDelay: 0.5s;
   justify-content: center;
   align-items: center;
 }
+
+@mixin animation-error-flash {
+  animation: error-flash $animationDelay;
+}
+
+@keyframes error-flash {
+  0% {
+    background: inherit;
+  }
+
+  50% {
+    background: $colorError;
+  }
+
+  100% {
+    background: inherit;
+  }
+}

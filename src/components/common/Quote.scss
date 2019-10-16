@@ -2,7 +2,11 @@
 
 .quote {
   width: 100%;
-  transition: height $animationDelay;
+  transition: background-color $animationDelay, height $animationDelay;
+
+  &.isError {
+    @include animation-error-flash;
+  }
 
   &.isDeleted {
     height: 0;
