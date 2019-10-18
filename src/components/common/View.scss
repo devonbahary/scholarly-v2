@@ -8,7 +8,7 @@
 
   .header {
     display: grid;
-    grid-template-columns: $minSize 1fr;
+    grid-template-columns: $minSize 1fr $minSize;
     background: linear-gradient(to top, $colorBackground 5%, darken($colorBackground, 5%));
 
     i {
