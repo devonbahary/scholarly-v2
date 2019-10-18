@@ -4,4 +4,9 @@
   height: $minSize;
   width: $minSize;
   @include center-children;
+  transition: transform $animationDelay;
+
+  &.rotated {
+    transform: rotate(135deg);
+  }
 }
