@@ -3,15 +3,15 @@ import Quote from "../models/Quote";
 
 export default class Store {
     @observable quotes = [];
-    @observable activeQuoteId;
-    @observable errorQuoteId;
+    @observable activeQuoteUIKey;
+    @observable errorQuoteUIKey;
 
     constructor(quotesApi) {
         this.quotesApi = quotesApi;
     };
 
     @action resetErrorQuoteId = () => {
-        this.errorQuoteId = null;
+        this.errorQuoteUIKey = null;
     };
 
     @action loadQuotes = async () => {
@@ -30,8 +30,8 @@ export default class Store {
     @action deleteQuote = async quote => {
         this.resetErrorQuoteId();
         const success = await this.quotesApi.deleteQuote(quote);
-        if (!success) this.errorQuoteId = quote.id;
-        return success;
+        if (!success) this.errorQuoteUIKey = quote.uiKey;
+        else quote.isDeleted = true;
     };
 
     @action setActiveQuote = quote => {
