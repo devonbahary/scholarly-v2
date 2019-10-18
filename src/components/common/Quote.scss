@@ -4,13 +4,13 @@
   width: 100%;
   transition: background-color $animationDelay, height $animationDelay;
 
-  &.isError {
-    @include animation-error-flash;
-  }
-
   &.isDeleted {
     height: 0;
     overflow: hidden;
+  }
+
+  &.isError {
+    @include animation-error-flash;
   }
 
   .body {

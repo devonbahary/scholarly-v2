@@ -1,5 +1,5 @@
 import { inject, observer } from "mobx-react";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Textarea from "react-textarea-autosize";
 
 import BookIcon from "./icons/BookIcon";
@@ -27,21 +27,22 @@ const Quote = inject('store')(observer(({
     quote,
     store,
 }) => {
+    const [ isDeleted, setIsDeleted ] = useState(false);
     const quoteRef = useRef(null);
     const textareaRef = useRef(null);
 
-    const handleDelete = async () => {
-        const success = await store.deleteQuote(quote);
-        if (!success) return;
+    const handleDelete = () => {
         // to smoothly collapse auto-height parent div, we must first assign an explicit height on deletion and then
         // trigger the CSS to collapse and transition the height to 0
         const offsetHeight = quoteRef.current.offsetHeight;
         quoteRef.current.style.height = `${offsetHeight}px`;
         setTimeout(() => {
             quoteRef.current.style.height = '';
-            quote.isDeleted = true;
+            setIsDeleted(true);
         }, 0);
     };
+
+    if (quote.isDeleted) handleDelete();
 
     const handleEditClick = () => textareaRef.current.focus();
     const handleOpenOptions = () => store.setActiveQuote(quote);
@@ -51,10 +52,15 @@ const Quote = inject('store')(observer(({
     };
     const handleTextChange = e => (quote.text = e.target.value);
 
-    const isActive = store.activeQuoteId === quote.id;
-    const isError = store.errorQuoteId === quote.id;
+    const requestDelete = async () => await store.deleteQuote(quote);
 
-    const className = `${styles.quote} ${quote.isDeleted ? styles.isDeleted : ''} ${isError ? styles.isError : ''}`;
+    const isActive = store.activeQuoteUIKey === quote.uiKey;
+    const isError = store.errorQuoteUIKey === quote.uiKey;
+
+    let className = styles.quote;
+    if (isError) className += ` ${styles.isError}`;
+    if (isDeleted) className += ` ${styles.isDeleted}`;
+
     const classNameButtonOpenOptions = `${styles.buttonOpenOptions} ${isActive ? styles.optionsActive : ''}`;
     const classNameCollectionLink = `${styles.collectionLink} ${isActive ? styles.optionsActive : ''}`;
     const classNameOptions = `${styles.options} ${isActive ? styles.optionsActive : ''}`;
@@ -64,6 +70,7 @@ const Quote = inject('store')(observer(({
             <div className={styles.body}>
                 <QuoteLeft />
                 <Textarea
+                    autoFocus={!quote.id}
                     inputRef={textareaRef}
                     onBlur={handleTextareaBlur}
                     onChange={handleTextChange}
@@ -83,7 +90,7 @@ const Quote = inject('store')(observer(({
                 <div className={classNameOptions}>
                     <BookIcon />
                     <EditIcon className={styles.active} onClick={handleEditClick} />
-                    <TrashIcon onClick={handleDelete} />
+                    <TrashIcon onClick={requestDelete} />
                 </div>
             </div>
         </div>
