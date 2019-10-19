@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { action, observable } from "mobx";
 import Quote from "../models/Quote";
 
@@ -9,6 +10,8 @@ export default class Store {
     constructor(quotesApi) {
         this.quotesApi = quotesApi;
     };
+
+    debouncedUpdateQuote = _.debounce(quote => this.updateQuote(quote), 1000);
 
     @action resetErrorQuoteId = () => {
         this.errorQuoteUIKey = null;
