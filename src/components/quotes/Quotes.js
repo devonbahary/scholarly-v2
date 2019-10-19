@@ -10,9 +10,7 @@ import PlusIcon from "../common/icons/PlusIcon";
 const Quotes = inject('store')(observer(({ store }) => {
     const { quotes } = store;
 
-    useEffect(() => {
-        store.loadQuotes();
-    }, []);
+    useEffect(() => store.loadQuotes(), []);
 
     const body = quotes && (
         <Fragment>
@@ -37,8 +35,8 @@ const Quotes = inject('store')(observer(({ store }) => {
     return (
         <View
             body={body}
-            headerIcon={headerIcon}
             headerButton={headerButton}
+            headerIcon={headerIcon}
             headerTitle="Quotes"
         />
     );
