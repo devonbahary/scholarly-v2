@@ -2,6 +2,7 @@ import uuidv4 from "uuid/v4";
 import { computed, observable } from "mobx";
 
 export default class Quote {
+    @observable id;
     @observable collectionId;
     @observable collectionTitle;
     @observable isDeleted = false;
@@ -9,7 +10,7 @@ export default class Quote {
 
     uiKey = uuidv4();
 
-    constructor({ id, collectionId, collectionTitle, text }) {
+    constructor({ id = 0, collectionId, collectionTitle, text } = {}) {
         this.id = id;
         this.collectionId = collectionId;
         this.collectionTitle = collectionTitle;

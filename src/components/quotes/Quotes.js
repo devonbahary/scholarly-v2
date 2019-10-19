@@ -10,7 +10,13 @@ import PlusIcon from "../common/icons/PlusIcon";
 const Quotes = inject('store')(observer(({ store }) => {
     const { quotes } = store;
 
-    useEffect(() => store.loadQuotes(), []);
+    useEffect(() => {
+        store.loadQuotes();
+    }, []);
+
+    const handleAddQuote = () => {
+        if (!store.isAddingQuote) store.addQuote();
+    };
 
     const body = quotes && (
         <Fragment>
@@ -24,7 +30,7 @@ const Quotes = inject('store')(observer(({ store }) => {
         </Fragment>
     );
 
-    const headerButton = <PlusIcon />;
+    const headerButton = <PlusIcon onClick={handleAddQuote} shouldRotate={store.isAddingQuote} />;
 
     const headerIcon = (
         <Icon>

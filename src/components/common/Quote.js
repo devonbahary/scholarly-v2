@@ -46,10 +46,20 @@ const Quote = inject('store')(observer(({
 
     const handleEditClick = () => textareaRef.current.focus();
     const handleOpenOptions = () => store.setActiveQuote(quote);
-    const handleTextareaBlur = async () => store.resetActiveQuote();
+
+    const handleTextareaBlur = () => {
+        setTimeout(async () => {
+            store.resetActiveQuote();
+            if (quote.id) return;
+
+            if (quote.text) await store.createQuote(quote);
+            else store.resetAddingQuote();
+        }, 0);
+    };
+
     const handleTextChange = e => {
         quote.text = e.target.value;
-        store.debouncedUpdateQuote(quote);
+        if (quote.id) store.debouncedUpdateQuote(quote);
     };
 
     const requestDelete = async () => await store.deleteQuote(quote);
