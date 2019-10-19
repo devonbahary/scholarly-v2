@@ -10,6 +10,14 @@ export default class QuotesApi {
         }
     };
 
+    createQuote = async quote => {
+        try {
+            return await axios.post('/api/quotes', quote.asJSON);
+        } catch (err) {
+            return null;
+        }
+    };
+
     updateQuote = async quote => {
         try {
             const data = await axios.put(`/api/quotes/${quote.id}`, quote.asJSON);
