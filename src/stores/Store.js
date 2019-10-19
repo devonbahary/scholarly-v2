@@ -35,7 +35,7 @@ export default class Store {
     };
 
     @action setActiveQuote = quote => {
-        this.activeQuoteId = this.activeQuoteId === quote.id ? null : quote.id;
+        this.activeQuoteUIKey = this.activeQuoteUIKey === quote.uiKey ? null : quote.uiKey;
     };
 };
 
