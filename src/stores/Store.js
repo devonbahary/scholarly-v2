@@ -37,5 +37,9 @@ export default class Store {
     @action setActiveQuote = quote => {
         this.activeQuoteUIKey = this.activeQuoteUIKey === quote.uiKey ? null : quote.uiKey;
     };
+
+    @action resetActiveQuote = () => {
+        this.activeQuoteUIKey = null;
+    };
 };
 

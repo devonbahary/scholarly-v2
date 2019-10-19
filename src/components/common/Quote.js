@@ -47,7 +47,7 @@ const Quote = inject('store')(observer(({
     const handleEditClick = () => textareaRef.current.focus();
     const handleOpenOptions = () => store.setActiveQuote(quote);
     const handleTextareaBlur = async () => {
-        store.setActiveQuote();
+        store.resetActiveQuote();
         await store.updateQuote(quote);
     };
     const handleTextChange = e => (quote.text = e.target.value);
