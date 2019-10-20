@@ -4,13 +4,13 @@ import Textarea from "react-textarea-autosize";
 
 import Card from "../common/Card";
 import EditIcon from "../common/icons/EditIcon";
+import ErrorIcon from "../common/icons/ErrorIcon";
 import Icon from "../common/icons/Icon";
 import OptionsIcon from "../common/icons/OptionsIcon";
 import TrashIcon from "../common/icons/TrashIcon";
 
 import cardStyles from "../common/Card.scss";
 import collectionStyles from "./Collection.scss";
-import ErrorIcon from "../common/icons/ErrorIcon";
 
 const Collection = inject('collectionsStore')(observer(({ collection, collectionsStore }) => {
     const textareaRef = useRef(null);
