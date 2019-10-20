@@ -8,7 +8,7 @@ const ERR_MSG_CREATE = 'Error creating quote.';
 const ERR_MSG_UPDATE = 'Error updating quote.';
 const ERR_MSG_DELETE = 'Error deleting quote.';
 
-export default class Store {
+export default class QuotesStore {
     @observable quotes = [];
     @observable activeQuoteUIKey;
     @observable errorQuoteUIKey;

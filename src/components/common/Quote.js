@@ -25,35 +25,35 @@ const QuoteRight = () => (
     </div>
 );
 
-const Quote = inject('store')(observer(({
+const Quote = inject('quotesStore')(observer(({
     displayOption = false,
     quote,
-    store,
+    quotesStore,
 }) => {
     const textareaRef = useRef(null);
 
     const handleEditClick = () => textareaRef.current.focus();
-    const handleOpenOptions = () => store.setActiveQuote(quote);
+    const handleOpenOptions = () => quotesStore.setActiveQuote(quote);
 
     const handleTextareaBlur = () => {
         setTimeout(async () => {
-            store.resetActiveQuote();
+            quotesStore.resetActiveQuote();
             if (quote.id) return;
 
-            if (quote.text) await store.createQuote(quote);
-            else store.resetAddingQuote();
+            if (quote.text) await quotesStore.createQuote(quote);
+            else quotesStore.resetAddingQuote();
         }, 0);
     };
 
     const handleTextChange = e => {
         quote.text = e.target.value;
-        if (quote.id) store.debouncedUpdateQuote(quote);
+        if (quote.id) quotesStore.debouncedUpdateQuote(quote);
     };
 
-    const requestDelete = async () => await store.deleteQuote(quote);
+    const requestDelete = async () => await quotesStore.deleteQuote(quote);
 
-    const isActive = store.activeQuoteUIKey === quote.uiKey;
-    const isError = store.errorQuoteUIKey === quote.uiKey;
+    const isActive = quotesStore.activeQuoteUIKey === quote.uiKey;
+    const isError = quotesStore.errorQuoteUIKey === quote.uiKey;
 
     const classNameButtonOpenOptions = `${cardStyles.buttonOpenOptions} ${isActive ? cardStyles.optionsActive : ''}`;
     const classNameCollectionLink = `${cardStyles.collectionLink} ${isActive ? cardStyles.optionsActive : ''}`;
@@ -82,7 +82,7 @@ const Quote = inject('store')(observer(({
                 <div className={cardStyles.footerRow}>
                     <div className={quoteStyles.errorRow}>
                         <ErrorIcon />
-                        <span className={quoteStyles.errorMessage}>{store.errorMessage}</span>
+                        <span className={quoteStyles.errorMessage}>{quotesStore.errorMessage}</span>
                     </div>
                 </div>
             )}

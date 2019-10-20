@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import { Provider } from "mobx-react";
 import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-dom";
 
-import Store from "./stores/Store";
 import QuotesApi from "./api/QuotesApi";
+import QuotesStore from "./stores/QuotesStore";
 
 import Collections from "./components/Collections";
 import Home from "./components/Home";
@@ -14,7 +14,7 @@ import styles from "./styles/App.scss";
 
 
 const quotesApi = new QuotesApi();
-const store = new Store(quotesApi);
+const quotesStore = new QuotesStore(quotesApi);
 
 
 const Tab = ({ children, exact, to}) => (
@@ -45,7 +45,7 @@ const App = () => {
     }];
 
     return (
-        <Provider store={store}>
+        <Provider quotesStore={quotesStore}>
             <Router>
                 <main className={styles.main}>
                     <Switch>

@@ -7,15 +7,15 @@ import Quote from "./common/Quote";
 import View from "./common/View";
 
 
-const Quotes = inject('store')(observer(({ store }) => {
-    const { quotes } = store;
+const Quotes = inject('quotesStore')(observer(({ quotesStore }) => {
+    const { quotes } = quotesStore;
 
     useEffect(() => {
-        store.loadQuotes();
+        quotesStore.loadQuotes();
     }, []);
 
     const handleAddQuote = () => {
-        if (!store.isAddingQuote) store.addQuote();
+        if (!quotesStore.isAddingQuote) quotesStore.addQuote();
     };
 
     const body = quotes && (
@@ -30,7 +30,7 @@ const Quotes = inject('store')(observer(({ store }) => {
         </Fragment>
     );
 
-    const headerButton = <PlusIcon onClick={handleAddQuote} shouldRotate={store.isAddingQuote} />;
+    const headerButton = <PlusIcon onClick={handleAddQuote} shouldRotate={quotesStore.isAddingQuote} />;
 
     const headerIcon = (
         <Icon>
