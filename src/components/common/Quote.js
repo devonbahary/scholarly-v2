@@ -1,5 +1,5 @@
 import { inject, observer } from "mobx-react";
-import React, { useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import Textarea from "react-textarea-autosize";
 
 import BookIcon from "./icons/BookIcon";
@@ -75,6 +75,8 @@ const Quote = inject('store')(observer(({
     const classNameCollectionLink = `${styles.collectionLink} ${isActive ? styles.optionsActive : ''}`;
     const classNameOptions = `${styles.options} ${isActive ? styles.optionsActive : ''}`;
 
+    const showOptions = displayOption && Boolean(quote.id);
+
     return (
         <div className={className} ref={quoteRef}>
             <div className={styles.body}>
@@ -90,18 +92,20 @@ const Quote = inject('store')(observer(({
                 <QuoteRight />
             </div>
             <div className={styles.footer}>
-                {displayOption && (
-                    <OptionsIcon className={classNameButtonOpenOptions} onClick={handleOpenOptions} />
+                {showOptions && (
+                    <Fragment>
+                        <OptionsIcon className={classNameButtonOpenOptions} onClick={handleOpenOptions} />
+                        <div className={classNameCollectionLink}>
+                            <BookIcon />
+                            {quote.collectionTitle}
+                        </div>
+                        <div className={classNameOptions}>
+                            <BookIcon />
+                            <EditIcon className={styles.active} onClick={handleEditClick} />
+                            <TrashIcon onClick={requestDelete} />
+                        </div>
+                    </Fragment>
                 )}
-                <div className={classNameCollectionLink}>
-                    <BookIcon />
-                    {quote.collectionTitle}
-                </div>
-                <div className={classNameOptions}>
-                    <BookIcon />
-                    <EditIcon className={styles.active} onClick={handleEditClick} />
-                    <TrashIcon onClick={requestDelete} />
-                </div>
             </div>
         </div>
     );
