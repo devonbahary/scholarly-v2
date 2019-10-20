@@ -3,15 +3,20 @@ import ReactDOM from "react-dom";
 import { Provider } from "mobx-react";
 import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-dom";
 
+import CollectionsApi from "./api/CollectionsApi";
+import CollectionsStore from "./stores/CollectionsStore";
 import QuotesApi from "./api/QuotesApi";
 import QuotesStore from "./stores/QuotesStore";
 
-import Collections from "./components/Collections";
+import Collections from "./components/collections/Collections";
 import Home from "./components/Home";
 import Quotes from "./components/Quotes";
 
 import styles from "./styles/App.scss";
 
+
+const collectionsApi = new CollectionsApi();
+const collectionsStore = new CollectionsStore(collectionsApi);
 
 const quotesApi = new QuotesApi();
 const quotesStore = new QuotesStore(quotesApi);
@@ -45,7 +50,7 @@ const App = () => {
     }];
 
     return (
-        <Provider quotesStore={quotesStore}>
+        <Provider collectionsStore={collectionsStore} quotesStore={quotesStore}>
             <Router>
                 <main className={styles.main}>
                     <Switch>
