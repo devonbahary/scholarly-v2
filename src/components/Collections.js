@@ -1,5 +1,5 @@
 import React from "react";
-import View from "../common/View";
+import View from "./common/View";
 
 const Collections = () => {
     return (

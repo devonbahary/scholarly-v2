@@ -6,9 +6,9 @@ import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-do
 import Store from "./stores/Store";
 import QuotesApi from "./api/QuotesApi";
 
-import Collections from "./components/collections/Collections";
+import Collections from "./components/Collections";
 import Home from "./components/Home";
-import Quotes from "./components/quotes/Quotes";
+import Quotes from "./components/Quotes";
 
 import styles from "./styles/App.scss";
 
