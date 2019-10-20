@@ -105,10 +105,12 @@ const Quote = inject('store')(observer(({
                 {showOptions && (
                     <div className={styles.footerRow}>
                         <OptionsIcon className={classNameButtonOpenOptions} onClick={handleOpenOptions} />
-                        <div className={classNameCollectionLink}>
-                            <BookIcon />
-                            {quote.collectionTitle}
-                        </div>
+                        {quote.collectionTitle && (
+                            <div className={classNameCollectionLink}>
+                                <BookIcon />
+                                {quote.collectionTitle}
+                            </div>
+                        )}
                         <div className={classNameOptions}>
                             <BookIcon />
                             <EditIcon className={styles.active} onClick={handleEditClick} />
