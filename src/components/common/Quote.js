@@ -1,25 +1,26 @@
 import { inject, observer } from "mobx-react";
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef } from "react";
 import Textarea from "react-textarea-autosize";
 
 import BookIcon from "./icons/BookIcon";
+import Card from "./Card";
 import EditIcon from "./icons/EditIcon";
+import ErrorIcon from "./icons/ErrorIcon";
 import OptionsIcon from "./icons/OptionsIcon";
 import TrashIcon from "./icons/TrashIcon";
 
-import styles from "./Quote.scss";
-import Icon from "./icons/Icon";
-import ErrorIcon from "./icons/ErrorIcon";
+import cardStyles from "./Card.scss";
+import quoteStyles from "./Quote.scss";
 
 
 const QuoteLeft = () => (
-    <div className={styles.quoteLeft}>
+    <div className={quoteStyles.quoteLeft}>
         <i className="fas fa-quote-left"></i>
     </div>
 );
 
 const QuoteRight = () => (
-    <div className={styles.quoteRight}>
+    <div className={quoteStyles.quoteRight}>
         <i className="fas fa-quote-right"></i>
     </div>
 );
@@ -29,22 +30,7 @@ const Quote = inject('store')(observer(({
     quote,
     store,
 }) => {
-    const [ isDeleted, setIsDeleted ] = useState(false);
-    const quoteRef = useRef(null);
     const textareaRef = useRef(null);
-
-    const handleDelete = () => {
-        // to smoothly collapse auto-height parent div, we must first assign an explicit height on deletion and then
-        // trigger the CSS to collapse and transition the height to 0
-        const offsetHeight = quoteRef.current.offsetHeight;
-        quoteRef.current.style.height = `${offsetHeight}px`;
-        setTimeout(() => {
-            quoteRef.current.style.height = '';
-            setIsDeleted(true);
-        }, 0);
-    };
-
-    if (quote.isDeleted) handleDelete();
 
     const handleEditClick = () => textareaRef.current.focus();
     const handleOpenOptions = () => store.setActiveQuote(quote);
@@ -69,57 +55,63 @@ const Quote = inject('store')(observer(({
     const isActive = store.activeQuoteUIKey === quote.uiKey;
     const isError = store.errorQuoteUIKey === quote.uiKey;
 
-    let className = styles.quote;
-    if (isError) className += ` ${styles.isError}`;
-    if (isDeleted) className += ` ${styles.isDeleted}`;
-
-    const classNameButtonOpenOptions = `${styles.buttonOpenOptions} ${isActive ? styles.optionsActive : ''}`;
-    const classNameCollectionLink = `${styles.collectionLink} ${isActive ? styles.optionsActive : ''}`;
-    const classNameOptions = `${styles.options} ${isActive ? styles.optionsActive : ''}`;
+    const classNameButtonOpenOptions = `${cardStyles.buttonOpenOptions} ${isActive ? cardStyles.optionsActive : ''}`;
+    const classNameCollectionLink = `${cardStyles.collectionLink} ${isActive ? cardStyles.optionsActive : ''}`;
+    const classNameOptions = `${cardStyles.options} ${isActive ? cardStyles.optionsActive : ''}`;
 
     const showOptions = displayOption && (Boolean(quote.id) || isError);
 
-    return (
-        <div className={className} ref={quoteRef}>
-            <div className={styles.body}>
-                <QuoteLeft />
-                <Textarea
-                    autoFocus={!quote.id}
-                    inputRef={textareaRef}
-                    onBlur={handleTextareaBlur}
-                    onChange={handleTextChange}
-                    readOnly={!isActive}
-                    value={quote.text}
-                />
-                <QuoteRight />
-            </div>
-            <div className={styles.footer}>
-                {isError && (
-                    <div className={styles.footerRow}>
-                        <div className={styles.errorRow}>
-                            <ErrorIcon />
-                            <span className={styles.errorMessage}>{store.errorMessage}</span>
-                        </div>
+    const body = (
+        <Fragment>
+            <QuoteLeft />
+            <Textarea
+                autoFocus={!quote.id}
+                inputRef={textareaRef}
+                onBlur={handleTextareaBlur}
+                onChange={handleTextChange}
+                readOnly={!isActive}
+                value={quote.text}
+            />
+            <QuoteRight />
+        </Fragment>
+    );
+
+    const footer = (
+        <Fragment>
+            {isError && (
+                <div className={cardStyles.footerRow}>
+                    <div className={quoteStyles.errorRow}>
+                        <ErrorIcon />
+                        <span className={quoteStyles.errorMessage}>{store.errorMessage}</span>
                     </div>
-                )}
-                {showOptions && (
-                    <div className={styles.footerRow}>
-                        <OptionsIcon className={classNameButtonOpenOptions} onClick={handleOpenOptions} />
-                        {quote.collectionTitle && (
-                            <div className={classNameCollectionLink}>
-                                <BookIcon />
-                                {quote.collectionTitle}
-                            </div>
-                        )}
-                        <div className={classNameOptions}>
+                </div>
+            )}
+            {showOptions && (
+                <div className={cardStyles.footerRow}>
+                    <OptionsIcon className={classNameButtonOpenOptions} onClick={handleOpenOptions} />
+                    {quote.collectionTitle && (
+                        <div className={classNameCollectionLink}>
                             <BookIcon />
-                            <EditIcon className={styles.active} onClick={handleEditClick} />
-                            <TrashIcon onClick={requestDelete} />
+                            {quote.collectionTitle}
                         </div>
+                    )}
+                    <div className={classNameOptions}>
+                        <BookIcon />
+                        <EditIcon className={cardStyles.active} onClick={handleEditClick} />
+                        <TrashIcon onClick={requestDelete} />
                     </div>
-                )}
-            </div>
-        </div>
+                </div>
+            )}
+        </Fragment>
+    );
+
+    return (
+        <Card
+            body={body}
+            footer={footer}
+            isDeleted={quote.isDeleted}
+            isError={isError}
+        />
     );
 }));
 

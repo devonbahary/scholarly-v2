@@ -1,108 +1,32 @@
 @import "../../styles/variables";
 
-.quote {
-  width: 100%;
-  transition: background-color $animationDelay, height $animationDelay;
+.quoteLeft,
+.quoteRight {
+  position: absolute;
+  font-size: 80%;
+  opacity: 0.8;
+}
 
-  &.isDeleted {
-    height: 0;
-    overflow: hidden;
-  }
+.quoteLeft {
+  top: $bufferMd;
+  left: $bufferSm;
+}
 
-  &.isError {
-    @include animation-error-flash;
-  }
+.quoteRight {
+  right: $bufferSm;
+  bottom: $bufferMd;
+}
 
-  .body {
-    position: relative;
-    min-height: $minSize;
-    padding: $bufferLg;
-  }
+.errorRow {
+  display: grid;
+  grid-template-columns: $minSize 1fr;
+  position: absolute;
+  right: 0;
+  line-height: $minSize;
 
-  .quoteLeft,
-  .quoteRight {
-    position: absolute;
-    font-size: 80%;
+  .errorMessage {
+    font-size: 90%;
     opacity: 0.8;
-  }
-
-  .quoteLeft {
-    top: $bufferMd;
-    left: $bufferSm;
-  }
-
-  .quoteRight {
-    right: $bufferSm;
-    bottom: $bufferMd;
-  }
-
-  .footer {
-    position: relative;
-    width: 100%;
-
-    .footerRow {
-      position: relative;
-      height: $minSize;
-
-      .errorRow {
-        display: grid;
-        grid-template-columns: $minSize 1fr;
-        position: absolute;
-        right: 0;
-        line-height: $minSize;
-
-        .errorMessage {
-          font-size: 90%;
-          opacity: 0.8;
-          padding-right: $bufferMd;
-        }
-      }
-
-      .buttonOpenOptions,
-      .collectionLink,
-      .options {
-        position: absolute;
-        height: 100%;
-        @include center-children;
-      }
-
-      .buttonOpenOptions {
-        width: $minSize;
-        left: $bufferMd;
-        transition: transform $animationDelay;
-
-        &.optionsActive {
-          transform: rotate(-90deg);
-          color: $colorSecondary;
-        }
-      }
-
-      .collectionLink {
-        right: $bufferMd;
-        transition: right $animationDelay;
-
-        i {
-          margin-right: -1rem;
-          color: $colorSecondary;
-        }
-
-        &.optionsActive {
-          right: calc(-100% + #{$bufferMd});
-        }
-      }
-
-      .options {
-        right: calc(-100% + #{$bufferMd});
-        transition: right $animationDelay;
-
-        &.optionsActive {
-          right: $bufferMd;
-        }
-
-        .active {
-          color: $colorSecondary;
-        }
-      }
-    }
+    padding-right: $bufferMd;
   }
 }

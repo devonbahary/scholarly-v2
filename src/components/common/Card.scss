@@ -1,0 +1,77 @@
+@import "../../styles/variables";
+
+.card {
+  width: 100%;
+  transition: background-color $animationDelay, height $animationDelay;
+
+  &.isDeleted {
+    height: 0;
+    overflow: hidden;
+  }
+
+  &.isError {
+    @include animation-error-flash;
+  }
+
+  .body {
+    position: relative;
+    min-height: $minSize;
+    padding: $bufferLg;
+  }
+
+  .footer {
+    position: relative;
+    width: 100%;
+
+    .footerRow {
+      position: relative;
+      height: $minSize;
+
+      .buttonOpenOptions,
+      .collectionLink,
+      .options {
+        position: absolute;
+        height: 100%;
+        @include center-children;
+      }
+
+      .buttonOpenOptions {
+        width: $minSize;
+        left: $bufferMd;
+        transition: transform $animationDelay;
+
+        &.optionsActive {
+          transform: rotate(-90deg);
+          color: $colorSecondary;
+        }
+      }
+
+      .collectionLink {
+        right: $bufferMd;
+        transition: right $animationDelay;
+
+        i {
+          margin-right: -1rem;
+          color: $colorSecondary;
+        }
+
+        &.optionsActive {
+          right: calc(-100% + #{$bufferMd});
+        }
+      }
+
+      .options {
+        right: calc(-100% + #{$bufferMd});
+        transition: right $animationDelay;
+
+        &.optionsActive {
+          right: $bufferMd;
+        }
+
+        .active {
+          color: $colorSecondary;
+        }
+      }
+    }
+  }
+}
