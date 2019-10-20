@@ -27,6 +27,20 @@
       position: relative;
       height: $minSize;
 
+      .errorRow {
+        display: grid;
+        grid-template-columns: $minSize 1fr;
+        position: absolute;
+        right: 0;
+        line-height: $minSize;
+
+        .errorMessage {
+          font-size: 90%;
+          opacity: 0.8;
+          padding-right: $bufferMd;
+        }
+      }
+
       .buttonOpenOptions,
       .collectionLink,
       .options {

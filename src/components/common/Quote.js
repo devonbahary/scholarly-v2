@@ -1,5 +1,5 @@
-import { inject, observer } from "mobx-react";
 import React, { Fragment, useRef } from "react";
+import { inject, observer } from "mobx-react";
 import Textarea from "react-textarea-autosize";
 
 import BookIcon from "./icons/BookIcon";
@@ -80,9 +80,9 @@ const Quote = inject('quotesStore')(observer(({
         <Fragment>
             {isError && (
                 <div className={cardStyles.footerRow}>
-                    <div className={quoteStyles.errorRow}>
+                    <div className={cardStyles.errorRow}>
                         <ErrorIcon />
-                        <span className={quoteStyles.errorMessage}>{quotesStore.errorMessage}</span>
+                        <span className={cardStyles.errorMessage}>{quotesStore.errorMessage}</span>
                     </div>
                 </div>
             )}
