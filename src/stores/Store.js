@@ -33,7 +33,9 @@ export default class Store {
     };
 
     @action createQuote = async quote => {
-        const { data } = await this.quotesApi.createQuote(quote);
+        const response = await this.quotesApi.createQuote(quote);
+        if (!response) return this.errorQuoteUIKey = quote.uiKey;
+        const { data } = response;
         quote.id = data.insertId;
     };
 

@@ -75,7 +75,7 @@ const Quote = inject('store')(observer(({
     const classNameCollectionLink = `${styles.collectionLink} ${isActive ? styles.optionsActive : ''}`;
     const classNameOptions = `${styles.options} ${isActive ? styles.optionsActive : ''}`;
 
-    const showOptions = displayOption && Boolean(quote.id);
+    const showOptions = displayOption && (Boolean(quote.id) || isError);
 
     return (
         <div className={className} ref={quoteRef}>
