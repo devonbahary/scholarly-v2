@@ -39,51 +39,69 @@
   .footer {
     position: relative;
     width: 100%;
-    height: $minSize;
 
-    .buttonOpenOptions,
-    .collectionLink,
-    .options {
-      position: absolute;
-      height: 100%;
-      @include center-children;
-    }
+    .footerRow {
+      position: relative;
+      height: $minSize;
 
-    .buttonOpenOptions {
-      width: $minSize;
-      left: $bufferMd;
-      transition: transform $animationDelay;
+      .errorRow {
+        display: grid;
+        grid-template-columns: $minSize 1fr;
+        position: absolute;
+        right: 0;
+        line-height: $minSize;
 
-      &.optionsActive {
-        transform: rotate(-90deg);
-        color: $colorSecondary;
-      }
-    }
-
-    .collectionLink {
-      right: $bufferMd;
-      transition: right $animationDelay;
-
-      i {
-        margin-right: -1rem;
-        color: $colorSecondary;
+        .errorMessage {
+          font-size: 90%;
+          opacity: 0.8;
+          padding-right: $bufferMd;
+        }
       }
 
-      &.optionsActive {
-        right: calc(-100% + #{$bufferMd});
+      .buttonOpenOptions,
+      .collectionLink,
+      .options {
+        position: absolute;
+        height: 100%;
+        @include center-children;
       }
-    }
 
-    .options {
-      right: calc(-100% + #{$bufferMd});
-      transition: right $animationDelay;
+      .buttonOpenOptions {
+        width: $minSize;
+        left: $bufferMd;
+        transition: transform $animationDelay;
 
-      &.optionsActive {
+        &.optionsActive {
+          transform: rotate(-90deg);
+          color: $colorSecondary;
+        }
+      }
+
+      .collectionLink {
         right: $bufferMd;
+        transition: right $animationDelay;
+
+        i {
+          margin-right: -1rem;
+          color: $colorSecondary;
+        }
+
+        &.optionsActive {
+          right: calc(-100% + #{$bufferMd});
+        }
       }
 
-      .active {
-        color: $colorSecondary;
+      .options {
+        right: calc(-100% + #{$bufferMd});
+        transition: right $animationDelay;
+
+        &.optionsActive {
+          right: $bufferMd;
+        }
+
+        .active {
+          color: $colorSecondary;
+        }
       }
     }
   }

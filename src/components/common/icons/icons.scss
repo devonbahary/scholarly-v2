@@ -6,6 +6,10 @@
   @include center-children;
   transition: transform $animationDelay;
 
+  &.error {
+    color: $colorError;
+  }
+
   &.rotated {
     transform: rotate(135deg);
   }

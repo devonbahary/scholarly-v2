@@ -4,10 +4,15 @@ import Quote from "../models/Quote";
 
 const DEBOUNCE_UPDATE_QUOTE_MS = 200;
 
+const ERR_MSG_CREATE = 'Error creating quote.';
+const ERR_MSG_UPDATE = 'Error updating quote.';
+const ERR_MSG_DELETE = 'Error deleting quote.';
+
 export default class Store {
     @observable quotes = [];
     @observable activeQuoteUIKey;
     @observable errorQuoteUIKey;
+    @observable errorMessage = '';
 
     constructor(quotesApi) {
         this.quotesApi = quotesApi;
@@ -15,12 +20,18 @@ export default class Store {
 
     debouncedUpdateQuote = _.debounce(quote => this.updateQuote(quote), DEBOUNCE_UPDATE_QUOTE_MS);
 
-    @action resetErrorQuoteId = () => {
+    @action resetError = () => {
         this.errorQuoteUIKey = null;
+        this.errorMessage = '';
+    };
+
+    @action setError = (quoteId, message) => {
+        this.errorQuoteUIKey = quoteId;
+        this.errorMessage = message;
     };
 
     @action loadQuotes = async () => {
-        this.resetErrorQuoteId();
+        this.resetError();
         const data = await this.quotesApi.loadQuotes();
         if (!data) return;
         this.quotes = data.map(quote => new Quote(quote));
@@ -34,21 +45,21 @@ export default class Store {
 
     @action createQuote = async quote => {
         const response = await this.quotesApi.createQuote(quote);
-        if (!response) return this.errorQuoteUIKey = quote.uiKey;
+        if (!response) return this.setError(quote.uiKey, ERR_MSG_CREATE);
         const { data } = response;
         quote.id = data.insertId;
     };
 
     @action updateQuote = async quote => {
-        this.resetErrorQuoteId();
+        this.resetError();
         const success = await this.quotesApi.updateQuote(quote);
-        if (!success) this.errorQuoteUIKey = quote.uiKey;
+        if (!success) this.setError(quote.uiKey, ERR_MSG_UPDATE);
     };
 
     @action deleteQuote = async quote => {
-        this.resetErrorQuoteId();
+        this.resetError();
         const success = await this.quotesApi.deleteQuote(quote);
-        if (!success) this.errorQuoteUIKey = quote.uiKey;
+        if (!success) this.setError(quote.uiKey, ERR_MSG_DELETE);
         else quote.isDeleted = true;
     };
 

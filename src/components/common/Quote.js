@@ -8,6 +8,8 @@ import OptionsIcon from "./icons/OptionsIcon";
 import TrashIcon from "./icons/TrashIcon";
 
 import styles from "./Quote.scss";
+import Icon from "./icons/Icon";
+import ErrorIcon from "./icons/ErrorIcon";
 
 
 const QuoteLeft = () => (
@@ -92,8 +94,16 @@ const Quote = inject('store')(observer(({
                 <QuoteRight />
             </div>
             <div className={styles.footer}>
+                {isError && (
+                    <div className={styles.footerRow}>
+                        <div className={styles.errorRow}>
+                            <ErrorIcon />
+                            <span className={styles.errorMessage}>{store.errorMessage}</span>
+                        </div>
+                    </div>
+                )}
                 {showOptions && (
-                    <Fragment>
+                    <div className={styles.footerRow}>
                         <OptionsIcon className={classNameButtonOpenOptions} onClick={handleOpenOptions} />
                         <div className={classNameCollectionLink}>
                             <BookIcon />
@@ -104,7 +114,7 @@ const Quote = inject('store')(observer(({
                             <EditIcon className={styles.active} onClick={handleEditClick} />
                             <TrashIcon onClick={requestDelete} />
                         </div>
-                    </Fragment>
+                    </div>
                 )}
             </div>
         </div>
