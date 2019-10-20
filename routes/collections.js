@@ -41,6 +41,32 @@ router.post('/', async (req, res) => {
     try {
         const result = await collectionsRepository.insertInto({ title, USER_ID });
         ApiUtil.newRecordResponse(res, result);
+
+    } catch (err) {
+        ApiUtil.errorResponse(res, err);
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    const collectionsRepository = new CollectionsRepository();
+    const id = req.params.id;
+    const { title } = req.body;
+
+    try {
+        await collectionsRepository.updateById(id, { title });
+        res.sendStatus(200);
+
+    } catch (err) {
+        ApiUtil.errorResponse(res, err);
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    const collectionsRepository = new CollectionsRepository();
+    const id = req.params.id;
+    try {
+        await collectionsRepository.deleteById(id);
+        res.sendStatus(200);
     } catch (err) {
         ApiUtil.errorResponse(res, err);
     }
