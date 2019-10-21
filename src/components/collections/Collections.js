@@ -4,7 +4,6 @@ import { observer, inject } from "mobx-react";
 import Collection from "./Collection";
 import View from "../common/View";
 import PlusIcon from "../common/icons/PlusIcon";
-import Icon from "../common/icons/Icon";
 import BookIcon from "../common/icons/BookIcon";
 
 const Collections = inject('collectionsStore')(observer(({ collectionsStore }) => {
