@@ -32,7 +32,7 @@ export default class CollectionsStore {
 
     @action loadCollections = async () => {
         this.resetError();
-        const data = await this.collectionsApi.loadCollections();
+        const data = await this.collectionsApi.load();
         if (!data) return;
         this.collections = data.map(collection => new Collection(collection));
     };
@@ -44,7 +44,7 @@ export default class CollectionsStore {
     };
 
     @action createCollection = async collection => {
-        const response = await this.collectionsApi.createCollection(collection);
+        const response = await this.collectionsApi.create(collection);
         if (!response) return this.setError(collection.uiKey, ERR_MSG_CREATE);
         const { data } = response;
         collection.id = data.insertId;
@@ -52,13 +52,13 @@ export default class CollectionsStore {
 
     @action updateCollection = async collection => {
         this.resetError();
-        const success = await this.collectionsApi.updateCollection(collection);
+        const success = await this.collectionsApi.update(collection);
         if (!success) this.setError(collection.uiKey, ERR_MSG_UPDATE);
     };
 
     @action deleteCollection = async collection => {
         this.resetError();
-        const success = await this.collectionsApi.deleteCollection(collection);
+        const success = await this.collectionsApi.delete(collection);
         if (!success) this.setError(collection.uiKey, ERR_MSG_DELETE);
         else collection.isDeleted = true;
     };

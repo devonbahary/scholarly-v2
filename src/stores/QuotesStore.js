@@ -32,7 +32,7 @@ export default class QuotesStore {
 
     @action loadQuotes = async () => {
         this.resetError();
-        const data = await this.quotesApi.loadQuotes();
+        const data = await this.quotesApi.load();
         if (!data) return;
         this.quotes = data.map(quote => new Quote(quote));
     };
@@ -44,7 +44,7 @@ export default class QuotesStore {
     };
 
     @action createQuote = async quote => {
-        const response = await this.quotesApi.createQuote(quote);
+        const response = await this.quotesApi.create(quote);
         if (!response) return this.setError(quote.uiKey, ERR_MSG_CREATE);
         const { data } = response;
         quote.id = data.insertId;
@@ -52,13 +52,13 @@ export default class QuotesStore {
 
     @action updateQuote = async quote => {
         this.resetError();
-        const success = await this.quotesApi.updateQuote(quote);
+        const success = await this.quotesApi.update(quote);
         if (!success) this.setError(quote.uiKey, ERR_MSG_UPDATE);
     };
 
     @action deleteQuote = async quote => {
         this.resetError();
-        const success = await this.quotesApi.deleteQuote(quote);
+        const success = await this.quotesApi.delete(quote);
         if (!success) this.setError(quote.uiKey, ERR_MSG_DELETE);
         else quote.isDeleted = true;
     };
