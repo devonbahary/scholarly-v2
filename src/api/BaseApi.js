@@ -5,40 +5,36 @@ export default class BaseApi {
         this.path = path;
     };
 
-    async load() {
+    request(cb) {
         try {
-            const { data } = await axios.get(this.path);
-            return data;
+            return cb();
         } catch (err) {
             return null;
         }
+    };
+
+    load() {
+        return this.request(async () => {
+            const { data } = await axios.get(this.path);
+            return data;
+        });
     }
 
     async create(resource) {
-        try {
+        return this.request(async () => {
             return await axios.post(this.path, resource.asJSON);
-        } catch (err) {
-            return null;
-        }
+        });
     };
 
     async update(resource) {
-        try {
-            const data = await axios.put(`${this.path}/${resource.id}`, resource.asJSON);
-            if (!data) return false;
-        } catch (err) {
-            return false;
-        }
-        return true;
+        return this.request(async () => {
+            return await axios.put(`${this.path}/${resource.id}`, resource.asJSON);
+        });
     };
 
     async delete(resource) {
-        try {
-            const data = await axios.delete(`${this.path}/${resource.id}`);
-            if (!data) return false;
-        } catch (err) {
-            return false;
-        }
-        return true;
+        return this.request(async () => {
+            return await axios.delete(`${this.path}/${resource.id}`);
+        });
     };
 };
