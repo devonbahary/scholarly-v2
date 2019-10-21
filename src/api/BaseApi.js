@@ -5,9 +5,9 @@ export default class BaseApi {
         this.path = path;
     };
 
-    request(cb) {
+    async request(cb) {
         try {
-            return cb();
+            return await cb();
         } catch (err) {
             return null;
         }
@@ -20,19 +20,19 @@ export default class BaseApi {
         });
     }
 
-    async create(resource) {
+    create(resource) {
         return this.request(async () => {
             return await axios.post(this.path, resource.asJSON);
         });
     };
 
-    async update(resource) {
+    update(resource) {
         return this.request(async () => {
             return await axios.put(`${this.path}/${resource.id}`, resource.asJSON);
         });
     };
 
-    async delete(resource) {
+    delete(resource) {
         return this.request(async () => {
             return await axios.delete(`${this.path}/${resource.id}`);
         });
