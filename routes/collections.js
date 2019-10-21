@@ -41,7 +41,6 @@ router.post('/', async (req, res) => {
     try {
         const result = await collectionsRepository.insertInto({ title, USER_ID });
         ApiUtil.newRecordResponse(res, result);
-
     } catch (err) {
         ApiUtil.errorResponse(res, err);
     }
@@ -55,7 +54,6 @@ router.put('/:id', async (req, res) => {
     try {
         await collectionsRepository.updateById(id, { title });
         res.sendStatus(200);
-
     } catch (err) {
         ApiUtil.errorResponse(res, err);
     }
