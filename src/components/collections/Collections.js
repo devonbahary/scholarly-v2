@@ -1,25 +1,25 @@
 import React, {Fragment, useEffect} from "react";
 import { observer, inject } from "mobx-react";
 
-import Collection from "./Collection";
-import View from "../common/View";
-import PlusIcon from "../common/icons/PlusIcon";
 import BookIcon from "../common/icons/BookIcon";
+import Collection from "./Collection";
+import PlusIcon from "../common/icons/PlusIcon";
+import View from "../common/View";
 
 const Collections = inject('collectionsStore')(observer(({ collectionsStore }) => {
-    const { collections } = collectionsStore;
+    const { resources } = collectionsStore;
 
     useEffect(() => {
-        collectionsStore.loadCollections();
+        collectionsStore.load();
     }, []);
 
     const handleAddCollection = () => {
-        if (!collectionsStore.isAddingCollection) collectionsStore.addCollection();
+        if (!collectionsStore.isAdding) collectionsStore.add();
     };
 
-    const body = collections && (
+    const body = resources && (
         <Fragment>
-            {collections.map(collection => (
+            {resources.map(collection => (
                 <Collection
                     key={collection.uiKey}
                     collection={collection}
@@ -28,7 +28,7 @@ const Collections = inject('collectionsStore')(observer(({ collectionsStore }) =
         </Fragment>
     );
 
-    const headerButton = <PlusIcon onClick={handleAddCollection} shouldRotate={collectionsStore.isAddingCollection} />;
+    const headerButton = <PlusIcon onClick={handleAddCollection} shouldRotate={collectionsStore.isAdding} />;
 
     return (
         <View

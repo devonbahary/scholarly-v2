@@ -33,27 +33,27 @@ const Quote = inject('quotesStore')(observer(({
     const textareaRef = useRef(null);
 
     const handleEditClick = () => textareaRef.current.focus();
-    const handleOpenOptions = () => quotesStore.setActiveQuote(quote);
+    const handleOpenOptions = () => quotesStore.setActive(quote);
 
     const handleTextareaBlur = () => {
         setTimeout(async () => {
-            quotesStore.resetActiveQuote();
+            quotesStore.resetActive();
             if (quote.id) return;
 
-            if (quote.text) await quotesStore.createQuote(quote);
-            else quotesStore.resetAddingQuote();
+            if (quote.text) await quotesStore.create(quote);
+            else quotesStore.resetAdding();
         }, 0);
     };
 
     const handleTextChange = e => {
         quote.text = e.target.value;
-        if (quote.id) quotesStore.debouncedUpdateQuote(quote);
+        if (quote.id) quotesStore.debouncedUpdate(quote);
     };
 
-    const requestDelete = async () => await quotesStore.deleteQuote(quote);
+    const requestDelete = async () => await quotesStore.delete(quote);
 
-    const isActive = quotesStore.activeQuoteUIKey === quote.uiKey;
-    const isError = quotesStore.errorQuoteUIKey === quote.uiKey;
+    const isActive = quotesStore.activeUIKey === quote.uiKey;
+    const isError = quotesStore.errorUIKey === quote.uiKey;
 
     const classNameButtonOpenOptions = `${cardStyles.buttonOpenOptions} ${isActive ? cardStyles.optionsActive : ''}`;
     const classNameCollectionLink = `${cardStyles.collectionLink} ${isActive ? cardStyles.optionsActive : ''}`;

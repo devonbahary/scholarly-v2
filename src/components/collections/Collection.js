@@ -16,27 +16,27 @@ const Collection = inject('collectionsStore')(observer(({ collection, collection
     const textareaRef = useRef(null);
 
     const handleEditClick = () => textareaRef.current.focus();
-    const handleOpenOptions = () => collectionsStore.setActiveCollection(collection);
+    const handleOpenOptions = () => collectionsStore.setActive(collection);
 
     const handleTextareaBlur = () => {
         setTimeout(async () => {
-            collectionsStore.resetActiveCollection();
+            collectionsStore.resetActive();
             if (collection.id) return;
 
-            if (collection.title) await collectionsStore.createCollection(collection);
-            else collectionsStore.resetAddingCollection();
+            if (collection.title) await collectionsStore.create(collection);
+            else collectionsStore.resetAdding();
         }, 0);
     };
 
     const handleTextChange = e => {
         collection.title = e.target.value;
-        if (collection.id) collectionsStore.debouncedUpdateCollection(collection);
+        if (collection.id) collectionsStore.debouncedUpdate(collection);
     };
 
-    const requestDelete = async () => await collectionsStore.deleteCollection(collection);
+    const requestDelete = async () => await collectionsStore.delete(collection);
 
-    const isActive = collectionsStore.activeCollectionUIKey === collection.uiKey;
-    const isError = collectionsStore.errorCollectionUIKey === collection.uiKey;
+    const isActive = collectionsStore.activeUIKey === collection.uiKey;
+    const isError = collectionsStore.errorUIKey === collection.uiKey;
 
     const classNameButtonOpenOptions = `${cardStyles.buttonOpenOptions} ${isActive ? cardStyles.optionsActive : ''}`;
     const classNameCollectionLink = `${cardStyles.collectionLink} ${isActive ? cardStyles.optionsActive : ''}`;

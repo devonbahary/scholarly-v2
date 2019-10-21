@@ -8,19 +8,19 @@ import View from "./common/View";
 
 
 const Quotes = inject('quotesStore')(observer(({ quotesStore }) => {
-    const { quotes } = quotesStore;
+    const { resources } = quotesStore;
 
     useEffect(() => {
-        quotesStore.loadQuotes();
+        quotesStore.load();
     }, []);
 
     const handleAddQuote = () => {
-        if (!quotesStore.isAddingQuote) quotesStore.addQuote();
+        if (!quotesStore.isAdding) quotesStore.add();
     };
 
-    const body = quotes && (
+    const body = resources && (
         <Fragment>
-            {quotes.map(quote => (
+            {resources.map(quote => (
                 <Quote
                     key={quote.uiKey}
                     displayOption
@@ -30,7 +30,7 @@ const Quotes = inject('quotesStore')(observer(({ quotesStore }) => {
         </Fragment>
     );
 
-    const headerButton = <PlusIcon onClick={handleAddQuote} shouldRotate={quotesStore.isAddingQuote} />;
+    const headerButton = <PlusIcon onClick={handleAddQuote} shouldRotate={quotesStore.isAdding} />;
 
     const headerIcon = (
         <Icon>
