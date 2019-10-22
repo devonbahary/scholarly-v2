@@ -13,6 +13,7 @@ import collectionStyles from "./Collection.scss";
 const Collection = inject('collectionsStore')(observer(({
     collection,
     collectionsStore,
+    onClick,
     showOptions = false,
 }) => {
     const textareaRef = useRef(null);
@@ -46,6 +47,7 @@ const Collection = inject('collectionsStore')(observer(({
             inputRef={textareaRef}
             onBlur={handleTextareaBlur}
             onChange={handleTextChange}
+            onClick={!isActive ? onClick : () => {}}
             readOnly={!isActive}
             value={collection.title}
         />

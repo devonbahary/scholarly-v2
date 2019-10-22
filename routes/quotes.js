@@ -31,9 +31,9 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const quotesRepository = new QuotesRepository();
     const id = req.params.id;
-    const { text } = req.body;
+    const { collectionId, text } = req.body;
     try {
-        await quotesRepository.updateById(id, { text });
+        await quotesRepository.updateById(id, { collectionId, text });
         res.sendStatus(200);
     } catch (err) {
         ApiUtil.errorResponse(res, err);

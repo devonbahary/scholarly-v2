@@ -28,6 +28,7 @@ const Quote = inject('collectionsStore', 'quotesStore')(observer(({
     showOptions = false,
     quote,
     quotesStore,
+    setQuoteCollectionModalQuote,
 }) => {
     const textareaRef = useRef(null);
 
@@ -48,6 +49,7 @@ const Quote = inject('collectionsStore', 'quotesStore')(observer(({
         if (quote.id) quotesStore.debouncedUpdate(quote);
     };
 
+    const openQuoteCollectionModal = () => setQuoteCollectionModalQuote(quote);
     const requestDelete = async () => await quotesStore.delete(quote);
 
     const isActive = quotesStore.activeUIKey === quote.uiKey;

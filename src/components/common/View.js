@@ -5,7 +5,7 @@ import styles from "./View.scss";
 const View = ({ body, headerButton, headerIcon, headerTitle }) => (
     <section className={styles.view}>
         <header className={styles.header}>
-            {headerIcon}
+            {headerIcon || <div></div>}
             <div className={styles.headerTitle}>
                 {headerTitle}
             </div>
