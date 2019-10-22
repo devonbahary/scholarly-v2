@@ -42,7 +42,7 @@
       }
 
       .buttonOpenOptions,
-      .collectionLink,
+      .passiveOptions,
       .options {
         position: absolute;
         height: 100%;
@@ -60,7 +60,7 @@
         }
       }
 
-      .collectionLink {
+      .passiveOptions {
         right: $bufferMd;
         transition: right $animationDelay;
 

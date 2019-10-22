@@ -3,10 +3,8 @@ import { inject, observer } from "mobx-react";
 import Textarea from "react-textarea-autosize";
 
 import BookIcon from "./icons/BookIcon";
-import Card from "./Card";
 import EditIcon from "./icons/EditIcon";
-import ErrorIcon from "./icons/ErrorIcon";
-import OptionsIcon from "./icons/OptionsIcon";
+import Resource from "./Resource";
 import TrashIcon from "./icons/TrashIcon";
 
 import cardStyles from "./Card.scss";
@@ -33,7 +31,6 @@ const Quote = inject('quotesStore')(observer(({
     const textareaRef = useRef(null);
 
     const handleEditClick = () => textareaRef.current.focus();
-    const handleOpenOptions = () => quotesStore.setActive(quote);
 
     const handleTextareaBlur = () => {
         setTimeout(async () => {
@@ -55,15 +52,10 @@ const Quote = inject('quotesStore')(observer(({
     const isActive = quotesStore.activeUIKey === quote.uiKey;
     const isError = quotesStore.errorUIKey === quote.uiKey;
 
-    const classNameButtonOpenOptions = `${cardStyles.buttonOpenOptions} ${isActive ? cardStyles.optionsActive : ''}`;
-    const classNameCollectionLink = `${cardStyles.collectionLink} ${isActive ? cardStyles.optionsActive : ''}`;
-    const classNameOptions = `${cardStyles.options} ${isActive ? cardStyles.optionsActive : ''}`;
-
     const showOptions = displayOption && (Boolean(quote.id) || isError);
 
     const body = (
         <Fragment>
-            <QuoteLeft />
             <Textarea
                 autoFocus={!quote.id}
                 inputRef={textareaRef}
@@ -72,45 +64,39 @@ const Quote = inject('quotesStore')(observer(({
                 readOnly={!isActive}
                 value={quote.text}
             />
+            <QuoteLeft />
             <QuoteRight />
         </Fragment>
     );
 
-    const footer = (
+    const activeOptions = (
         <Fragment>
-            {isError && (
-                <div className={cardStyles.footerRow}>
-                    <div className={cardStyles.errorRow}>
-                        <ErrorIcon />
-                        <span className={cardStyles.errorMessage}>{quotesStore.errorMessage}</span>
-                    </div>
-                </div>
-            )}
-            {showOptions && (
-                <div className={cardStyles.footerRow}>
-                    <OptionsIcon className={classNameButtonOpenOptions} onClick={handleOpenOptions} />
-                    {quote.collectionTitle && (
-                        <div className={classNameCollectionLink}>
-                            <BookIcon />
-                            {quote.collectionTitle}
-                        </div>
-                    )}
-                    <div className={classNameOptions}>
-                        <BookIcon />
-                        <EditIcon className={cardStyles.active} onClick={handleEditClick} />
-                        <TrashIcon onClick={requestDelete} />
-                    </div>
-                </div>
-            )}
+            <BookIcon />
+            <EditIcon className={cardStyles.active} onClick={handleEditClick} />
+            <TrashIcon onClick={requestDelete} />
+        </Fragment>
+    );
+
+    const passiveOptions = (
+        <Fragment>
+            <BookIcon />
+            {quote.collectionTitle}
         </Fragment>
     );
 
     return (
-        <Card
+        // TODO: can/should send isActive / isError cause is used here as well?
+        <Resource
+            activeOptions={activeOptions}
             body={body}
-            footer={footer}
+            isActive={isActive}
             isDeleted={quote.isDeleted}
             isError={isError}
+            passiveOptions={passiveOptions}
+            resource={quote}
+            showOptions={showOptions}
+            showPassiveOptions={quote.collectionTitle}
+            store={quotesStore}
         />
     );
 }));
