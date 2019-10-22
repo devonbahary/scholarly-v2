@@ -23,7 +23,7 @@ const Quotes = inject('quotesStore')(observer(({ quotesStore }) => {
             {resources.map(quote => (
                 <Quote
                     key={quote.uiKey}
-                    displayOption
+                    displayOptions
                     quote={quote}
                 />
             ))}
