@@ -25,7 +25,7 @@ const QuoteRight = () => (
 
 const Quote = inject('collectionsStore', 'quotesStore')(observer(({
     collectionsStore,
-    displayOptions = false,
+    showOptions = false,
     quote,
     quotesStore,
 }) => {
@@ -52,7 +52,6 @@ const Quote = inject('collectionsStore', 'quotesStore')(observer(({
 
     const isActive = quotesStore.activeUIKey === quote.uiKey;
     const isError = quotesStore.errorUIKey === quote.uiKey;
-    const showOptions = displayOptions && (Boolean(quote.id) || isError);
 
     const body = (
         <Fragment>
@@ -93,7 +92,7 @@ const Quote = inject('collectionsStore', 'quotesStore')(observer(({
             isError={isError}
             passiveOptions={passiveOptions}
             resource={quote}
-            showOptions={showOptions}
+            showOptions={showOptions && (Boolean(quote.id) || isError)}
             showPassiveOptions={quote.collectionTitle}
             store={quotesStore}
         />

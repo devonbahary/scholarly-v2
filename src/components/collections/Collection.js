@@ -10,7 +10,11 @@ import TrashIcon from "../common/icons/TrashIcon";
 import cardStyles from "../common/Card.scss";
 import collectionStyles from "./Collection.scss";
 
-const Collection = inject('collectionsStore')(observer(({ collection, collectionsStore }) => {
+const Collection = inject('collectionsStore')(observer(({
+    collection,
+    collectionsStore,
+    showOptions = false,
+}) => {
     const textareaRef = useRef(null);
 
     const handleEditClick = () => textareaRef.current.focus();
@@ -72,6 +76,7 @@ const Collection = inject('collectionsStore')(observer(({ collection, collection
             isError={isError}
             passiveOptions={passiveOptions}
             resource={collection}
+            showOptions={showOptions}
             showPassiveOptions={Boolean(collection.quoteCount)}
             store={collectionsStore}
         />

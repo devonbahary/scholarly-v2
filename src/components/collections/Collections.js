@@ -23,6 +23,7 @@ const Collections = inject('collectionsStore')(observer(({ collectionsStore }) =
                 <Collection
                     key={collection.uiKey}
                     collection={collection}
+                    showOptions
                 />
             ))}
         </Fragment>
