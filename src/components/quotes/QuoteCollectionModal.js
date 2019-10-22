@@ -1,9 +1,9 @@
 import React, {Fragment} from "react";
 import { inject } from "mobx-react";
 
-import PlusIcon from "./icons/PlusIcon";
+import PlusIcon from "../common/icons/PlusIcon";
 import Collection from "../collections/Collection";
-import View from "./View";
+import View from "../common/View";
 
 import styles from "./QuoteCollectionModal.scss";
 

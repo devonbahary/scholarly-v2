@@ -10,7 +10,7 @@ import QuotesStore from "./stores/QuotesStore";
 
 import Collections from "./components/collections/Collections";
 import Home from "./components/Home";
-import Quotes from "./components/Quotes";
+import Quotes from "./components/quotes/Quotes";
 
 import styles from "./styles/App.scss";
 
