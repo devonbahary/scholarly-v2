@@ -85,7 +85,6 @@ const Quote = inject('quotesStore')(observer(({
     );
 
     return (
-        // TODO: can/should send isActive / isError cause is used here as well?
         <Resource
             activeOptions={activeOptions}
             body={body}
