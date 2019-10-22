@@ -23,7 +23,8 @@ const QuoteRight = () => (
     </div>
 );
 
-const Quote = inject('quotesStore')(observer(({
+const Quote = inject('collectionsStore', 'quotesStore')(observer(({
+    collectionsStore,
     displayOption = false,
     quote,
     quotesStore,
@@ -71,7 +72,7 @@ const Quote = inject('quotesStore')(observer(({
 
     const activeOptions = (
         <Fragment>
-            <BookIcon />
+            {Boolean(collectionsStore.resources.length) && <BookIcon onClick={openQuoteCollectionModal} />}
             <EditIcon className={cardStyles.active} onClick={handleEditClick} />
             <TrashIcon onClick={requestDelete} />
         </Fragment>
