@@ -9,7 +9,7 @@ import View from "../common/View";
 
 
 const Quotes = inject('collectionsStore', 'quotesStore')(observer(({ collectionsStore, quotesStore }) => {
-    const { resources } = quotesStore;
+    const { resources: quotes } = quotesStore;
 
     const [ quoteCollectionModalQuote, setQuoteCollectionModalQuote ] = useState(null);
 
@@ -27,9 +27,9 @@ const Quotes = inject('collectionsStore', 'quotesStore')(observer(({ collections
         if (!quotesStore.isAdding) quotesStore.add();
     };
 
-    const body = resources && (
+    const body = quotes && (
         <Fragment>
-            {resources.map(quote => (
+            {quotes.map(quote => (
                 <QuoteCard
                     key={quote.uiKey}
                     showOptions

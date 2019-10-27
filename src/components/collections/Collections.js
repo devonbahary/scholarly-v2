@@ -7,7 +7,7 @@ import PlusIcon from "../common/icons/PlusIcon";
 import View from "../common/View";
 
 const Collections = inject('collectionsStore')(observer(({ collectionsStore }) => {
-    const { resources } = collectionsStore;
+    const { resources: collections } = collectionsStore;
 
     useEffect(() => {
         collectionsStore.load();
@@ -17,9 +17,9 @@ const Collections = inject('collectionsStore')(observer(({ collectionsStore }) =
         if (!collectionsStore.isAdding) collectionsStore.add();
     };
 
-    const body = resources && (
+    const body = collections && (
         <Fragment>
-            {resources.map(collection => (
+            {collections.map(collection => (
                 <CollectionCard
                     key={collection.uiKey}
                     collection={collection}
