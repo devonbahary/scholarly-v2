@@ -51,14 +51,4 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.get('/random', async (req, res) => {
-    const quotesRepository = new QuotesRepository();
-    try {
-        const result = await quotesRepository.getRandomQuoteForUser(USER_ID);
-        res.send(result);
-    } catch (err) {
-        ApiUtil.errorResponse(res, err);
-    }
-});
-
 export default router;
