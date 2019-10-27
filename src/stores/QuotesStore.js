@@ -1,13 +1,13 @@
 import { action } from "mobx";
 import BaseStore from "./BaseStore";
-import Quote from "../models/Quote";
+import QuoteModel from "../models/QuoteModel";
 import QuotesApi from "../api/QuotesApi";
 
 const ERR_MSG_UPDATE_COLLECTION_ID = 'Error updating collection';
 
 export default class QuotesStore extends BaseStore {
     constructor() {
-        super(new QuotesApi(), Quote);
+        super(new QuotesApi(), QuoteModel);
     };
 
     @action updateCollectionId = async (quote, collection) => {

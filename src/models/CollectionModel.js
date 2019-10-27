@@ -1,7 +1,7 @@
 import uuidv4 from "uuid/v4";
 import { computed, observable } from "mobx";
 
-export default class Collection {
+export default class CollectionModel {
     @observable id;
     @observable title = '';
     @observable isDeleted = false;

@@ -1,7 +1,7 @@
 import uuidv4 from "uuid/v4";
 import { computed, observable } from "mobx";
 
-export default class Quote {
+export default class QuoteModel {
     @observable id;
     @observable collectionId;
     @observable collectionTitle;
