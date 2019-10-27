@@ -3,6 +3,7 @@
 .card {
   width: 100%;
   transition: background-color $animationDelay, height $animationDelay;
+  overflow-x: hidden;
 
   &.isDeleted {
     height: 0;
