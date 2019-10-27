@@ -23,7 +23,7 @@ const QuoteRight = () => (
     </div>
 );
 
-const Quote = inject('collectionsStore', 'quotesStore')(observer(({
+const QuoteCard = inject('collectionsStore', 'quotesStore')(observer(({
     collectionsStore,
     showOptions = false,
     quote,
@@ -101,4 +101,4 @@ const Quote = inject('collectionsStore', 'quotesStore')(observer(({
     );
 }));
 
-export default Quote;
+export default QuoteCard;

@@ -10,7 +10,7 @@ import TrashIcon from "../common/icons/TrashIcon";
 import cardStyles from "../common/Card.scss";
 import collectionStyles from "./Collection.scss";
 
-const Collection = inject('collectionsStore')(observer(({
+const CollectionCard = inject('collectionsStore')(observer(({
     collection,
     collectionsStore,
     onClick,
@@ -85,4 +85,4 @@ const Collection = inject('collectionsStore')(observer(({
     );
 }));
 
-export default Collection;
+export default CollectionCard;

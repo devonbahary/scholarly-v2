@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { inject } from "mobx-react";
 
-import Quote from "./common/Quote";
+import QuoteCard from "./common/QuoteCard";
 import View from "./common/View";
 
 import styles from "./Home.scss";
@@ -26,7 +26,7 @@ const Home = inject('quotesStore')(({ quotesStore }) => {
 
     const body = quote && (
         <div className={styles.home}>
-            <Quote quote={quote} />
+            <QuoteCard quote={quote} />
         </div>
     );
 

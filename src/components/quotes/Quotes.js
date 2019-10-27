@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from "react";
 
 import Icon from "../common/icons/Icon";
 import PlusIcon from "../common/icons/PlusIcon";
-import Quote from "../common/Quote";
+import QuoteCard from "../common/QuoteCard";
 import QuoteCollectionModal from "./QuoteCollectionModal";
 import View from "../common/View";
 
@@ -30,7 +30,7 @@ const Quotes = inject('collectionsStore', 'quotesStore')(observer(({ collections
     const body = resources && (
         <Fragment>
             {resources.map(quote => (
-                <Quote
+                <QuoteCard
                     key={quote.uiKey}
                     showOptions
                     quote={quote}

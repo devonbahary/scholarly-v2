@@ -2,7 +2,7 @@ import React, {Fragment, useEffect} from "react";
 import { observer, inject } from "mobx-react";
 
 import BookIcon from "../common/icons/BookIcon";
-import Collection from "./Collection";
+import CollectionCard from "./CollectionCard";
 import PlusIcon from "../common/icons/PlusIcon";
 import View from "../common/View";
 
@@ -20,7 +20,7 @@ const Collections = inject('collectionsStore')(observer(({ collectionsStore }) =
     const body = resources && (
         <Fragment>
             {resources.map(collection => (
-                <Collection
+                <CollectionCard
                     key={collection.uiKey}
                     collection={collection}
                     showOptions

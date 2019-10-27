@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import { inject } from "mobx-react";
 
 import PlusIcon from "../common/icons/PlusIcon";
-import Collection from "../collections/Collection";
+import CollectionCard from "../collections/CollectionCard";
 import View from "../common/View";
 
 import styles from "./QuoteCollectionModal.scss";
@@ -26,7 +26,7 @@ const QuoteCollectionModal = inject('collectionsStore', 'quotesStore')(({
     const body = (
         <Fragment>
             {resources.map(collection =>
-                <Collection
+                <CollectionCard
                     key={collection.uiKey}
                     collection={collection}
                     onClick={() => updateQuoteCollection(collection)}
