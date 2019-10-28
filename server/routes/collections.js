@@ -1,6 +1,6 @@
 import express from "express";
-import CollectionsRepository from "../repositories/CollectionsRepository";
-import QuotesRepository from "../repositories/QuotesRepository";
+import CollectionsRepository from "../../repositories/CollectionsRepository";
+import QuotesRepository from "../../repositories/QuotesRepository";
 import ApiUtil from "../ApiUtil";
 
 const router = express.Router();

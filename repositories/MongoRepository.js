@@ -1,4 +1,4 @@
-import db from "../databases/mongo-connect";
+import db from "../server/databases/mongo-connect";
 
 export default class MongoRepository {
     constructor(collectionName) {

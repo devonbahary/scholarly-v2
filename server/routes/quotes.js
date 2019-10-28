@@ -1,5 +1,5 @@
 import express from "express";
-import QuotesRepository from "../repositories/QuotesRepository";
+import QuotesRepository from "../../repositories/QuotesRepository";
 import ApiUtil from "../ApiUtil";
 
 

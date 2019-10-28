@@ -1,6 +1,6 @@
 import express from "express";
 import "./config";
-import "./databases/mongo-connect";
+// import "./databases/mongo-connect";
 import collections from "./routes/collections";
 import quotes from "./routes/quotes";
 import bodyParser from "body-parser";

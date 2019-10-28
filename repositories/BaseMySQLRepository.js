@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { camelCase, snakeCase } from "change-case";
-import pool from "../databases/mysql-connect";
+import pool from "../server/databases/mysql-connect";
 
 export default class BaseMySQLRepository {
     constructor(tableName, readColumns = [], writeColumns = []) {
