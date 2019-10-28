@@ -16,3 +16,13 @@
   right: $bufferSm;
   bottom: $bufferMd;
 }
+
+@media screen and (min-width: $mobileBreakpoint) {
+  .quoteLeft {
+    left: $bufferMd;
+  }
+
+  .quoteRight {
+    right: $bufferMd;
+  }
+}

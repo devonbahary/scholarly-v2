@@ -14,11 +14,15 @@ $fancyFontFamily: 'Roboto', sans-serif;
 $bufferSm: 4px;
 $bufferMd: 12px;
 $bufferLg: 24px;
+$bufferXl: 48px;
 
 $minSize: 3rem; // recommended width + height for touch input
 
 // ANIMATIONS
 $animationDelay: 0.5s;
+
+// BREAKPOINTS
+$mobileBreakpoint: 768px;
 
 
 @mixin box-shadow {
