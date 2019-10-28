@@ -6,13 +6,16 @@ import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-do
 import CollectionsStore from "./stores/CollectionsStore";
 import QuotesStore from "./stores/QuotesStore";
 
+import Collection from "./components/collections/Collection";
 import Collections from "./components/collections/Collections";
 import Home from "./components/Home";
 import Quotes from "./components/quotes/Quotes";
 
 import styles from "./styles/App.scss";
+import CollectionStore from "./stores/CollectionStore";
 
 
+const collectionStore = new CollectionStore();
 const collectionsStore = new CollectionsStore();
 const quotesStore = new QuotesStore();
 
@@ -35,6 +38,9 @@ const App = () => {
         path: '/',
         tabIcon: <i className="fas fa-home"></i>,
     }, {
+        component: Collection,
+        path: '/collections/:id',
+    }, {
         component: Collections,
         path: '/collections',
         tabIcon: <i className="fas fa-book"></i>,
@@ -45,7 +51,7 @@ const App = () => {
     }];
 
     return (
-        <Provider collectionsStore={collectionsStore} quotesStore={quotesStore}>
+        <Provider collectionStore={collectionStore} collectionsStore={collectionsStore} quotesStore={quotesStore}>
             <Router>
                 <main className={styles.main}>
                     <Switch>

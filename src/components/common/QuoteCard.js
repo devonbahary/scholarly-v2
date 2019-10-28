@@ -23,11 +23,13 @@ const QuoteRight = () => (
     </div>
 );
 
-const QuoteCard = inject('collectionsStore', 'quotesStore')(observer(({
+const QuoteCard = inject('collectionsStore')(observer(({
+    collectionId,
     collectionsStore,
-    showOptions = false,
     quote,
-    quotesStore,
+    showOptions,
+    showPassiveOptions,
+    storeWithQuotes,
     setQuoteCollectionModalQuote,
 }) => {
     const textareaRef = useRef(null);
@@ -36,24 +38,24 @@ const QuoteCard = inject('collectionsStore', 'quotesStore')(observer(({
 
     const handleTextareaBlur = () => {
         setTimeout(async () => {
-            quotesStore.resetActive();
+            storeWithQuotes.resetActive();
             if (quote.id) return;
 
-            if (quote.text) await quotesStore.create(quote);
-            else quotesStore.resetAdding();
+            if (quote.text) await storeWithQuotes.create(Object.assign(quote, { collectionId }));
+            else storeWithQuotes.resetAdding();
         }, 0);
     };
 
     const handleTextChange = e => {
         quote.text = e.target.value;
-        if (quote.id) quotesStore.debouncedUpdate(quote);
+        if (quote.id) storeWithQuotes.debouncedUpdate(quote);
     };
 
     const openQuoteCollectionModal = () => setQuoteCollectionModalQuote(quote);
-    const requestDelete = async () => await quotesStore.delete(quote);
+    const requestDelete = async () => await storeWithQuotes.delete(quote);
 
-    const isActive = quotesStore.activeUIKey === quote.uiKey;
-    const isError = quotesStore.errorUIKey === quote.uiKey;
+    const isActive = storeWithQuotes && storeWithQuotes.activeUIKey === quote.uiKey;
+    const isError = storeWithQuotes && storeWithQuotes.errorUIKey === quote.uiKey;
 
     const body = (
         <Fragment>
@@ -78,7 +80,7 @@ const QuoteCard = inject('collectionsStore', 'quotesStore')(observer(({
         </Fragment>
     );
 
-    const passiveOptions = (
+    const passiveOptions = showPassiveOptions && (
         <Fragment>
             <BookIcon />
             {quote.collectionTitle}
@@ -89,6 +91,7 @@ const QuoteCard = inject('collectionsStore', 'quotesStore')(observer(({
         <Resource
             activeOptions={activeOptions}
             body={body}
+            collectionId={quote.collectionId}
             isActive={isActive}
             isDeleted={quote.isDeleted}
             isError={isError}
@@ -96,7 +99,7 @@ const QuoteCard = inject('collectionsStore', 'quotesStore')(observer(({
             resource={quote}
             showOptions={showOptions && (Boolean(quote.id) || isError)}
             showPassiveOptions={quote.collectionTitle}
-            store={quotesStore}
+            store={storeWithQuotes}
         />
     );
 }));

@@ -1,4 +1,5 @@
 import React, {Fragment} from "react";
+import { withRouter } from "react-router";
 
 import Card from "./Card";
 import ErrorIcon from "./icons/ErrorIcon";
@@ -9,16 +10,23 @@ import cardStyles from "./Card.scss";
 const Resource = ({
     activeOptions,
     body,
+    collectionId,
+    history,
     isActive,
     isDeleted,
     isError,
     passiveOptions,
     resource,
-    showOptions = true,
+    showOptions,
     showPassiveOptions,
     store,
 }) => {
     const handleOpenOptions = () => store.setActive(resource);
+
+    const handleCollectionLink = () => {
+        if (!collectionId) return;
+        history.push(`/collections/${collectionId}`);
+    };
 
     const classNameButtonOpenOptions = `${cardStyles.buttonOpenOptions} ${isActive ? cardStyles.optionsActive : ''}`;
     const classNamePassiveOptions = `${cardStyles.passiveOptions} ${isActive ? cardStyles.optionsActive : ''}`;
@@ -38,7 +46,7 @@ const Resource = ({
                 <div className={cardStyles.footerRow}>
                     <OptionsIcon className={classNameButtonOpenOptions} onClick={handleOpenOptions} />
                     {showPassiveOptions && (
-                        <div className={classNamePassiveOptions}>
+                        <div className={classNamePassiveOptions} onClick={handleCollectionLink}>
                             {passiveOptions}
                         </div>
                     )}
@@ -60,4 +68,4 @@ const Resource = ({
     );
 };
 
-export default Resource;
+export default withRouter(Resource);

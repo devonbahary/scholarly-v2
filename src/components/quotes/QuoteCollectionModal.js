@@ -20,7 +20,8 @@ const QuoteCollectionModal = inject('collectionsStore', 'quotesStore')(({
 
     const updateQuoteCollection = async collection => {
         await quotesStore.updateCollectionId(quote, collection);
-        onClose();
+        const cb = onClose();
+        if (cb) cb();
     };
 
     const body = (

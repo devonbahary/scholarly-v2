@@ -1,53 +1,64 @@
-import { inject, observer } from "mobx-react";
 import React, { Fragment, useEffect, useState } from "react";
+import { observer, inject } from "mobx-react";
+import { withRouter } from "react-router";
 
 import Icon from "../common/icons/Icon";
 import PlusIcon from "../common/icons/PlusIcon";
 import QuoteCard from "../common/QuoteCard";
-import QuoteCollectionModal from "./QuoteCollectionModal";
+import QuoteCollectionModal from "../quotes/QuoteCollectionModal";
 import View from "../common/View";
 
 
-const Quotes = inject('collectionsStore', 'quotesStore')(observer(({ collectionsStore, quotesStore }) => {
-    const { resources: quotes } = quotesStore;
-
+const Collection = inject('collectionStore', 'collectionsStore', 'quotesStore')(observer((({
+    collectionStore,
+    collectionsStore,
+    history,
+    match,
+    quotesStore,
+}) => {
+    const { collection, resources: quotes = []} = collectionStore;
     const [ quoteCollectionModalQuote, setQuoteCollectionModalQuote ] = useState(null);
 
+    const collectionId = match.params.id;
+
     useEffect(() => {
+        collectionStore.load(collectionId);
         collectionsStore.load();
-        quotesStore.load();
     }, []);
 
     const closeQuoteCollectionModal = () => {
         setQuoteCollectionModalQuote(null);
         quotesStore.resetActive();
+        return () => collectionStore.load(collectionId);
     };
 
     const handleAddQuote = () => {
-        if (!quotesStore.isAdding) quotesStore.add();
+        if (!collectionStore.isAdding) collectionStore.add();
     };
 
-    const body = quotes && (
+    const handleCollectionsLink = () => history.push('/collections');
+
+    const body = (
         <Fragment>
             {quotes.map(quote => (
                 <QuoteCard
                     key={quote.uiKey}
+                    collectionId={collection.id}
                     quote={quote}
                     setQuoteCollectionModalQuote={setQuoteCollectionModalQuote}
                     showOptions
-                    showPassiveOptions
-                    storeWithQuotes={quotesStore}
+                    storeWithQuotes={collectionStore}
                 />
             ))}
             <QuoteCollectionModal onClose={closeQuoteCollectionModal} quote={quoteCollectionModalQuote} />
         </Fragment>
     );
 
-    const headerButton = <PlusIcon onClick={handleAddQuote} shouldRotate={quotesStore.isAdding} />;
+    const headerButton = <PlusIcon onClick={handleAddQuote} shouldRotate={collectionStore.isAdding} />;
 
     const headerIcon = (
-        <Icon>
-            <i className="fas fa-quote-left"></i>
+        <Icon onClick={handleCollectionsLink}>
+            <i className="fas fa-chevron-left"></i>
         </Icon>
     );
 
@@ -56,9 +67,9 @@ const Quotes = inject('collectionsStore', 'quotesStore')(observer(({ collections
             body={body}
             headerButton={headerButton}
             headerIcon={headerIcon}
-            headerTitle="Quotes"
+            headerTitle={collection ? collection.title : ''}
         />
     );
-}));
+})));
 
-export default Quotes;
+export default withRouter(Collection);

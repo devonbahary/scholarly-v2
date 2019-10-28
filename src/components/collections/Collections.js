@@ -1,12 +1,13 @@
 import React, {Fragment, useEffect} from "react";
 import { observer, inject } from "mobx-react";
+import { withRouter } from "react-router";
 
 import BookIcon from "../common/icons/BookIcon";
 import CollectionCard from "./CollectionCard";
 import PlusIcon from "../common/icons/PlusIcon";
 import View from "../common/View";
 
-const Collections = inject('collectionsStore')(observer(({ collectionsStore }) => {
+const Collections = inject('collectionsStore')(observer(({ collectionsStore, history }) => {
     const { resources: collections } = collectionsStore;
 
     useEffect(() => {
@@ -17,12 +18,15 @@ const Collections = inject('collectionsStore')(observer(({ collectionsStore }) =
         if (!collectionsStore.isAdding) collectionsStore.add();
     };
 
+    const handleCollectionLink = collection => history.push(`/collections/${collection.id}`);
+
     const body = collections && (
         <Fragment>
             {collections.map(collection => (
                 <CollectionCard
                     key={collection.uiKey}
                     collection={collection}
+                    onClick={() => handleCollectionLink(collection)}
                     showOptions
                 />
             ))}
@@ -41,4 +45,4 @@ const Collections = inject('collectionsStore')(observer(({ collectionsStore }) =
     );
 }));
 
-export default Collections;
+export default withRouter(Collections);

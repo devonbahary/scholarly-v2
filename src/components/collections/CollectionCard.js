@@ -73,6 +73,7 @@ const CollectionCard = inject('collectionsStore')(observer(({
         <Resource
             activeOptions={activeOptions}
             body={body}
+            collectionId={collection.id}
             isActive={isActive}
             isDeleted={collection.isDeleted}
             isError={isError}
