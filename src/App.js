@@ -3,9 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "mobx-react";
 import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-dom";
 
-import CollectionsApi from "./api/CollectionsApi";
 import CollectionsStore from "./stores/CollectionsStore";
-import QuotesApi from "./api/QuotesApi";
 import QuotesStore from "./stores/QuotesStore";
 
 import Collections from "./components/collections/Collections";
@@ -15,11 +13,8 @@ import Quotes from "./components/quotes/Quotes";
 import styles from "./styles/App.scss";
 
 
-const collectionsApi = new CollectionsApi();
-const collectionsStore = new CollectionsStore(collectionsApi);
-
-const quotesApi = new QuotesApi();
-const quotesStore = new QuotesStore(quotesApi);
+const collectionsStore = new CollectionsStore();
+const quotesStore = new QuotesStore();
 
 
 const Tab = ({ children, exact, to}) => (
